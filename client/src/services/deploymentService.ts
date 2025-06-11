@@ -62,7 +62,7 @@ class DeploymentService {
     return result.template;
   }
 
-  getDefaultInstructions(): DeploymentInstructions {
+  getConsoleInstructions(): DeploymentInstructions {
     return {
       steps: [
         {
@@ -128,6 +128,90 @@ class DeploymentService {
         "Consider setting appropriate timeout and memory limits for your function",
       ],
     };
+  }
+
+  getCLIInstructions(): DeploymentInstructions {
+    return {
+      steps: [
+        {
+          id: "download-cli",
+          title: "Download Generated Files",
+          description: "Download all generated files (lambda_function.py, requirements.txt, template.yaml) to a local folder.",
+          isCompleted: false,
+          isOptional: false,
+        },
+        {
+          id: "install-tools",
+          title: "Install AWS Tools",
+          description: "Install and configure AWS CLI and SAM CLI on your machine.",
+          commands: [
+            "aws configure",
+            "pip install aws-sam-cli",
+          ],
+          isCompleted: false,
+          isOptional: false,
+        },
+        {
+          id: "build-function",
+          title: "Build Lambda Function",
+          description: "Use SAM CLI to build your Lambda function with dependencies.",
+          commands: [
+            "sam build",
+          ],
+          isCompleted: false,
+          isOptional: false,
+        },
+        {
+          id: "deploy-function",
+          title: "Deploy to AWS",
+          description: "Deploy your Lambda function using SAM CLI guided deployment.",
+          commands: [
+            "sam deploy --guided",
+          ],
+          isCompleted: false,
+          isOptional: false,
+        },
+        {
+          id: "test-deployment",
+          title: "Test Deployment",
+          description: "Invoke your deployed function to verify it's working correctly.",
+          commands: [
+            "sam local invoke",
+            "aws lambda invoke --function-name YourFunctionName output.json",
+          ],
+          isCompleted: false,
+          isOptional: false,
+        },
+        {
+          id: "setup-monitoring",
+          title: "Set Up Monitoring (Optional)",
+          description: "Configure CloudWatch logs and alarms for your Lambda function.",
+          isCompleted: false,
+          isOptional: true,
+        },
+      ],
+      prerequisites: [
+        "AWS Account with Lambda and IAM permissions",
+        "AWS CLI installed and configured",
+        "Python 3.9+ installed",
+        "SAM CLI installed",
+        "Git (for version control)",
+      ],
+      commands: [
+        "sam build",
+        "sam deploy --guided",
+      ],
+      notes: [
+        "Use guided deployment for first-time setup to configure stack parameters",
+        "Store API keys in AWS Systems Manager Parameter Store for security",
+        "Set up proper IAM roles with least privilege principle",
+        "Monitor costs and set up billing alerts for Lambda usage",
+      ],
+    };
+  }
+
+  getDefaultInstructions(): DeploymentInstructions {
+    return this.getConsoleInstructions();
   }
 }
 

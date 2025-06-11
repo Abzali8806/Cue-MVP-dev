@@ -2,16 +2,20 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ChevronUp, ChevronDown, CheckCircle, Circle, AlertCircle } from "lucide-react";
+import { ChevronUp, ChevronDown, CheckCircle, Circle, AlertCircle, Monitor, Terminal } from "lucide-react";
 import { deploymentService, type DeploymentStep } from "../../services/deploymentService";
 
 export default function DeploymentInstructions() {
   const [isExpanded, setIsExpanded] = useState(true);
   const [completedSteps, setCompletedSteps] = useState<Set<string>>(new Set());
+  const [activeDeploymentTab, setActiveDeploymentTab] = useState("console");
 
-  // Get default instructions (in a real app, this would come from the API)
-  const instructions = deploymentService.getDefaultInstructions();
+  // Get both console and CLI instructions
+  const consoleInstructions = deploymentService.getConsoleInstructions();
+  const cliInstructions = deploymentService.getCLIInstructions();
+  const currentInstructions = activeDeploymentTab === "console" ? consoleInstructions : cliInstructions;
 
   const toggleStepCompletion = (stepId: string) => {
     const newCompletedSteps = new Set(completedSteps);
@@ -36,9 +40,9 @@ export default function DeploymentInstructions() {
   const getStepNumber = (index: number) => {
     return (
       <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-        completedSteps.has(instructions.steps[index].id)
+        completedSteps.has(currentInstructions.steps[index].id)
           ? 'bg-success text-success-foreground'
-          : instructions.steps[index].isOptional
+          : currentInstructions.steps[index].isOptional
           ? 'bg-warning text-warning-foreground'
           : 'bg-muted text-muted-foreground'
       }`}>
@@ -48,7 +52,7 @@ export default function DeploymentInstructions() {
   };
 
   const completionPercentage = Math.round(
-    (completedSteps.size / instructions.steps.filter(step => !step.isOptional).length) * 100
+    (completedSteps.size / currentInstructions.steps.filter(step => !step.isOptional).length) * 100
   );
 
   return (
@@ -60,7 +64,7 @@ export default function DeploymentInstructions() {
               <CardTitle className="text-lg font-semibold">AWS Lambda Deployment</CardTitle>
               <div className="flex items-center space-x-2">
                 <Badge variant="outline" className="text-xs">
-                  {completedSteps.size}/{instructions.steps.length} Complete
+                  {completedSteps.size}/{currentInstructions.steps.length} Complete
                 </Badge>
                 <Button variant="ghost" size="sm" className="h-auto p-1">
                   {isExpanded ? (
@@ -76,11 +80,25 @@ export default function DeploymentInstructions() {
         
         <CollapsibleContent>
           <CardContent className="pt-0">
+            {/* Deployment Method Tabs */}
+            <Tabs value={activeDeploymentTab} onValueChange={setActiveDeploymentTab} className="mb-6">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="console" className="flex items-center space-x-2">
+                  <Monitor className="h-4 w-4" />
+                  <span>AWS Console</span>
+                </TabsTrigger>
+                <TabsTrigger value="cli" className="flex items-center space-x-2">
+                  <Terminal className="h-4 w-4" />
+                  <span>CLI/SAM</span>
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+
             {/* Prerequisites */}
             <div className="mb-8">
               <h4 className="font-medium text-base mb-4">Prerequisites</h4>
               <div className="space-y-3">
-                {instructions.prerequisites.map((prerequisite, index) => (
+                {currentInstructions.prerequisites.map((prerequisite, index) => (
                   <div key={index} className="flex items-start text-sm text-muted-foreground">
                     <Circle className="h-3 w-3 mr-3 mt-1 flex-shrink-0" />
                     <span>{prerequisite}</span>
@@ -93,7 +111,7 @@ export default function DeploymentInstructions() {
             <div className="mb-8">
               <h4 className="font-medium text-base mb-6">Deployment Steps</h4>
               <div className="space-y-6">
-                {instructions.steps.map((step, index) => (
+                {currentInstructions.steps.map((step, index) => (
                   <div key={step.id} className="bg-card border border-border rounded-lg p-6 hover:shadow-md transition-shadow">
                     <div 
                       className="flex items-start space-x-4 cursor-pointer mb-4"
@@ -151,11 +169,11 @@ export default function DeploymentInstructions() {
             </div>
 
             {/* Important Notes */}
-            {instructions.notes && instructions.notes.length > 0 && (
+            {currentInstructions.notes && currentInstructions.notes.length > 0 && (
               <div className="mt-8 p-6 bg-muted/30 rounded-lg border border-border">
                 <h4 className="font-medium text-base mb-4">Important Notes</h4>
                 <ul className="space-y-3">
-                  {instructions.notes.map((note, index) => (
+                  {currentInstructions.notes.map((note, index) => (
                     <li key={index} className="text-sm text-muted-foreground flex items-start">
                       <Circle className="h-3 w-3 mr-3 mt-1 flex-shrink-0" />
                       <span>{note}</span>
