@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import { 
   Code2, 
   History, 
@@ -83,11 +84,6 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
         window.open('https://docs.aws.amazon.com/lambda/', '_blank');
       },
     },
-    {
-      icon: theme === "dark" ? Sun : Moon,
-      label: theme === "dark" ? "Light Mode" : "Dark Mode",
-      action: toggleTheme,
-    },
   ];
 
   return (
@@ -166,6 +162,25 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
                     <span>{action.label}</span>
                   </Button>
                 ))}
+                
+                {/* Dark Mode Toggle */}
+                <div className="flex items-center justify-between py-2 px-3 rounded-md hover:bg-muted transition-colors">
+                  <div className="flex items-center">
+                    {theme === "dark" ? (
+                      <Sun className="h-4 w-4 mr-2 text-muted-foreground" />
+                    ) : (
+                      <Moon className="h-4 w-4 mr-2 text-muted-foreground" />
+                    )}
+                    <Label htmlFor="theme-toggle" className="text-sm text-muted-foreground cursor-pointer">
+                      Dark Mode
+                    </Label>
+                  </div>
+                  <Switch
+                    id="theme-toggle"
+                    checked={theme === "dark"}
+                    onCheckedChange={toggleTheme}
+                  />
+                </div>
               </div>
             </div>
           </>
