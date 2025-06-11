@@ -44,83 +44,93 @@ export default function WorkflowBuilder() {
       <AppHeader onMenuToggle={() => setIsSidebarOpen(!isSidebarOpen)} isMobileMenuOpen={isSidebarOpen} />
       
       <div className="flex">
-        <Sidebar isOpen={isSidebarOpen} onToggle={() => setIsSidebarOpen(!isSidebarOpen)} />
+        {/* Sidebar - hidden on mobile, overlay on tablet */}
+        <div className={`${isSidebarOpen ? 'block' : 'hidden'} lg:block`}>
+          <Sidebar isOpen={isSidebarOpen} onToggle={() => setIsSidebarOpen(!isSidebarOpen)} />
+        </div>
+
+        {/* Mobile sidebar overlay */}
+        {isSidebarOpen && (
+          <div 
+            className="fixed inset-0 z-40 bg-black/50 lg:hidden" 
+            onClick={() => setIsSidebarOpen(false)}
+          />
+        )}
         
-        <main className="flex-1 overflow-hidden">
-          <div className="h-[calc(100vh-4rem)]">
+        <main className="flex-1 min-w-0 overflow-hidden">
+          <div className="h-[calc(100vh-3rem)] sm:h-[calc(100vh-3.5rem)] lg:h-[calc(100vh-4rem)]">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full flex flex-col">
+              {/* Mobile-first Tab Navigation */}
               <div className="border-b border-border bg-surface">
-                <TabsList className="h-12 w-full justify-start rounded-none bg-transparent p-0">
-                  <TabsTrigger 
-                    value="input" 
-                    className="flex items-center gap-2 h-12 px-6 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
-                  >
-                    <FileText className="h-4 w-4" />
-                    <span className="hidden sm:inline">Workflow Input</span>
-                    <span className="sm:hidden">Input</span>
-                  </TabsTrigger>
-                  <TabsTrigger 
-                    value="visualization" 
-                    className="flex items-center gap-2 h-12 px-6 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
-                  >
-                    <Workflow className="h-4 w-4" />
-                    <span className="hidden sm:inline">Visualization</span>
-                    <span className="sm:hidden">Visual</span>
-                  </TabsTrigger>
-                  <TabsTrigger 
-                    value="code" 
-                    className="flex items-center gap-2 h-12 px-6 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
-                  >
-                    <Code className="h-4 w-4" />
-                    <span className="hidden sm:inline">Code Preview</span>
-                    <span className="sm:hidden">Code</span>
-                  </TabsTrigger>
-                  <TabsTrigger 
-                    value="credentials" 
-                    className="flex items-center gap-2 h-12 px-6 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
-                  >
-                    <Settings className="h-4 w-4" />
-                    <span className="hidden sm:inline">Credentials</span>
-                    <span className="sm:hidden">Auth</span>
-                  </TabsTrigger>
-                  <TabsTrigger 
-                    value="deploy" 
-                    className="flex items-center gap-2 h-12 px-6 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
-                  >
-                    <Rocket className="h-4 w-4" />
-                    <span className="hidden sm:inline">Deploy</span>
-                    <span className="sm:hidden">Deploy</span>
-                  </TabsTrigger>
-                </TabsList>
+                <div className="overflow-x-auto">
+                  <TabsList className="h-12 w-full min-w-max justify-start rounded-none bg-transparent p-0">
+                    <TabsTrigger 
+                      value="input" 
+                      className="flex items-center gap-1.5 h-12 px-3 sm:px-4 md:px-6 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent whitespace-nowrap"
+                    >
+                      <FileText className="h-4 w-4 flex-shrink-0" />
+                      <span className="text-xs sm:text-sm">Input</span>
+                    </TabsTrigger>
+                    <TabsTrigger 
+                      value="visualization" 
+                      className="flex items-center gap-1.5 h-12 px-3 sm:px-4 md:px-6 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent whitespace-nowrap"
+                    >
+                      <Workflow className="h-4 w-4 flex-shrink-0" />
+                      <span className="text-xs sm:text-sm">Visual</span>
+                    </TabsTrigger>
+                    <TabsTrigger 
+                      value="code" 
+                      className="flex items-center gap-1.5 h-12 px-3 sm:px-4 md:px-6 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent whitespace-nowrap"
+                    >
+                      <Code className="h-4 w-4 flex-shrink-0" />
+                      <span className="text-xs sm:text-sm">Code</span>
+                    </TabsTrigger>
+                    <TabsTrigger 
+                      value="credentials" 
+                      className="flex items-center gap-1.5 h-12 px-3 sm:px-4 md:px-6 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent whitespace-nowrap"
+                    >
+                      <Settings className="h-4 w-4 flex-shrink-0" />
+                      <span className="text-xs sm:text-sm">Auth</span>
+                    </TabsTrigger>
+                    <TabsTrigger 
+                      value="deploy" 
+                      className="flex items-center gap-1.5 h-12 px-3 sm:px-4 md:px-6 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent whitespace-nowrap"
+                    >
+                      <Rocket className="h-4 w-4 flex-shrink-0" />
+                      <span className="text-xs sm:text-sm">Deploy</span>
+                    </TabsTrigger>
+                  </TabsList>
+                </div>
               </div>
 
+              {/* Tab Content */}
               <div className="flex-1 overflow-hidden">
-                <TabsContent value="input" className="h-full m-0 p-0">
-                  <div className="h-full overflow-auto">
+                <TabsContent value="input" className="h-full m-0 p-0 data-[state=active]:flex data-[state=active]:flex-col">
+                  <div className="flex-1 overflow-auto">
                     <WorkflowInput />
                   </div>
                 </TabsContent>
 
-                <TabsContent value="visualization" className="h-full m-0 p-0">
-                  <div className="h-full w-full">
+                <TabsContent value="visualization" className="h-full m-0 p-0 data-[state=active]:flex data-[state=active]:flex-col">
+                  <div className="flex-1 w-full min-h-0">
                     <WorkflowVisualization />
                   </div>
                 </TabsContent>
 
-                <TabsContent value="code" className="h-full m-0 p-0">
-                  <div className="h-full overflow-auto">
+                <TabsContent value="code" className="h-full m-0 p-0 data-[state=active]:flex data-[state=active]:flex-col">
+                  <div className="flex-1 overflow-auto">
                     <CodePreview />
                   </div>
                 </TabsContent>
 
-                <TabsContent value="credentials" className="h-full m-0 p-0">
-                  <div className="h-full overflow-auto">
+                <TabsContent value="credentials" className="h-full m-0 p-0 data-[state=active]:flex data-[state=active]:flex-col">
+                  <div className="flex-1 overflow-auto">
                     <CredentialManagement onOpenHelp={openHelpModal} />
                   </div>
                 </TabsContent>
 
-                <TabsContent value="deploy" className="h-full m-0 p-0">
-                  <div className="h-full overflow-auto">
+                <TabsContent value="deploy" className="h-full m-0 p-0 data-[state=active]:flex data-[state=active]:flex-col">
+                  <div className="flex-1 overflow-auto">
                     <DeploymentInstructions />
                   </div>
                 </TabsContent>
