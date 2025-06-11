@@ -19,7 +19,7 @@ export default function WorkflowInput() {
   const [isValid, setIsValid] = useState(false);
 
   const description = workflowState.description;
-  const minLength = 50;
+  const minLength = 0;
   const maxLength = 8000;
 
   useEffect(() => {
@@ -81,9 +81,7 @@ export default function WorkflowInput() {
           
           <div className="flex justify-between items-center text-xs">
             <span className={`${isValid ? 'text-muted-foreground' : 'text-destructive'}`}>
-              {characterCount < minLength ? `Need ${minLength - characterCount} more chars` : 
-               characterCount > maxLength ? 'Too many characters' : 
-               'Ready to generate'}
+              {characterCount > maxLength ? 'Too many characters' : 'Ready to generate'}
             </span>
             <span className={`${characterCount > maxLength ? 'text-destructive' : 'text-muted-foreground'}`}>
               {characterCount}/{maxLength}
