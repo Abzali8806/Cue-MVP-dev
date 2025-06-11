@@ -16,11 +16,12 @@ import {
   ExternalLink
 } from "lucide-react";
 import { Link } from "wouter";
+import { useTheme } from "../lib/theme";
 
 export default function Settings() {
+  const { theme, toggleTheme } = useTheme();
   const [notifications, setNotifications] = useState(true);
   const [autoSave, setAutoSave] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
 
   return (
     <div className="min-h-screen bg-background">
@@ -114,8 +115,8 @@ export default function Settings() {
                   </p>
                 </div>
                 <Switch
-                  checked={darkMode}
-                  onCheckedChange={setDarkMode}
+                  checked={theme === "dark"}
+                  onCheckedChange={toggleTheme}
                 />
               </div>
             </CardContent>
