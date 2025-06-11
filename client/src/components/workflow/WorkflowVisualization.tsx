@@ -80,15 +80,16 @@ export default function WorkflowVisualization() {
 
   return (
     <div className="relative w-full h-full bg-workflow-background" style={{ minHeight: '400px' }}>
-      {/* Header Controls */}
-      <div className="absolute top-4 left-4 z-10 bg-surface/90 backdrop-blur-sm rounded-lg p-2 border border-border shadow-sm">
-        <h3 className="text-lg font-semibold mb-2">Workflow Visualization</h3>
-        <div className="flex space-x-1">
+      {/* Desktop Header Controls */}
+      <div className="absolute top-4 left-4 z-10 bg-surface/95 backdrop-blur-sm rounded-lg p-3 border border-border shadow-lg hidden sm:block">
+        <h3 className="text-base lg:text-lg font-semibold mb-3 text-foreground">Workflow Visualization</h3>
+        <div className="flex space-x-2">
           <Button
             variant="outline"
             size="sm"
             onClick={handleZoomIn}
-            className="h-8 w-8 p-0"
+            className="h-9 w-9 p-0 hover:bg-muted"
+            title="Zoom In"
           >
             <ZoomIn className="h-4 w-4" />
           </Button>
@@ -96,7 +97,8 @@ export default function WorkflowVisualization() {
             variant="outline"
             size="sm"
             onClick={handleZoomOut}
-            className="h-8 w-8 p-0"
+            className="h-9 w-9 p-0 hover:bg-muted"
+            title="Zoom Out"
           >
             <ZoomOut className="h-4 w-4" />
           </Button>
@@ -104,9 +106,40 @@ export default function WorkflowVisualization() {
             variant="outline"
             size="sm"
             onClick={handleFitView}
-            className="h-8 w-8 p-0"
+            className="h-9 w-9 p-0 hover:bg-muted"
+            title="Fit to View"
           >
             <Maximize2 className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+
+      {/* Mobile Header Controls */}
+      <div className="absolute top-2 right-2 z-10 bg-surface/95 backdrop-blur-sm rounded-lg p-2 border border-border shadow-lg sm:hidden">
+        <div className="flex space-x-1">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleZoomIn}
+            className="h-8 w-8 p-0"
+          >
+            <ZoomIn className="h-3 w-3" />
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleZoomOut}
+            className="h-8 w-8 p-0"
+          >
+            <ZoomOut className="h-3 w-3" />
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleFitView}
+            className="h-8 w-8 p-0"
+          >
+            <Maximize2 className="h-3 w-3" />
           </Button>
         </div>
       </div>
