@@ -59,11 +59,11 @@ export default function SpeechToText({ onTranscription }: SpeechToTextProps) {
   }
 
   return (
-    <div className="space-y-4 p-4 border border-border rounded-lg bg-muted/20">
-      <div className="flex items-center justify-between">
-        <Label className="text-sm font-medium">Voice Input</Label>
+    <div className="space-y-3 sm:space-y-4 p-3 sm:p-4 border border-border rounded-lg bg-muted/20">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-0">
+        <Label className="text-xs sm:text-sm font-medium">Voice Input</Label>
         <Select value={language} onValueChange={changeLanguage}>
-          <SelectTrigger className="w-40 h-8 text-xs">
+          <SelectTrigger className="w-full sm:w-32 lg:w-40 h-8 text-xs">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -76,35 +76,36 @@ export default function SpeechToText({ onTranscription }: SpeechToTextProps) {
         </Select>
       </div>
 
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-3 sm:space-x-4">
         {/* Microphone Button */}
         <Button
           onClick={handleToggleRecording}
           size="lg"
           className={cn(
-            "h-12 w-12 rounded-full",
+            "h-10 w-10 sm:h-12 sm:w-12 rounded-full flex-shrink-0",
             isRecording 
-              ? "bg-secondary hover:bg-secondary/90 speech-recording" 
-              : "bg-secondary hover:bg-secondary/90"
+              ? "bg-red-500 hover:bg-red-600 text-white animate-pulse" 
+              : "bg-primary hover:bg-primary/90"
           )}
         >
           {isRecording ? (
-            <MicOff className="h-6 w-6" />
+            <MicOff className="h-4 w-4 sm:h-5 sm:w-5" />
           ) : (
-            <Mic className="h-6 w-6" />
+            <Mic className="h-4 w-4 sm:h-5 sm:w-5" />
           )}
         </Button>
 
         {/* Status and Progress */}
-        <div className="flex-1 space-y-2">
+        <div className="flex-1 min-w-0 space-y-1 sm:space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-sm">
-              Status: <span className={cn(
+            <span className="text-xs sm:text-sm truncate">
+              <span className="hidden sm:inline">Status: </span>
+              <span className={cn(
                 "font-medium",
-                status === "listening" && "text-secondary",
-                status === "processing" && "text-warning",
-                status === "completed" && "text-success",
-                status === "error" && "text-destructive"
+                status === "listening" && "text-blue-600",
+                status === "processing" && "text-orange-600",
+                status === "completed" && "text-green-600",
+                status === "error" && "text-red-600"
               )}>
                 {status === "idle" && "Ready"}
                 {status === "listening" && "Listening..."}
@@ -115,8 +116,8 @@ export default function SpeechToText({ onTranscription }: SpeechToTextProps) {
             </span>
             
             {confidence > 0 && (
-              <span className="text-xs text-muted-foreground">
-                Confidence: {Math.round(confidence * 100)}%
+              <span className="text-xs text-muted-foreground flex-shrink-0">
+                {Math.round(confidence * 100)}%
               </span>
             )}
           </div>
