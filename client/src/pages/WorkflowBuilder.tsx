@@ -79,86 +79,122 @@ export default function WorkflowBuilder() {
         
         <main className="flex-1 min-w-0 overflow-hidden">
           <div className="h-[calc(100vh-3rem)] sm:h-[calc(100vh-3.5rem)] lg:h-[calc(100vh-4rem)]">
-            {/* Large Screen Layout: Vertical stacked dashboard */}
+            {/* Large Screen Layout: Two main tabs */}
             {isDesktopLayout ? (
-              <div className="h-full overflow-auto">
-                <div className="max-w-7xl mx-auto p-6 space-y-6">
-                  {/* Workflow Input Section */}
-                  <div className="bg-white dark:bg-gray-900 rounded-lg border border-border shadow-sm">
-                    <div className="border-b border-border bg-muted/20 px-6 py-4">
-                      <div className="flex items-center">
-                        <FileText className="h-5 w-5 mr-3 text-primary" />
-                        <h2 className="text-lg font-semibold">Workflow Input</h2>
-                        <span className="ml-3 text-sm text-muted-foreground">Describe your workflow in natural language</span>
-                      </div>
-                    </div>
-                    <div className="p-0">
-                      <WorkflowInput />
-                    </div>
-                  </div>
-
-                  {/* Workflow Visualization Section */}
-                  <div className="bg-white dark:bg-gray-900 rounded-lg border border-border shadow-sm">
-                    <div className="border-b border-border bg-muted/20 px-6 py-4">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                          <Workflow className="h-5 w-5 mr-3 text-primary" />
-                          <h2 className="text-lg font-semibold">Workflow Visualization</h2>
-                          <span className="ml-3 text-sm text-muted-foreground">Interactive node-based workflow builder</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="h-96 lg:h-[500px]">
-                      <WorkflowVisualization />
-                    </div>
-                  </div>
-
-                  {/* Credentials Section */}
-                  <div className="bg-white dark:bg-gray-900 rounded-lg border border-border shadow-sm">
-                    <div className="border-b border-border bg-muted/20 px-6 py-4">
-                      <div className="flex items-center">
-                        <Settings className="h-5 w-5 mr-3 text-primary" />
-                        <h2 className="text-lg font-semibold">API Credentials</h2>
-                        <span className="ml-3 text-sm text-muted-foreground">Configure service integrations</span>
-                      </div>
-                    </div>
-                    <div className="p-0">
-                      <CredentialManagement onOpenHelp={openHelpModal} />
-                    </div>
-                  </div>
-
-                  {/* Code & Deployment Section */}
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {/* Generated Code */}
-                    <div className="bg-white dark:bg-gray-900 rounded-lg border border-border shadow-sm">
-                      <div className="border-b border-border bg-muted/20 px-6 py-4">
-                        <div className="flex items-center">
-                          <Code className="h-5 w-5 mr-3 text-primary" />
-                          <h2 className="text-lg font-semibold">Generated Code</h2>
-                          <span className="ml-3 text-sm text-muted-foreground">Python Lambda function</span>
-                        </div>
-                      </div>
-                      <div className="h-96">
-                        <CodePreview />
-                      </div>
-                    </div>
-
-                    {/* Deployment Instructions */}
-                    <div className="bg-white dark:bg-gray-900 rounded-lg border border-border shadow-sm">
-                      <div className="border-b border-border bg-muted/20 px-6 py-4">
-                        <div className="flex items-center">
-                          <Rocket className="h-5 w-5 mr-3 text-primary" />
-                          <h2 className="text-lg font-semibold">AWS Deployment</h2>
-                          <span className="ml-3 text-sm text-muted-foreground">Step-by-step guide</span>
-                        </div>
-                      </div>
-                      <div className="h-96 overflow-auto">
-                        <DeploymentInstructions />
-                      </div>
-                    </div>
+              <Tabs defaultValue="input" className="h-full flex flex-col">
+                {/* Tab Navigation */}
+                <div className="border-b border-border bg-muted/10">
+                  <div className="max-w-7xl mx-auto px-6">
+                    <TabsList className="h-14 bg-transparent p-0 space-x-8">
+                      <TabsTrigger 
+                        value="input" 
+                        className="h-14 px-6 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent text-base font-medium"
+                      >
+                        <FileText className="h-5 w-5 mr-3" />
+                        Workflow Input
+                      </TabsTrigger>
+                      <TabsTrigger 
+                        value="dashboard" 
+                        className="h-14 px-6 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent text-base font-medium"
+                      >
+                        <Workflow className="h-5 w-5 mr-3" />
+                        Workflow Dashboard
+                      </TabsTrigger>
+                    </TabsList>
                   </div>
                 </div>
-              </div>
+
+                {/* Tab Content */}
+                <div className="flex-1 overflow-hidden">
+                  {/* Workflow Input Tab */}
+                  <TabsContent value="input" className="h-full m-0 p-0">
+                    <div className="h-full overflow-auto">
+                      <div className="max-w-4xl mx-auto p-6">
+                        <div className="bg-white dark:bg-gray-900 rounded-lg border border-border shadow-sm">
+                          <div className="border-b border-border bg-muted/20 px-6 py-4">
+                            <div className="flex items-center">
+                              <FileText className="h-5 w-5 mr-3 text-primary" />
+                              <h2 className="text-lg font-semibold">Workflow Input</h2>
+                              <span className="ml-3 text-sm text-muted-foreground">Describe your workflow in natural language</span>
+                            </div>
+                          </div>
+                          <div className="p-0">
+                            <WorkflowInput />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </TabsContent>
+
+                  {/* Workflow Dashboard Tab */}
+                  <TabsContent value="dashboard" className="h-full m-0 p-0">
+                    <div className="h-full overflow-auto">
+                      <div className="max-w-7xl mx-auto p-6 space-y-6">
+                        {/* Workflow Visualization Section */}
+                        <div className="bg-white dark:bg-gray-900 rounded-lg border border-border shadow-sm">
+                          <div className="border-b border-border bg-muted/20 px-6 py-4">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center">
+                                <Workflow className="h-5 w-5 mr-3 text-primary" />
+                                <h2 className="text-lg font-semibold">Workflow Visualization</h2>
+                                <span className="ml-3 text-sm text-muted-foreground">Interactive node-based workflow builder</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="h-96 lg:h-[500px]">
+                            <WorkflowVisualization />
+                          </div>
+                        </div>
+
+                        {/* Credentials Section */}
+                        <div className="bg-white dark:bg-gray-900 rounded-lg border border-border shadow-sm">
+                          <div className="border-b border-border bg-muted/20 px-6 py-4">
+                            <div className="flex items-center">
+                              <Settings className="h-5 w-5 mr-3 text-primary" />
+                              <h2 className="text-lg font-semibold">API Credentials</h2>
+                              <span className="ml-3 text-sm text-muted-foreground">Configure service integrations</span>
+                            </div>
+                          </div>
+                          <div className="p-0">
+                            <CredentialManagement onOpenHelp={openHelpModal} />
+                          </div>
+                        </div>
+
+                        {/* Code & Deployment Section */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                          {/* Generated Code */}
+                          <div className="bg-white dark:bg-gray-900 rounded-lg border border-border shadow-sm">
+                            <div className="border-b border-border bg-muted/20 px-6 py-4">
+                              <div className="flex items-center">
+                                <Code className="h-5 w-5 mr-3 text-primary" />
+                                <h2 className="text-lg font-semibold">Generated Code</h2>
+                                <span className="ml-3 text-sm text-muted-foreground">Python Lambda function</span>
+                              </div>
+                            </div>
+                            <div className="h-96">
+                              <CodePreview />
+                            </div>
+                          </div>
+
+                          {/* Deployment Instructions */}
+                          <div className="bg-white dark:bg-gray-900 rounded-lg border border-border shadow-sm">
+                            <div className="border-b border-border bg-muted/20 px-6 py-4">
+                              <div className="flex items-center">
+                                <Rocket className="h-5 w-5 mr-3 text-primary" />
+                                <h2 className="text-lg font-semibold">AWS Deployment</h2>
+                                <span className="ml-3 text-sm text-muted-foreground">Step-by-step guide</span>
+                              </div>
+                            </div>
+                            <div className="h-96 overflow-auto">
+                              <DeploymentInstructions />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </TabsContent>
+                </div>
+              </Tabs>
             ) : (
               /* Mobile Layout: Single tabbed view */
               <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full flex flex-col">
