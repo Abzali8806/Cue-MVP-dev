@@ -204,8 +204,8 @@ export default function CodePreview() {
               </p>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </Card>
   );
 }
