@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Plus, User, Menu, X } from "lucide-react";
 import { useWorkflowGeneration } from "../../hooks/useWorkflowGeneration";
+import { Link, useLocation } from "wouter";
 
 interface AppHeaderProps {
   onMenuToggle?: () => void;
@@ -11,6 +12,7 @@ interface AppHeaderProps {
 
 export default function AppHeader({ onMenuToggle, isMobileMenuOpen }: AppHeaderProps) {
   const { createSampleWorkflow } = useWorkflowGeneration();
+  const [location] = useLocation();
 
   const handleNewWorkflow = () => {
     createSampleWorkflow();
@@ -36,24 +38,30 @@ export default function AppHeader({ onMenuToggle, isMobileMenuOpen }: AppHeaderP
             </div>
             
             <nav className="hidden xl:ml-6 xl:flex xl:items-center xl:space-x-4">
-              <a 
-                href="#" 
-                className="text-muted-foreground hover:text-primary px-3 py-2 text-sm font-medium transition-colors"
+              <Link 
+                href="/" 
+                className={`px-3 py-2 text-sm font-medium transition-colors ${
+                  location === "/" ? "text-primary" : "text-muted-foreground hover:text-primary"
+                }`}
               >
                 Workflow
-              </a>
-              <a 
-                href="#" 
-                className="text-muted-foreground hover:text-primary px-3 py-2 text-sm font-medium transition-colors"
+              </Link>
+              <Link 
+                href="/history" 
+                className={`px-3 py-2 text-sm font-medium transition-colors ${
+                  location === "/history" ? "text-primary" : "text-muted-foreground hover:text-primary"
+                }`}
               >
                 History
-              </a>
-              <a 
-                href="#" 
-                className="text-muted-foreground hover:text-primary px-3 py-2 text-sm font-medium transition-colors"
+              </Link>
+              <Link 
+                href="/settings" 
+                className={`px-3 py-2 text-sm font-medium transition-colors ${
+                  location === "/settings" ? "text-primary" : "text-muted-foreground hover:text-primary"
+                }`}
               >
                 Settings
-              </a>
+              </Link>
             </nav>
           </div>
           

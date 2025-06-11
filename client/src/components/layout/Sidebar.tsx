@@ -12,6 +12,7 @@ import {
   Workflow
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Link, useLocation } from "wouter";
 
 interface SidebarProps {
   isOpen: boolean;

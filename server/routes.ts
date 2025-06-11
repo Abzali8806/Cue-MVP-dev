@@ -5,7 +5,7 @@ import { storage } from "./storage";
 
 // Request/Response schemas
 const generateWorkflowSchema = z.object({
-  description: z.string().min(50).max(2000),
+  description: z.string().min(1).max(8000),
 });
 
 const saveWorkflowSchema = z.object({
