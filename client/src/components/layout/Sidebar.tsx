@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { 
   Code2, 
   History, 
@@ -9,10 +10,13 @@ import {
   ChevronLeft,
   ChevronRight,
   FileText,
-  Workflow
+  Workflow,
+  Moon,
+  Sun
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link, useLocation } from "wouter";
+import { useTheme } from "../../lib/theme";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -21,6 +25,7 @@ interface SidebarProps {
 
 export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
   const [location] = useLocation();
+  const { theme, toggleTheme } = useTheme();
   
   const sidebarItems = [
     {
@@ -77,6 +82,11 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
       action: () => {
         window.open('https://docs.aws.amazon.com/lambda/', '_blank');
       },
+    },
+    {
+      icon: theme === "dark" ? Sun : Moon,
+      label: theme === "dark" ? "Light Mode" : "Dark Mode",
+      action: toggleTheme,
     },
   ];
 
