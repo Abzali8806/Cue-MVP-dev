@@ -20,7 +20,7 @@ export default function WorkflowInput() {
 
   const description = workflowState.description;
   const minLength = 50;
-  const maxLength = 2000;
+  const maxLength = 8000;
 
   useEffect(() => {
     setCharacterCount(description.length);
