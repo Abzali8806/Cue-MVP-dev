@@ -83,11 +83,13 @@ export default function AppHeader({ onMenuToggle, isMobileMenuOpen }: AppHeaderP
               </Button>
             </Link>
             
-            <Avatar className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8">
-              <AvatarFallback className="bg-muted">
-                <User className="h-3 w-3 sm:h-4 sm:w-4" />
-              </AvatarFallback>
-            </Avatar>
+            <Link href="/login">
+              <Avatar className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 cursor-pointer hover:opacity-80 transition-opacity">
+                <AvatarFallback className="bg-muted">
+                  <User className="h-3 w-3 sm:h-4 sm:w-4" />
+                </AvatarFallback>
+              </Avatar>
+            </Link>
           </div>
         </div>
       </div>
