@@ -18,6 +18,7 @@ export default function WorkflowBuilder() {
   const [helpModalOpen, setHelpModalOpen] = useState(false);
   const [helpContent, setHelpContent] = useState<{ title: string; content: string } | null>(null);
   const [activeTab, setActiveTab] = useState("input");
+  const [desktopTab, setDesktopTab] = useState("input");
   const [isDesktopLayout, setIsDesktopLayout] = useState(false);
 
   // Detect screen size for layout switching
@@ -81,7 +82,7 @@ export default function WorkflowBuilder() {
           <div className="h-[calc(100vh-3rem)] sm:h-[calc(100vh-3.5rem)] lg:h-[calc(100vh-4rem)]">
             {/* Large Screen Layout: Two main tabs */}
             {isDesktopLayout ? (
-              <Tabs defaultValue="input" className="h-full flex flex-col">
+              <Tabs value={desktopTab} onValueChange={setDesktopTab} className="h-full flex flex-col">
                 {/* Tab Navigation */}
                 <div className="border-b border-border bg-muted/10">
                   <div className="max-w-7xl mx-auto px-6">
