@@ -79,7 +79,7 @@ export default function WorkflowVisualization() {
   };
 
   return (
-    <div className="relative w-full h-full bg-workflow-background">
+    <div className="relative w-full h-full bg-workflow-background" style={{ minHeight: '400px' }}>
       {/* Header Controls */}
       <div className="absolute top-4 left-4 z-10 bg-surface/90 backdrop-blur-sm rounded-lg p-2 border border-border shadow-sm">
         <h3 className="text-lg font-semibold mb-2">Workflow Visualization</h3>
