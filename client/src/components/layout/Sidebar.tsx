@@ -20,21 +20,26 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
+  const [location] = useLocation();
+  
   const sidebarItems = [
     {
       icon: Code2,
       label: "Lambda Generator",
-      active: true,
+      href: "/",
+      active: location === "/",
     },
     {
       icon: History,
       label: "Recent Workflows",
-      active: false,
+      href: "/history",
+      active: location === "/history",
     },
     {
       icon: Settings,
       label: "Configuration",
-      active: false,
+      href: "/settings",
+      active: location === "/settings",
     },
   ];
 
@@ -42,10 +47,36 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
     {
       icon: Upload,
       label: "Import Workflow",
+      action: () => {
+        // Create a file input element to handle file import
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.json';
+        input.onchange = (e) => {
+          const file = (e.target as HTMLInputElement).files?.[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              try {
+                const workflow = JSON.parse(e.target?.result as string);
+                console.log('Imported workflow:', workflow);
+                // Handle workflow import here
+              } catch (error) {
+                console.error('Failed to parse workflow file:', error);
+              }
+            };
+            reader.readAsText(file);
+          }
+        };
+        input.click();
+      },
     },
     {
       icon: HelpCircle,
       label: "Documentation",
+      action: () => {
+        window.open('https://docs.aws.amazon.com/lambda/', '_blank');
+      },
     },
   ];
 
@@ -90,18 +121,19 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
           
           <div className="space-y-2">
             {sidebarItems.map((item, index) => (
-              <Button
-                key={index}
-                variant={item.active ? "default" : "ghost"}
-                className={cn(
-                  "w-full justify-start",
-                  !isOpen && "lg:w-10 lg:h-10 lg:p-0 lg:justify-center",
-                  item.active && "bg-primary/10 text-primary"
-                )}
-              >
-                <item.icon className={cn("h-4 w-4", isOpen && "mr-2")} />
-                {isOpen && <span>{item.label}</span>}
-              </Button>
+              <Link key={index} href={item.href}>
+                <Button
+                  variant={item.active ? "default" : "ghost"}
+                  className={cn(
+                    "w-full justify-start",
+                    !isOpen && "lg:w-10 lg:h-10 lg:p-0 lg:justify-center",
+                    item.active && "bg-primary/10 text-primary"
+                  )}
+                >
+                  <item.icon className={cn("h-4 w-4", isOpen && "mr-2")} />
+                  {isOpen && <span>{item.label}</span>}
+                </Button>
+              </Link>
             ))}
           </div>
         </div>
@@ -118,6 +150,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
                     key={index}
                     variant="ghost"
                     className="w-full justify-start text-muted-foreground hover:text-foreground"
+                    onClick={action.action}
                   >
                     <action.icon className="h-4 w-4 mr-2" />
                     <span>{action.label}</span>
