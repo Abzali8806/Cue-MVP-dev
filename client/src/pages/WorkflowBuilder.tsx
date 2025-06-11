@@ -23,7 +23,7 @@ export default function WorkflowBuilder() {
   // Detect screen size for layout switching
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsDesktopLayout(window.innerWidth >= 1024);
+      setIsDesktopLayout(window.innerWidth >= 1280); // Wider threshold for desktop layout
     };
     
     checkScreenSize();
@@ -56,116 +56,98 @@ export default function WorkflowBuilder() {
       <AppHeader onMenuToggle={() => setIsSidebarOpen(!isSidebarOpen)} isMobileMenuOpen={isSidebarOpen} />
       
       <div className="flex">
-        {/* Sidebar - Auto-open on desktop */}
-        <div className={`${isSidebarOpen || isDesktopLayout ? 'block' : 'hidden'}`}>
-          <Sidebar isOpen={isSidebarOpen || isDesktopLayout} onToggle={() => setIsSidebarOpen(!isSidebarOpen)} />
-        </div>
-
-        {/* Mobile sidebar overlay */}
-        {isSidebarOpen && !isDesktopLayout && (
-          <div 
-            className="fixed inset-0 z-40 bg-black/50" 
-            onClick={() => setIsSidebarOpen(false)}
-          />
+        {/* Sidebar - Always visible on large screens, overlay on smaller screens */}
+        {isDesktopLayout ? (
+          <div className="w-64 flex-shrink-0">
+            <Sidebar isOpen={true} onToggle={() => {}} />
+          </div>
+        ) : (
+          <>
+            {isSidebarOpen && (
+              <div className="fixed inset-0 z-50 flex">
+                <div 
+                  className="fixed inset-0 bg-black/50" 
+                  onClick={() => setIsSidebarOpen(false)}
+                />
+                <div className="relative">
+                  <Sidebar isOpen={isSidebarOpen} onToggle={() => setIsSidebarOpen(!isSidebarOpen)} />
+                </div>
+              </div>
+            )}
+          </>
         )}
         
         <main className="flex-1 min-w-0 overflow-hidden">
           <div className="h-[calc(100vh-3rem)] sm:h-[calc(100vh-3.5rem)] lg:h-[calc(100vh-4rem)]">
-            {/* Desktop Layout: Split panels */}
+            {/* Large Screen Layout: Professional three-panel dashboard */}
             {isDesktopLayout ? (
-              <div className="h-full flex">
-                {/* Left Panel: Input & Credentials */}
-                <div className="w-2/5 bg-surface border-r border-border flex flex-col">
-                  <div className="border-b border-border bg-surface">
-                    <div className="flex">
-                      <button
-                        onClick={() => setActiveTab("input")}
-                        className={`flex-1 flex items-center justify-center gap-2 h-12 px-4 border-b-2 transition-colors ${
-                          activeTab === "input" 
-                            ? "border-primary bg-background text-primary" 
-                            : "border-transparent hover:bg-muted/50"
-                        }`}
-                      >
-                        <FileText className="h-4 w-4" />
-                        <span className="text-sm font-medium">Input</span>
-                      </button>
-                      <button
-                        onClick={() => setActiveTab("credentials")}
-                        className={`flex-1 flex items-center justify-center gap-2 h-12 px-4 border-b-2 transition-colors ${
-                          activeTab === "credentials" 
-                            ? "border-primary bg-background text-primary" 
-                            : "border-transparent hover:bg-muted/50"
-                        }`}
-                      >
-                        <Settings className="h-4 w-4" />
-                        <span className="text-sm font-medium">Credentials</span>
-                      </button>
+              <div className="h-full grid grid-cols-12 gap-0">
+                {/* Left Panel: Input & Credentials - 3 columns */}
+                <div className="col-span-3 bg-background border-r border-border flex flex-col">
+                  <Tabs defaultValue="input" className="h-full flex flex-col">
+                    <TabsList className="grid w-full grid-cols-2 h-12 bg-muted/20 rounded-none border-b border-border">
+                      <TabsTrigger value="input" className="data-[state=active]:bg-background data-[state=active]:shadow-sm text-sm">
+                        <FileText className="h-4 w-4 mr-2" />
+                        Workflow Input
+                      </TabsTrigger>
+                      <TabsTrigger value="credentials" className="data-[state=active]:bg-background data-[state=active]:shadow-sm text-sm">
+                        <Settings className="h-4 w-4 mr-2" />
+                        Credentials
+                      </TabsTrigger>
+                    </TabsList>
+                    
+                    <TabsContent value="input" className="flex-1 m-0 p-0">
+                      <WorkflowInput />
+                    </TabsContent>
+                    
+                    <TabsContent value="credentials" className="flex-1 m-0 p-0">
+                      <CredentialManagement onOpenHelp={openHelpModal} />
+                    </TabsContent>
+                  </Tabs>
+                </div>
+
+                {/* Center Panel: Visualization - 6 columns */}
+                <div className="col-span-6 flex flex-col bg-background">
+                  <div className="h-12 bg-muted/20 border-b border-border flex items-center justify-between px-6">
+                    <div className="flex items-center">
+                      <Workflow className="h-5 w-5 mr-3 text-primary" />
+                      <span className="font-semibold text-base">Workflow Visualization</span>
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      Interactive node-based workflow builder
                     </div>
                   </div>
-                  
                   <div className="flex-1 overflow-hidden">
-                    {activeTab === "input" && <WorkflowInput />}
-                    {activeTab === "credentials" && <CredentialManagement onOpenHelp={openHelpModal} />}
+                    <WorkflowVisualization />
                   </div>
                 </div>
 
-                {/* Right Panel: Visualization, Code & Deploy */}
-                <div className="flex-1 flex flex-col">
-                  <div className="border-b border-border bg-surface">
-                    <div className="flex">
-                      <button
-                        onClick={() => setActiveTab("visualization")}
-                        className={`flex-1 flex items-center justify-center gap-2 h-12 px-4 border-b-2 transition-colors ${
-                          activeTab === "visualization" 
-                            ? "border-primary bg-background text-primary" 
-                            : "border-transparent hover:bg-muted/50"
-                        }`}
-                      >
-                        <Workflow className="h-4 w-4" />
-                        <span className="text-sm font-medium">Visualization</span>
-                      </button>
-                      <button
-                        onClick={() => setActiveTab("code")}
-                        className={`flex-1 flex items-center justify-center gap-2 h-12 px-4 border-b-2 transition-colors ${
-                          activeTab === "code" 
-                            ? "border-primary bg-background text-primary" 
-                            : "border-transparent hover:bg-muted/50"
-                        }`}
-                      >
-                        <Code className="h-4 w-4" />
-                        <span className="text-sm font-medium">Code</span>
-                      </button>
-                      <button
-                        onClick={() => setActiveTab("deploy")}
-                        className={`flex-1 flex items-center justify-center gap-2 h-12 px-4 border-b-2 transition-colors ${
-                          activeTab === "deploy" 
-                            ? "border-primary bg-background text-primary" 
-                            : "border-transparent hover:bg-muted/50"
-                        }`}
-                      >
-                        <Rocket className="h-4 w-4" />
-                        <span className="text-sm font-medium">Deploy</span>
-                      </button>
-                    </div>
-                  </div>
-                  
-                  <div className="flex-1 overflow-hidden">
-                    {activeTab === "visualization" && (
-                      <div className="h-full w-full">
-                        <WorkflowVisualization />
-                      </div>
-                    )}
-                    {activeTab === "code" && (
+                {/* Right Panel: Code & Deploy - 3 columns */}
+                <div className="col-span-3 bg-background border-l border-border flex flex-col">
+                  <Tabs defaultValue="code" className="h-full flex flex-col">
+                    <TabsList className="grid w-full grid-cols-2 h-12 bg-muted/20 rounded-none border-b border-border">
+                      <TabsTrigger value="code" className="data-[state=active]:bg-background data-[state=active]:shadow-sm text-sm">
+                        <Code className="h-4 w-4 mr-2" />
+                        Generated Code
+                      </TabsTrigger>
+                      <TabsTrigger value="deploy" className="data-[state=active]:bg-background data-[state=active]:shadow-sm text-sm">
+                        <Rocket className="h-4 w-4 mr-2" />
+                        Deployment
+                      </TabsTrigger>
+                    </TabsList>
+                    
+                    <TabsContent value="code" className="flex-1 m-0 p-0">
                       <div className="h-full overflow-auto">
                         <CodePreview />
                       </div>
-                    )}
-                    {activeTab === "deploy" && (
+                    </TabsContent>
+                    
+                    <TabsContent value="deploy" className="flex-1 m-0 p-0">
                       <div className="h-full overflow-auto">
                         <DeploymentInstructions />
                       </div>
-                    )}
-                  </div>
+                    </TabsContent>
+                  </Tabs>
                 </div>
               </div>
             ) : (
