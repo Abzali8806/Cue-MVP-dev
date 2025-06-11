@@ -77,68 +77,74 @@ export default function DeploymentInstructions() {
         <CollapsibleContent>
           <CardContent className="pt-0">
             {/* Prerequisites */}
-            <div className="mb-6">
-              <h4 className="font-medium text-sm mb-3">Prerequisites</h4>
-              <div className="space-y-2">
+            <div className="mb-8">
+              <h4 className="font-medium text-base mb-4">Prerequisites</h4>
+              <div className="space-y-3">
                 {instructions.prerequisites.map((prerequisite, index) => (
-                  <div key={index} className="flex items-center text-sm text-muted-foreground">
-                    <Circle className="h-3 w-3 mr-2 flex-shrink-0" />
-                    {prerequisite}
+                  <div key={index} className="flex items-start text-sm text-muted-foreground">
+                    <Circle className="h-3 w-3 mr-3 mt-1 flex-shrink-0" />
+                    <span>{prerequisite}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Deployment Steps */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {instructions.steps.map((step, index) => (
-                <div key={step.id} className="space-y-3">
-                  <div 
-                    className="flex items-center space-x-3 cursor-pointer"
-                    onClick={() => toggleStepCompletion(step.id)}
-                  >
-                    {getStepNumber(index)}
-                    <div className="flex-1">
-                      <h4 className="font-medium text-sm">{step.title}</h4>
-                      {step.isOptional && (
-                        <Badge variant="secondary" className="text-xs mt-1">
-                          Optional
-                        </Badge>
-                      )}
+            <div className="mb-8">
+              <h4 className="font-medium text-base mb-6">Deployment Steps</h4>
+              <div className="space-y-6">
+                {instructions.steps.map((step, index) => (
+                  <div key={step.id} className="bg-card border border-border rounded-lg p-6 hover:shadow-md transition-shadow">
+                    <div 
+                      className="flex items-start space-x-4 cursor-pointer mb-4"
+                      onClick={() => toggleStepCompletion(step.id)}
+                    >
+                      {getStepNumber(index)}
+                      <div className="flex-1">
+                        <h5 className="font-semibold text-base mb-2">{step.title}</h5>
+                        {step.isOptional && (
+                          <Badge variant="secondary" className="text-xs mb-3">
+                            Optional
+                          </Badge>
+                        )}
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {step.description}
+                        </p>
+                      </div>
+                      <div className="flex-shrink-0">
+                        {getStepIcon(step)}
+                      </div>
                     </div>
-                    {getStepIcon(step)}
+                    
+                    {step.commands && step.commands.length > 0 && (
+                      <div className="ml-10 mt-4">
+                        <div className="text-sm font-medium text-foreground mb-3">Commands:</div>
+                        <div className="space-y-2">
+                          {step.commands.map((command, cmdIndex) => (
+                            <code 
+                              key={cmdIndex}
+                              className="block text-sm bg-muted p-3 rounded-md font-mono text-foreground border border-border"
+                            >
+                              {command}
+                            </code>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
-                  
-                  <p className="text-sm text-muted-foreground ml-9">
-                    {step.description}
-                  </p>
-                  
-                  {step.commands && step.commands.length > 0 && (
-                    <div className="ml-9">
-                      <div className="text-xs font-medium text-muted-foreground mb-1">Commands:</div>
-                      {step.commands.map((command, cmdIndex) => (
-                        <code 
-                          key={cmdIndex}
-                          className="block text-xs bg-muted p-2 rounded font-mono text-foreground mb-1"
-                        >
-                          {command}
-                        </code>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
 
             {/* Progress Bar */}
-            <div className="mt-6 pt-6 border-t border-border">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium">Deployment Progress</span>
-                <span className="text-sm text-muted-foreground">{completionPercentage}%</span>
+            <div className="mt-8 pt-6 border-t border-border">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-base font-medium">Deployment Progress</span>
+                <span className="text-sm text-muted-foreground font-medium">{completionPercentage}%</span>
               </div>
-              <div className="w-full bg-muted rounded-full h-2">
+              <div className="w-full bg-muted rounded-full h-3">
                 <div 
-                  className="bg-primary h-2 rounded-full transition-all duration-300"
+                  className="bg-primary h-3 rounded-full transition-all duration-500"
                   style={{ width: `${completionPercentage}%` }}
                 />
               </div>
@@ -146,13 +152,13 @@ export default function DeploymentInstructions() {
 
             {/* Important Notes */}
             {instructions.notes && instructions.notes.length > 0 && (
-              <div className="mt-6 p-4 bg-muted/30 rounded-lg">
-                <h4 className="font-medium text-sm mb-2">Important Notes</h4>
-                <ul className="space-y-1">
+              <div className="mt-8 p-6 bg-muted/30 rounded-lg border border-border">
+                <h4 className="font-medium text-base mb-4">Important Notes</h4>
+                <ul className="space-y-3">
                   {instructions.notes.map((note, index) => (
                     <li key={index} className="text-sm text-muted-foreground flex items-start">
-                      <Circle className="h-2 w-2 mr-2 mt-2 flex-shrink-0" />
-                      {note}
+                      <Circle className="h-3 w-3 mr-3 mt-1 flex-shrink-0" />
+                      <span>{note}</span>
                     </li>
                   ))}
                 </ul>
