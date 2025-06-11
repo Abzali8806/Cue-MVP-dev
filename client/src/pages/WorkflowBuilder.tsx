@@ -79,75 +79,84 @@ export default function WorkflowBuilder() {
         
         <main className="flex-1 min-w-0 overflow-hidden">
           <div className="h-[calc(100vh-3rem)] sm:h-[calc(100vh-3.5rem)] lg:h-[calc(100vh-4rem)]">
-            {/* Large Screen Layout: Professional three-panel dashboard */}
+            {/* Large Screen Layout: Vertical stacked dashboard */}
             {isDesktopLayout ? (
-              <div className="h-full grid grid-cols-12 gap-0">
-                {/* Left Panel: Input & Credentials - 3 columns */}
-                <div className="col-span-3 bg-background border-r border-border flex flex-col">
-                  <Tabs defaultValue="input" className="h-full flex flex-col">
-                    <TabsList className="grid w-full grid-cols-2 h-12 bg-muted/20 rounded-none border-b border-border">
-                      <TabsTrigger value="input" className="data-[state=active]:bg-background data-[state=active]:shadow-sm text-sm">
-                        <FileText className="h-4 w-4 mr-2" />
-                        Workflow Input
-                      </TabsTrigger>
-                      <TabsTrigger value="credentials" className="data-[state=active]:bg-background data-[state=active]:shadow-sm text-sm">
-                        <Settings className="h-4 w-4 mr-2" />
-                        Credentials
-                      </TabsTrigger>
-                    </TabsList>
-                    
-                    <TabsContent value="input" className="flex-1 m-0 p-0">
+              <div className="h-full overflow-auto">
+                <div className="max-w-7xl mx-auto p-6 space-y-6">
+                  {/* Workflow Input Section */}
+                  <div className="bg-white dark:bg-gray-900 rounded-lg border border-border shadow-sm">
+                    <div className="border-b border-border bg-muted/20 px-6 py-4">
+                      <div className="flex items-center">
+                        <FileText className="h-5 w-5 mr-3 text-primary" />
+                        <h2 className="text-lg font-semibold">Workflow Input</h2>
+                        <span className="ml-3 text-sm text-muted-foreground">Describe your workflow in natural language</span>
+                      </div>
+                    </div>
+                    <div className="p-0">
                       <WorkflowInput />
-                    </TabsContent>
-                    
-                    <TabsContent value="credentials" className="flex-1 m-0 p-0">
+                    </div>
+                  </div>
+
+                  {/* Workflow Visualization Section */}
+                  <div className="bg-white dark:bg-gray-900 rounded-lg border border-border shadow-sm">
+                    <div className="border-b border-border bg-muted/20 px-6 py-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <Workflow className="h-5 w-5 mr-3 text-primary" />
+                          <h2 className="text-lg font-semibold">Workflow Visualization</h2>
+                          <span className="ml-3 text-sm text-muted-foreground">Interactive node-based workflow builder</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="h-96 lg:h-[500px]">
+                      <WorkflowVisualization />
+                    </div>
+                  </div>
+
+                  {/* Credentials Section */}
+                  <div className="bg-white dark:bg-gray-900 rounded-lg border border-border shadow-sm">
+                    <div className="border-b border-border bg-muted/20 px-6 py-4">
+                      <div className="flex items-center">
+                        <Settings className="h-5 w-5 mr-3 text-primary" />
+                        <h2 className="text-lg font-semibold">API Credentials</h2>
+                        <span className="ml-3 text-sm text-muted-foreground">Configure service integrations</span>
+                      </div>
+                    </div>
+                    <div className="p-0">
                       <CredentialManagement onOpenHelp={openHelpModal} />
-                    </TabsContent>
-                  </Tabs>
-                </div>
-
-                {/* Center Panel: Visualization - 6 columns */}
-                <div className="col-span-6 flex flex-col bg-background">
-                  <div className="h-12 bg-muted/20 border-b border-border flex items-center justify-between px-6">
-                    <div className="flex items-center">
-                      <Workflow className="h-5 w-5 mr-3 text-primary" />
-                      <span className="font-semibold text-base">Workflow Visualization</span>
-                    </div>
-                    <div className="text-xs text-muted-foreground">
-                      Interactive node-based workflow builder
                     </div>
                   </div>
-                  <div className="flex-1 overflow-hidden">
-                    <WorkflowVisualization />
-                  </div>
-                </div>
 
-                {/* Right Panel: Code & Deploy - 3 columns */}
-                <div className="col-span-3 bg-background border-l border-border flex flex-col">
-                  <Tabs defaultValue="code" className="h-full flex flex-col">
-                    <TabsList className="grid w-full grid-cols-2 h-12 bg-muted/20 rounded-none border-b border-border">
-                      <TabsTrigger value="code" className="data-[state=active]:bg-background data-[state=active]:shadow-sm text-sm">
-                        <Code className="h-4 w-4 mr-2" />
-                        Generated Code
-                      </TabsTrigger>
-                      <TabsTrigger value="deploy" className="data-[state=active]:bg-background data-[state=active]:shadow-sm text-sm">
-                        <Rocket className="h-4 w-4 mr-2" />
-                        Deployment
-                      </TabsTrigger>
-                    </TabsList>
-                    
-                    <TabsContent value="code" className="flex-1 m-0 p-0">
-                      <div className="h-full overflow-auto">
+                  {/* Code & Deployment Section */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {/* Generated Code */}
+                    <div className="bg-white dark:bg-gray-900 rounded-lg border border-border shadow-sm">
+                      <div className="border-b border-border bg-muted/20 px-6 py-4">
+                        <div className="flex items-center">
+                          <Code className="h-5 w-5 mr-3 text-primary" />
+                          <h2 className="text-lg font-semibold">Generated Code</h2>
+                          <span className="ml-3 text-sm text-muted-foreground">Python Lambda function</span>
+                        </div>
+                      </div>
+                      <div className="h-96">
                         <CodePreview />
                       </div>
-                    </TabsContent>
-                    
-                    <TabsContent value="deploy" className="flex-1 m-0 p-0">
-                      <div className="h-full overflow-auto">
+                    </div>
+
+                    {/* Deployment Instructions */}
+                    <div className="bg-white dark:bg-gray-900 rounded-lg border border-border shadow-sm">
+                      <div className="border-b border-border bg-muted/20 px-6 py-4">
+                        <div className="flex items-center">
+                          <Rocket className="h-5 w-5 mr-3 text-primary" />
+                          <h2 className="text-lg font-semibold">AWS Deployment</h2>
+                          <span className="ml-3 text-sm text-muted-foreground">Step-by-step guide</span>
+                        </div>
+                      </div>
+                      <div className="h-96 overflow-auto">
                         <DeploymentInstructions />
                       </div>
-                    </TabsContent>
-                  </Tabs>
+                    </div>
+                  </div>
                 </div>
               </div>
             ) : (
