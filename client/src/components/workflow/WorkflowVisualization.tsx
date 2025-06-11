@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ReactFlow, {
   Controls,
@@ -79,7 +79,7 @@ export default function WorkflowVisualization() {
   };
 
   return (
-    <div className="relative h-full bg-workflow-background">
+    <div className="relative w-full h-full bg-workflow-background">
       {/* Header Controls */}
       <div className="absolute top-4 left-4 z-10 bg-surface/90 backdrop-blur-sm rounded-lg p-2 border border-border shadow-sm">
         <h3 className="text-lg font-semibold mb-2">Workflow Visualization</h3>
@@ -119,7 +119,6 @@ export default function WorkflowVisualization() {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onNodeDragStop={onNodeDragStop}
-        onViewportChange={onViewportChange}
         onInit={setReactFlowInstance}
         nodeTypes={nodeTypes}
         defaultViewport={viewport}

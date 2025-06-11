@@ -43,30 +43,32 @@ export default function WorkflowBuilder() {
       <div className="flex">
         <Sidebar isOpen={isSidebarOpen} onToggle={() => setIsSidebarOpen(!isSidebarOpen)} />
         
-        <main className="flex-1 overflow-hidden">
-          <div className="h-[calc(100vh-4rem)] flex flex-col lg:flex-row">
+        <main className="flex-1 overflow-auto">
+          <div className="flex flex-col lg:flex-row min-h-[calc(100vh-4rem)]">
             {/* Left Panel: Input & Credentials */}
-            <div className="w-full lg:w-2/5 bg-surface border-r border-border flex flex-col">
+            <div className="w-full lg:w-2/5 bg-surface border-r border-border flex flex-col max-h-[calc(100vh-4rem)] overflow-auto">
               <WorkflowInput />
               <CredentialManagement onOpenHelp={openHelpModal} />
             </div>
 
             {/* Right Panel: Visualization & Code */}
-            <div className="flex-1 flex flex-col">
+            <div className="flex-1 flex flex-col min-h-[calc(100vh-4rem)]">
               {/* Workflow Visualization */}
-              <div className="h-1/2 relative">
+              <div className="h-1/3 relative border-b border-border">
                 <WorkflowVisualization />
               </div>
 
               {/* Code Preview */}
-              <div className="h-1/2 border-t border-border">
+              <div className="h-1/3 border-b border-border">
                 <CodePreview />
+              </div>
+
+              {/* Deployment Instructions */}
+              <div className="h-1/3 overflow-auto">
+                <DeploymentInstructions />
               </div>
             </div>
           </div>
-
-          {/* Deployment Instructions */}
-          <DeploymentInstructions />
         </main>
       </div>
 
