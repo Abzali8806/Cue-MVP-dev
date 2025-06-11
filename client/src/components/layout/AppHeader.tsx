@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Plus, User, Menu, X } from "lucide-react";
 import { useWorkflowGeneration } from "../../hooks/useWorkflowGeneration";
 import { Link, useLocation } from "wouter";
@@ -68,6 +69,8 @@ export default function AppHeader({ onMenuToggle, isMobileMenuOpen }: AppHeaderP
           </div>
           
           <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4">
+            <ThemeToggle />
+            
             <Link href="/">
               <Button 
                 onClick={handleNewWorkflow} 
