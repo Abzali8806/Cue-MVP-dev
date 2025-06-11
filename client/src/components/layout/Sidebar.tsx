@@ -1,0 +1,145 @@
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { 
+  Code2, 
+  History, 
+  Settings, 
+  Upload, 
+  HelpCircle, 
+  ChevronLeft,
+  ChevronRight,
+  FileText,
+  Workflow
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+
+interface SidebarProps {
+  isOpen: boolean;
+  onToggle: () => void;
+}
+
+export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
+  const sidebarItems = [
+    {
+      icon: Code2,
+      label: "Lambda Generator",
+      active: true,
+    },
+    {
+      icon: History,
+      label: "Recent Workflows",
+      active: false,
+    },
+    {
+      icon: Settings,
+      label: "Configuration",
+      active: false,
+    },
+  ];
+
+  const quickActions = [
+    {
+      icon: Upload,
+      label: "Import Workflow",
+    },
+    {
+      icon: HelpCircle,
+      label: "Documentation",
+    },
+  ];
+
+  return (
+    <>
+      {/* Mobile backdrop */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={onToggle}
+        />
+      )}
+      
+      {/* Sidebar */}
+      <aside 
+        className={cn(
+          "fixed lg:relative inset-y-0 left-0 z-50 bg-surface border-r border-border transition-all duration-300 ease-in-out",
+          "flex flex-col h-screen lg:h-auto",
+          isOpen ? "w-64" : "w-0 lg:w-16",
+          "lg:block"
+        )}
+      >
+        {/* Toggle button - only visible on desktop */}
+        <Button
+          variant="ghost"
+          size="sm"
+          className="hidden lg:flex absolute -right-3 top-6 h-6 w-6 rounded-full border border-border bg-surface hover:bg-muted z-10"
+          onClick={onToggle}
+        >
+          {isOpen ? (
+            <ChevronLeft className="h-3 w-3" />
+          ) : (
+            <ChevronRight className="h-3 w-3" />
+          )}
+        </Button>
+
+        <div className={cn("p-6", !isOpen && "lg:p-3")}>
+          <div className="flex items-center mb-4">
+            <Workflow className="h-5 w-5 text-primary" />
+            {isOpen && <h2 className="ml-2 text-lg font-semibold text-foreground">Project</h2>}
+          </div>
+          
+          <div className="space-y-2">
+            {sidebarItems.map((item, index) => (
+              <Button
+                key={index}
+                variant={item.active ? "default" : "ghost"}
+                className={cn(
+                  "w-full justify-start",
+                  !isOpen && "lg:w-10 lg:h-10 lg:p-0 lg:justify-center",
+                  item.active && "bg-primary/10 text-primary"
+                )}
+              >
+                <item.icon className={cn("h-4 w-4", isOpen && "mr-2")} />
+                {isOpen && <span>{item.label}</span>}
+              </Button>
+            ))}
+          </div>
+        </div>
+        
+        {isOpen && (
+          <>
+            <Separator className="mx-4" />
+            
+            <div className="p-6">
+              <h3 className="text-sm font-semibold text-foreground mb-3">Quick Actions</h3>
+              <div className="space-y-2">
+                {quickActions.map((action, index) => (
+                  <Button
+                    key={index}
+                    variant="ghost"
+                    className="w-full justify-start text-muted-foreground hover:text-foreground"
+                  >
+                    <action.icon className="h-4 w-4 mr-2" />
+                    <span>{action.label}</span>
+                  </Button>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* Spacer */}
+        <div className="flex-1" />
+        
+        {/* Bottom section */}
+        {isOpen && (
+          <div className="p-4 border-t border-border">
+            <div className="text-xs text-muted-foreground">
+              <p>Cue MVP v1.0</p>
+              <p>Natural Language to AWS Lambda</p>
+            </div>
+          </div>
+        )}
+      </aside>
+    </>
+  );
+}
