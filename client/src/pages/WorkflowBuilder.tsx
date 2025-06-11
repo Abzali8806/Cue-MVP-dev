@@ -172,7 +172,7 @@ export default function WorkflowBuilder() {
                                 <span className="ml-3 text-sm text-muted-foreground">Python Lambda function</span>
                               </div>
                             </div>
-                            <div className="h-96">
+                            <div className="h-96 overflow-hidden">
                               <CodePreview />
                             </div>
                           </div>

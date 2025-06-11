@@ -129,8 +129,8 @@ export default function CodePreview() {
           </TabsList>
           
           {tabs.map((tab) => (
-            <TabsContent key={tab.value} value={tab.value} className="flex-1 mx-6 mb-6">
-              <div className="h-full border border-border rounded-lg overflow-hidden">
+            <TabsContent key={tab.value} value={tab.value} className="flex-1 mx-6 mb-6 min-h-0">
+              <div className="h-full border border-border rounded-lg overflow-hidden flex flex-col">
                 {/* Tab Header with Controls */}
                 <div className="flex items-center justify-between p-3 bg-muted border-b border-border">
                   <span className="text-sm font-medium">{tab.label}</span>
@@ -166,10 +166,10 @@ export default function CodePreview() {
                 </div>
                 
                 {/* Code Content */}
-                <ScrollArea className="h-[calc(100%-3.5rem)] bg-gray-900">
+                <ScrollArea className="flex-1 bg-gray-900">
                   <div className="p-4">
                     <pre className={cn(
-                      "text-sm font-mono text-gray-100 whitespace-pre-wrap overflow-x-auto",
+                      "text-sm font-mono text-gray-100 whitespace-pre-wrap",
                       "code-highlight"
                     )}>
                       {tab.language === "python" ? (
