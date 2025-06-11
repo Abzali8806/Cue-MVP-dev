@@ -155,7 +155,7 @@ def send_confirmation_email(payment_intent, sendgrid_client):
         from_email='noreply@example.com',
         to_emails=payment_intent['receipt_email'],
         subject='Payment Confirmation',
-        html_content=f'<p>Your payment of ${payment_intent["amount"] / 100} has been processed successfully.</p>'
+        html_content=f'<p>Your payment of {payment_intent["amount"] / 100} has been processed successfully.</p>'
     )
     
     try:
