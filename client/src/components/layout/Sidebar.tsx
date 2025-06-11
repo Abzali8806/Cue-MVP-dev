@@ -171,7 +171,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
                     ) : (
                       <Moon className="h-4 w-4 mr-2 text-foreground" />
                     )}
-                    <Label htmlFor="theme-toggle" className="text-sm text-foreground cursor-pointer font-medium">
+                    <Label htmlFor="theme-toggle" className="text-sm text-muted-foreground cursor-pointer">
                       Dark Mode
                     </Label>
                   </div>
