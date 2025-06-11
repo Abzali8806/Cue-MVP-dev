@@ -164,14 +164,14 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
                 ))}
                 
                 {/* Dark Mode Toggle */}
-                <div className="flex items-center justify-between py-2 px-3 rounded-md hover:bg-muted transition-colors">
+                <div className="flex items-center justify-between py-2 px-3 rounded-md hover:bg-accent transition-colors">
                   <div className="flex items-center">
                     {theme === "dark" ? (
-                      <Sun className="h-4 w-4 mr-2 text-muted-foreground" />
+                      <Sun className="h-4 w-4 mr-2 text-foreground" />
                     ) : (
-                      <Moon className="h-4 w-4 mr-2 text-muted-foreground" />
+                      <Moon className="h-4 w-4 mr-2 text-foreground" />
                     )}
-                    <Label htmlFor="theme-toggle" className="text-sm text-muted-foreground cursor-pointer">
+                    <Label htmlFor="theme-toggle" className="text-sm text-foreground cursor-pointer font-medium">
                       Dark Mode
                     </Label>
                   </div>
@@ -179,6 +179,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
                     id="theme-toggle"
                     checked={theme === "dark"}
                     onCheckedChange={toggleTheme}
+                    className="data-[state=checked]:bg-primary data-[state=unchecked]:bg-input"
                   />
                 </div>
               </div>
