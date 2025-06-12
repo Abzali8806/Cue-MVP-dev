@@ -62,7 +62,7 @@ export default function WorkflowInput() {
             Speak It. Build It. Deploy It.
           </h2>
           <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto">
-            Turn natural language into production-ready AWS Lambda code instantly.
+            Transform your ideas into working automation without writing a single line of code.
           </p>
           <div className="flex flex-wrap justify-center gap-4 text-xs sm:text-sm text-muted-foreground pt-2">
             <span className="flex items-center gap-1">
