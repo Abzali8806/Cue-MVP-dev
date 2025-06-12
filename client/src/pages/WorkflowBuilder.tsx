@@ -37,11 +37,7 @@ export default function WorkflowGenerator() {
   const { createSampleWorkflow } = useWorkflowGeneration();
 
   // Initialize with sample workflow for demonstration
-  useEffect(() => {
-    if (workflowState.description === "") {
-      createSampleWorkflow();
-    }
-  }, [createSampleWorkflow, workflowState.description]);
+  // Removed auto-population of sample workflow to keep input empty initially
 
   const openHelpModal = (title: string, content: string) => {
     setHelpContent({ title, content });
