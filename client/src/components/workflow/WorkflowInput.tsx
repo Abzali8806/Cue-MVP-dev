@@ -59,11 +59,10 @@ export default function WorkflowInput() {
             </h1>
           </div>
           <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold text-foreground">
-            Transform Ideas into AWS Lambda Code in Minutes
+            Speak It. Build It. Deploy It.
           </h2>
-          <p className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Simply describe your workflow in plain English, and Cue instantly generates production-ready AWS Lambda functions with complete deployment instructions. 
-            No coding required - just speak or type what you need, and watch your serverless infrastructure come to life.
+          <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto">
+            Turn natural language into production-ready AWS Lambda code instantly.
           </p>
           <div className="flex flex-wrap justify-center gap-4 text-xs sm:text-sm text-muted-foreground pt-2">
             <span className="flex items-center gap-1">
