@@ -9,15 +9,15 @@
   --muted-foreground: hsl(25, 5.3%, 44.7%);
   --popover: hsl(0, 0%, 100%);
   --popover-foreground: hsl(20, 14.3%, 4.1%);
-  --card: hsl(0, 0%, 100%);
+  --card: hsl(0, 0%, 98%);
   --card-foreground: hsl(20, 14.3%, 4.1%);
-  --border: hsl(20, 5.9%, 85%);
-  --input: hsl(0, 0%, 98%);
+  --border: hsl(20, 5.9%, 75%);
+  --input: hsl(0, 0%, 96%);
   --primary: hsl(231, 48%, 48%);
   --primary-foreground: hsl(0, 0%, 98%);
   --secondary: hsl(340, 82%, 52%);
   --secondary-foreground: hsl(0, 0%, 98%);
-  --accent: hsl(60, 4.8%, 95.9%);
+  --accent: hsl(60, 4.8%, 93%);
   --accent-foreground: hsl(24, 9.8%, 10%);
   --destructive: hsl(0, 84.2%, 60.2%);
   --destructive-foreground: hsl(60, 9.1%, 97.8%);
@@ -27,9 +27,31 @@
   --warning-foreground: hsl(0, 0%, 98%);
   --ring: hsl(231, 48%, 48%);
   --radius: 0.5rem;
-  --surface: hsl(0, 0%, 100%);
+  --surface: hsl(0, 0%, 98%);
   --surface-foreground: hsl(20, 14.3%, 4.1%);
-  --workflow-background: hsl(60, 4.8%, 95.9%);
+  --workflow-background: hsl(60, 4.8%, 93%);
+}
+
+/* Enhanced borders for light theme */
+:root .border,
+:root .border-border,
+:root [data-orientation="horizontal"],
+:root [data-orientation="vertical"] {
+  border-color: hsl(20, 5.9%, 75%) !important;
+}
+
+/* Ensure card components have visible borders in light mode */
+:root .bg-card,
+:root .bg-surface {
+  border: 1px solid hsl(20, 5.9%, 75%);
+}
+
+/* Input and form element borders in light mode */
+:root input,
+:root textarea,
+:root select,
+:root .border-input {
+  border: 1px solid hsl(20, 5.9%, 75%);
 }
 
 .dark {
