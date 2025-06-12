@@ -272,18 +272,17 @@
   border: 2px solid var(--surface);
 }
 
-/* Navigation border consistency */
+/* Remove borders from dashboard tabs in dark mode */
 .dark [role="tablist"] {
-  border-color: hsl(0, 0%, 25%) !important;
-  border-width: 1px !important;
+  border: none !important;
 }
 
 .dark [role="tab"] {
-  border-width: 1px !important;
+  border: none !important;
 }
 
-/* Only apply borders to specific navigation elements */
-.dark .border-b {
+/* Only apply borders to specific navigation elements when needed */
+.dark .border-b:not([role="tablist"]):not([role="tab"]) {
   border-color: hsl(0, 0%, 25%) !important;
   border-width: 1px !important;
 }
