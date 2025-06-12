@@ -20,12 +20,12 @@ export default function WorkflowInput() {
 
   const description = workflowState.description;
   const minLength = 0;
-  const maxLength = 8000;
+  const maxLength = 3000;
 
   useEffect(() => {
     setCharacterCount(description.length);
-    setIsValid(description.length >= minLength && description.length <= maxLength);
-  }, [description, minLength, maxLength]);
+    setIsValid(description.length > 0 && description.length <= maxLength);
+  }, [description, maxLength]);
 
   const handleDescriptionChange = (value: string) => {
     dispatch(setDescription(value));
@@ -109,7 +109,8 @@ export default function WorkflowInput() {
           
           <div className="flex justify-between items-center text-xs">
             <span className={`${isValid ? 'text-muted-foreground' : 'text-destructive'}`}>
-              {characterCount > maxLength ? 'Too many characters' : 'Ready to generate'}
+              {characterCount === 0 ? 'Enter a description to generate' : 
+               characterCount > maxLength ? 'Description too long' : 'Ready to generate'}
             </span>
             <span className={`${characterCount > maxLength ? 'text-destructive' : 'text-muted-foreground'}`}>
               {characterCount}/{maxLength}
