@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { ArrowLeft } from "lucide-react";
+import { getGoogleOAuthUrl, getGitHubOAuthUrl } from "@/lib/oauth";
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
@@ -23,12 +24,14 @@ export default function Login() {
 
   const handleGoogleLogin = () => {
     setIsLoading(true);
-    window.location.href = '/auth/google';
+    const oAuthUrl = getGoogleOAuthUrl();
+    window.location.href = oAuthUrl;
   };
 
   const handleGitHubLogin = () => {
     setIsLoading(true);
-    window.location.href = '/auth/github';
+    const oAuthUrl = getGitHubOAuthUrl();
+    window.location.href = oAuthUrl;
   };
 
   return (

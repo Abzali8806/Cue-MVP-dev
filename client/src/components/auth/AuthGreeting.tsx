@@ -31,7 +31,7 @@ export default function AuthGreeting() {
       <Button
         variant="outline"
         size="sm"
-        onClick={() => window.location.href = '/api/login'}
+        onClick={() => window.location.href = '/login'}
       >
         <LogIn className="h-4 w-4 mr-2" />
         Sign in
