@@ -1,7 +1,9 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { z } from "zod";
+import passport from "passport";
 import { storage } from "./storage";
+import { setupSession, setupPassport, requireAuth } from "./auth";
 
 // Request/Response schemas
 const generateWorkflowSchema = z.object({
@@ -34,6 +36,46 @@ const testConnectionSchema = z.object({
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Setup authentication
+  setupSession(app);
+  setupPassport();
+
+  // OAuth Routes
+  app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+  
+  app.get('/auth/google/callback', 
+    passport.authenticate('google', { failureRedirect: '/login?error=google_auth_failed' }),
+    (req, res) => {
+      res.redirect('/');
+    }
+  );
+
+  app.get('/auth/github', passport.authenticate('github', { scope: ['user:email'] }));
+  
+  app.get('/auth/github/callback', 
+    passport.authenticate('github', { failureRedirect: '/login?error=github_auth_failed' }),
+    (req, res) => {
+      res.redirect('/');
+    }
+  );
+
+  app.post('/auth/logout', (req, res) => {
+    req.logout((err) => {
+      if (err) {
+        return res.status(500).json({ message: 'Error logging out' });
+      }
+      res.json({ message: 'Logged out successfully' });
+    });
+  });
+
+  // Get current user
+  app.get('/api/user', (req, res) => {
+    if (req.isAuthenticated()) {
+      res.json(req.user);
+    } else {
+      res.status(401).json({ message: 'Not authenticated' });
+    }
+  });
   
   // Workflow generation endpoint
   app.post("/api/workflows/generate", async (req, res) => {
