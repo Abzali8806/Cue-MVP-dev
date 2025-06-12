@@ -186,6 +186,11 @@
   background-color: var(--muted);
 }
 
+.react-flow__controls button svg {
+  color: var(--foreground);
+  fill: var(--foreground);
+}
+
 /* Speech recording animation */
 .speech-recording {
   animation: pulse 1.5s ease-in-out infinite;
