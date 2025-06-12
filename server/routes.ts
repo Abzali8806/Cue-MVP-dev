@@ -45,7 +45,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   app.get('/auth/google/callback', 
     passport.authenticate('google', { failureRedirect: '/login?error=google_auth_failed' }),
-    (req, res) => {
+    async (req, res) => {
+      // Transfer any session workflows to the authenticated user
+      if (req.isAuthenticated() && req.sessionID) {
+        const userId = (req.user as any)?.id;
+        if (userId) {
+          try {
+            await storage.transferSessionWorkflows(req.sessionID, userId);
+          } catch (error) {
+            console.error('Error transferring session workflows:', error);
+          }
+        }
+      }
       res.redirect('/');
     }
   );
@@ -54,7 +65,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   app.get('/auth/github/callback', 
     passport.authenticate('github', { failureRedirect: '/login?error=github_auth_failed' }),
-    (req, res) => {
+    async (req, res) => {
+      // Transfer any session workflows to the authenticated user
+      if (req.isAuthenticated() && req.sessionID) {
+        const userId = (req.user as any)?.id;
+        if (userId) {
+          try {
+            await storage.transferSessionWorkflows(req.sessionID, userId);
+          } catch (error) {
+            console.error('Error transferring session workflows:', error);
+          }
+        }
+      }
       res.redirect('/');
     }
   );
@@ -99,12 +121,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const workflowData = saveWorkflowSchema.parse(req.body);
       
-      // Get user ID if authenticated, otherwise use null for anonymous workflows
+      // Get user ID if authenticated, otherwise use session ID for anonymous workflows
       const userId = req.isAuthenticated() ? (req.user as any)?.id : null;
+      const sessionId = !userId ? req.sessionID : null;
       
       // Save workflow to storage
       const savedWorkflow = await storage.saveWorkflow({
         userId,
+        sessionId,
         name: workflowData.name,
         description: workflowData.description,
         nodeData: workflowData.nodeData,
@@ -146,7 +170,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // List workflows endpoint
   app.get("/api/workflows", async (req, res) => {
     try {
-      const workflows = await storage.listWorkflows();
+      // Get workflows for authenticated user or current session
+      const userId = req.isAuthenticated() ? (req.user as any)?.id : null;
+      const sessionId = !userId ? req.sessionID : null;
+      
+      const workflows = await storage.listWorkflows(userId, sessionId);
       res.json(workflows);
     } catch (error) {
       console.error("Error listing workflows:", error);

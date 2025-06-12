@@ -27,7 +27,8 @@ export const users = pgTable("users", {
 
 export const workflows = pgTable("workflows", {
   id: serial("id").primaryKey(),
-  userId: varchar("user_id").references(() => users.id),
+  userId: varchar("user_id"),
+  sessionId: varchar("session_id"),
   name: text("name").notNull(),
   description: text("description").notNull(),
   nodeData: json("node_data"),

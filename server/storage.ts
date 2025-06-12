@@ -5,7 +5,8 @@ import { eq } from "drizzle-orm";
 export interface IStorage {
   saveWorkflow(workflow: InsertWorkflow): Promise<Workflow>;
   getWorkflow(id: number): Promise<Workflow | undefined>;
-  listWorkflows(userId?: string): Promise<Workflow[]>;
+  listWorkflows(userId?: string, sessionId?: string): Promise<Workflow[]>;
+  transferSessionWorkflows(sessionId: string, userId: string): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -26,14 +27,31 @@ export class DatabaseStorage implements IStorage {
     return workflow;
   }
 
-  async listWorkflows(userId?: string): Promise<Workflow[]> {
+  async listWorkflows(userId?: string, sessionId?: string): Promise<Workflow[]> {
     if (userId) {
       return await db
         .select()
         .from(workflows)
         .where(eq(workflows.userId, userId));
     }
-    return await db.select().from(workflows);
+    if (sessionId) {
+      return await db
+        .select()
+        .from(workflows)
+        .where(eq(workflows.sessionId, sessionId));
+    }
+    return [];
+  }
+
+  async transferSessionWorkflows(sessionId: string, userId: string): Promise<void> {
+    // Transfer workflows created in this session to the authenticated user
+    await db
+      .update(workflows)
+      .set({ 
+        userId: userId,
+        sessionId: null 
+      })
+      .where(eq(workflows.sessionId, sessionId));
   }
 }
 
