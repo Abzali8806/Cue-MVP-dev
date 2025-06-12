@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 :root {
-  --background: hsl(0, 0%, 100%);
+  --background: hsl(0, 0%, 97%);
   --foreground: hsl(20, 14.3%, 4.1%);
-  --muted: hsl(60, 4.8%, 95.9%);
-  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --muted: hsl(60, 4.8%, 93%);
+  --muted-foreground: hsl(25, 5.3%, 38%);
   --popover: hsl(0, 0%, 100%);
   --popover-foreground: hsl(20, 14.3%, 4.1%);
   --card: hsl(0, 0%, 98%);
@@ -52,6 +52,18 @@
 :root select,
 :root .border-input {
   border: 1px solid hsl(20, 5.9%, 75%);
+}
+
+/* Enhanced placeholder text visibility in light mode */
+:root input::placeholder,
+:root textarea::placeholder {
+  color: hsl(25, 5.3%, 48%) !important;
+  opacity: 1;
+}
+
+:root input:focus::placeholder,
+:root textarea:focus::placeholder {
+  color: hsl(25, 5.3%, 55%) !important;
 }
 
 .dark {
