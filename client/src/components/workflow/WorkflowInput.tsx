@@ -52,10 +52,9 @@ export default function WorkflowInput() {
       {/* Hero Section */}
       <div className="p-4 sm:p-6 lg:p-8 border-b border-border bg-gradient-to-br from-background via-background to-muted/20">
         <div className="max-w-4xl mx-auto text-center space-y-4">
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <Sparkles className="h-6 w-6 sm:h-7 sm:w-7 text-primary animate-pulse" />
+          <div className="flex items-center justify-center mb-3">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-              Cue AI
+              Cue A<span className="text-primary font-extrabold">I</span>
             </h1>
           </div>
           <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold text-foreground">
