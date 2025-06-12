@@ -99,9 +99,9 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
       {/* Sidebar */}
       <aside 
         className={cn(
-          "fixed lg:relative inset-y-0 left-0 z-50 bg-surface transition-all duration-300 ease-in-out",
-          "flex flex-col h-screen lg:h-auto",
-          isOpen ? "w-64 border-r border-border" : "w-0 lg:w-16 lg:border-r lg:border-border",
+          "fixed lg:relative inset-y-0 left-0 z-50 bg-background transition-all duration-300 ease-in-out",
+          "flex flex-col h-screen",
+          isOpen ? "w-80" : "w-0 lg:w-20",
           "lg:block overflow-hidden"
         )}
       >
@@ -121,26 +121,49 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
           </Button>
         </div>
 
-        <div className={cn("p-6 pt-2", !isOpen && "lg:p-3 lg:pt-2")}>
-          <div className="flex items-center mb-4">
-            <Workflow className="h-5 w-5 text-primary" />
-            {isOpen && <h2 className="ml-2 text-lg font-semibold text-foreground">Project</h2>}
+        <div className={cn("p-8 pt-4", !isOpen && "lg:p-4 lg:pt-4")}>
+          <div className="flex items-center mb-6">
+            <div className="flex items-center justify-center w-10 h-10 bg-primary/10 rounded-lg">
+              <Workflow className="h-6 w-6 text-primary" />
+            </div>
+            {isOpen && (
+              <div className="ml-4">
+                <h2 className="text-xl font-bold text-foreground">Cue</h2>
+                <p className="text-sm text-muted-foreground">Workflow Builder</p>
+              </div>
+            )}
           </div>
           
-          <div className="space-y-2">
+          {/* Main Navigation */}
+          <div className="space-y-3">
+            {isOpen && (
+              <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">
+                Navigation
+              </h3>
+            )}
             {sidebarItems.map((item, index) => (
               <Link key={index} href={item.href}>
-                <Button
-                  variant={item.active ? "default" : "ghost"}
+                <div
                   className={cn(
-                    "w-full justify-start",
-                    !isOpen && "lg:w-10 lg:h-10 lg:p-0 lg:justify-center",
-                    item.active && "bg-primary/10 text-primary"
+                    "flex items-center rounded-xl p-4 transition-all duration-200 group cursor-pointer",
+                    !isOpen && "lg:w-12 lg:h-12 lg:p-0 lg:justify-center lg:rounded-lg",
+                    item.active 
+                      ? "bg-primary text-primary-foreground shadow-sm" 
+                      : "hover:bg-muted/70 hover:shadow-sm"
                   )}
                 >
-                  <item.icon className={cn("h-4 w-4", isOpen && "mr-2")} />
-                  {isOpen && <span>{item.label}</span>}
-                </Button>
+                  <div className={cn(
+                    "flex items-center justify-center",
+                    !isOpen && "lg:w-full lg:h-full"
+                  )}>
+                    <item.icon className="h-5 w-5" />
+                  </div>
+                  {isOpen && (
+                    <div className="ml-4 flex-1">
+                      <span className="text-sm font-medium">{item.label}</span>
+                    </div>
+                  )}
+                </div>
               </Link>
             ))}
           </div>
@@ -148,42 +171,47 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
         
         {isOpen && (
           <>
-            <Separator className="mx-4" />
-            
-            <div className="p-6">
-              <h3 className="text-sm font-semibold text-foreground mb-3">Quick Actions</h3>
-              <div className="space-y-2">
-                {quickActions.map((action, index) => (
-                  <Button
-                    key={index}
-                    variant="ghost"
-                    className="w-full justify-start text-muted-foreground hover:text-foreground"
-                    onClick={action.action}
-                  >
-                    <action.icon className="h-4 w-4 mr-2" />
-                    <span>{action.label}</span>
-                  </Button>
-                ))}
-                
-                {/* Dark Mode Toggle */}
-                <div className="flex items-center justify-between py-2 px-3 rounded-md hover:bg-accent transition-colors">
-                  <div className="flex items-center">
-                    {theme === "dark" ? (
-                      <Sun className="h-4 w-4 mr-2 text-foreground" />
-                    ) : (
-                      <Moon className="h-4 w-4 mr-2 text-foreground" />
-                    )}
-                    <Label htmlFor="theme-toggle" className="text-sm text-muted-foreground cursor-pointer">
-                      Dark Mode
-                    </Label>
-                  </div>
-                  <Switch
-                    id="theme-toggle"
-                    checked={theme === "dark"}
-                    onCheckedChange={toggleTheme}
-                    className="data-[state=checked]:bg-primary data-[state=unchecked]:bg-input"
-                  />
+            <div className="px-8 py-6">
+              <div className="space-y-4">
+                <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  Quick Actions
+                </h3>
+                <div className="space-y-2">
+                  {quickActions.map((action, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center p-3 rounded-lg hover:bg-muted/50 transition-all duration-200 cursor-pointer group"
+                      onClick={action.action}
+                    >
+                      <div className="flex items-center justify-center w-8 h-8 bg-muted/50 rounded-lg group-hover:bg-muted transition-colors">
+                        <action.icon className="h-4 w-4 text-muted-foreground" />
+                      </div>
+                      <span className="ml-3 text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+                        {action.label}
+                      </span>
+                    </div>
+                  ))}
                 </div>
+              </div>
+            </div>
+            
+            <div className="px-8 py-4">
+              <div className="flex items-center justify-between p-4 bg-muted/30 rounded-xl">
+                <div className="flex items-center">
+                  <div className="flex items-center justify-center w-8 h-8 bg-background rounded-lg">
+                    {theme === "dark" ? (
+                      <Moon className="h-4 w-4 text-foreground" />
+                    ) : (
+                      <Sun className="h-4 w-4 text-foreground" />
+                    )}
+                  </div>
+                  <span className="ml-3 text-sm font-medium">Dark Mode</span>
+                </div>
+                <Switch
+                  checked={theme === "dark"}
+                  onCheckedChange={toggleTheme}
+                  className="data-[state=checked]:bg-primary"
+                />
               </div>
             </div>
           </>
