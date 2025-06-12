@@ -25,26 +25,9 @@ export function useAuth() {
     queryKey: ["/api/auth/user"],
     retry: false,
     refetchOnWindowFocus: false,
-    refetchOnMount: true,
-    enabled: true,
-    queryFn: async ({ queryKey }) => {
-      try {
-        const url = queryKey[0] as string;
-        const fullUrl = url.startsWith('http') ? url : `http://localhost:8000${url}`;
-        
-        const res = await fetch(fullUrl, {
-          credentials: "include",
-        });
-        
-        if (res.status === 401) return null;
-        if (!res.ok) return null; // Don't throw, just return null
-        return await res.json();
-      } catch (error) {
-        // Always return null for any errors to prevent unhandled rejections
-        console.debug('Auth check failed:', error);
-        return null;
-      }
-    },
+    refetchOnMount: false,
+    enabled: false, // Disable until FastAPI backend is available
+    queryFn: async () => null, // Return null immediately
   });
 
   // Show authentication feedback (only once per session and only if user exists)
