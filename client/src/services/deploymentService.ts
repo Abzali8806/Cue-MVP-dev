@@ -45,14 +45,13 @@ class DeploymentService {
     return response.json();
   }
 
-  async checkAWSCredentials(): Promise<{
-    isConfigured: boolean;
-    region?: string;
-    accountId?: string;
+  async checkDeploymentStatus(): Promise<{
+    isReady: boolean;
+    environment?: string;
     permissions: string[];
     issues: string[];
   }> {
-    const response = await apiRequest("GET", "/api/deployment/aws-status");
+    const response = await apiRequest("GET", "/api/deployment/status");
     return response.json();
   }
 
@@ -68,64 +67,57 @@ class DeploymentService {
         {
           id: "download",
           title: "Download Generated Code",
-          description: "Download the Python Lambda function code from the Generated Code section and save it to your computer.",
+          description: "Download the workflow automation code from the Generated Code section and save it to your computer.",
           isCompleted: false,
           isOptional: false,
         },
         {
-          id: "create-function",
-          title: "Create Lambda Function",
-          description: "Navigate to AWS Lambda Console and create a new function with Python 3.9+ runtime.",
+          id: "setup-environment",
+          title: "Set Up Environment",
+          description: "Prepare your deployment environment with the necessary runtime and dependencies.",
           isCompleted: false,
           isOptional: false,
         },
         {
-          id: "upload-code",
-          title: "Upload Function Code",
-          description: "Copy and paste your downloaded code into the Lambda function editor or upload as a ZIP file.",
+          id: "deploy-code",
+          title: "Deploy Workflow Code",
+          description: "Deploy your workflow automation code to your chosen hosting environment.",
           isCompleted: false,
           isOptional: false,
         },
         {
           id: "configure-environment",
           title: "Set Environment Variables",
-          description: "Add your API keys and configuration variables in the Environment Variables section.",
+          description: "Configure your API keys and service credentials in your deployment environment.",
           isCompleted: false,
           isOptional: false,
         },
         {
-          id: "set-permissions",
-          title: "Configure IAM Permissions",
-          description: "Set up the execution role with necessary permissions for your integrations (S3, DynamoDB, etc.).",
+          id: "test-workflow",
+          title: "Test Your Workflow",
+          description: "Create a test scenario and verify your workflow executes successfully.",
           isCompleted: false,
           isOptional: false,
         },
         {
-          id: "test-function",
-          title: "Test Your Function",
-          description: "Create a test event and verify your Lambda function executes successfully.",
-          isCompleted: false,
-          isOptional: false,
-        },
-        {
-          id: "setup-trigger",
-          title: "Configure Trigger (Optional)",
-          description: "Set up API Gateway, CloudWatch Events, or other triggers based on your workflow needs.",
+          id: "setup-triggers",
+          title: "Configure Triggers (Optional)",
+          description: "Set up webhooks, scheduled events, or other triggers based on your workflow needs.",
           isCompleted: false,
           isOptional: true,
         },
       ],
       prerequisites: [
-        "AWS Account with Lambda access permissions",
-        "Basic familiarity with AWS Console",
+        "Hosting environment with deployment capabilities",
+        "Basic familiarity with your deployment platform",
         "API keys for external services (Stripe, SendGrid, etc.)",
       ],
       commands: [],
       notes: [
         "Store sensitive API keys in Environment Variables, never in code",
         "Test with small data sets first before processing large volumes",
-        "Monitor function execution and set up CloudWatch alarms for errors",
-        "Consider setting appropriate timeout and memory limits for your function",
+        "Monitor workflow execution and set up logging for error tracking",
+        "Consider setting appropriate timeout and resource limits for your workflow",
       ],
     };
   }

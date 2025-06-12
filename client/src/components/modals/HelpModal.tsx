@@ -42,11 +42,11 @@ export default function HelpModal({ isOpen, onClose, title, content }: HelpModal
             Close
           </Button>
           <Button 
-            onClick={() => window.open('https://docs.aws.amazon.com/lambda/', '_blank')}
+            onClick={() => window.open('https://github.com/your-repo/workflow-generator/docs', '_blank')}
             className="bg-primary hover:bg-primary/90"
           >
             <ExternalLink className="h-4 w-4 mr-2" />
-            AWS Lambda Docs
+            Documentation
           </Button>
         </div>
       </DialogContent>
