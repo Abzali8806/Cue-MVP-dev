@@ -67,7 +67,7 @@ export default function WorkflowInput() {
             </span>
             <span className="flex items-center gap-1">
               <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-              Visual workflow builder
+              Visual workflow generator
             </span>
             <span className="flex items-center gap-1">
               <span className="w-2 h-2 bg-purple-500 rounded-full"></span>

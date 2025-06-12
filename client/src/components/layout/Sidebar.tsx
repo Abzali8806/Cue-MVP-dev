@@ -129,7 +129,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
             {isOpen && (
               <div className="ml-4">
                 <h2 className="text-xl font-bold text-foreground">Cue</h2>
-                <p className="text-sm text-muted-foreground">Workflow Builder</p>
+                <p className="text-sm text-muted-foreground">Workflow Generator</p>
               </div>
             )}
           </div>
