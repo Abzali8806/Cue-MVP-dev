@@ -99,27 +99,29 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
       {/* Sidebar */}
       <aside 
         className={cn(
-          "fixed lg:relative inset-y-0 left-0 z-50 bg-surface border-r border-border transition-all duration-300 ease-in-out",
+          "fixed lg:relative inset-y-0 left-0 z-50 bg-surface transition-all duration-300 ease-in-out",
           "flex flex-col h-screen lg:h-auto",
-          isOpen ? "w-64" : "w-0 lg:w-16",
-          "lg:block"
+          isOpen ? "w-64 border-r border-border" : "w-0 lg:w-16 lg:border-r lg:border-border",
+          "lg:block overflow-hidden"
         )}
       >
-        {/* Toggle button - only visible on desktop */}
-        <Button
-          variant="ghost"
-          size="sm"
-          className="hidden lg:flex absolute -right-3 top-6 h-6 w-6 rounded-full border border-border bg-surface hover:bg-muted z-10 items-center justify-center"
-          onClick={onToggle}
-        >
-          {isOpen ? (
-            <ChevronLeft className="h-3 w-3" />
-          ) : (
-            <ChevronRight className="h-3 w-3" />
-          )}
-        </Button>
+        {/* Toggle button - clean integrated design */}
+        <div className="hidden lg:flex justify-end p-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-7 w-7 rounded-md hover:bg-muted/60 transition-colors group"
+            onClick={onToggle}
+          >
+            {isOpen ? (
+              <ChevronLeft className="h-3.5 w-3.5 text-muted-foreground group-hover:text-foreground transition-colors" />
+            ) : (
+              <ChevronRight className="h-3.5 w-3.5 text-muted-foreground group-hover:text-foreground transition-colors" />
+            )}
+          </Button>
+        </div>
 
-        <div className={cn("p-6", !isOpen && "lg:p-3")}>
+        <div className={cn("p-6 pt-2", !isOpen && "lg:p-3 lg:pt-2")}>
           <div className="flex items-center mb-4">
             <Workflow className="h-5 w-5 text-primary" />
             {isOpen && <h2 className="ml-2 text-lg font-semibold text-foreground">Project</h2>}
