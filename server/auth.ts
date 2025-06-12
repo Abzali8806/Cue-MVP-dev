@@ -54,6 +54,8 @@ export function setupPassport() {
       : "http://localhost:5000/auth/google/callback"
   }, async (accessToken: any, refreshToken: any, profile: any, done: any) => {
     try {
+      console.log('Google OAuth Profile:', JSON.stringify(profile, null, 2));
+      
       const userId = `google_${profile.id}`;
       const email = profile.emails?.[0]?.value;
       const firstName = profile.name?.givenName || profile.displayName?.split(' ')[0];
@@ -71,8 +73,10 @@ export function setupPassport() {
         providerId: profile.id,
       };
       
+      console.log('Google Session User:', sessionUser);
       return done(null, sessionUser);
     } catch (error) {
+      console.error('Google OAuth Error:', error);
       return done(error, false);
     }
   }));
@@ -86,6 +90,8 @@ export function setupPassport() {
       : "http://localhost:5000/auth/github/callback"
   }, async (accessToken: any, refreshToken: any, profile: any, done: any) => {
     try {
+      console.log('GitHub OAuth Profile:', JSON.stringify(profile, null, 2));
+      
       const userId = `github_${profile.id}`;
       const email = profile.emails?.[0]?.value;
       const firstName = profile.displayName?.split(' ')[0] || profile.username;
@@ -103,8 +109,10 @@ export function setupPassport() {
         providerId: profile.id,
       };
       
+      console.log('GitHub Session User:', sessionUser);
       return done(null, sessionUser);
     } catch (error) {
+      console.error('GitHub OAuth Error:', error);
       return done(error, false);
     }
   }));

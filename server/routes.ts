@@ -61,7 +61,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   );
 
-  app.get('/auth/github', passport.authenticate('github', { scope: ['user:email'] }));
+  app.get('/auth/github', passport.authenticate('github', { scope: ['user:email', 'read:user'] }));
   
   app.get('/auth/github/callback', 
     passport.authenticate('github', { failureRedirect: '/login?error=github_auth_failed' }),
