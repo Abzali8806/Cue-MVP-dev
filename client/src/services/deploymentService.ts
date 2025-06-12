@@ -144,21 +144,21 @@ class DeploymentService {
           isOptional: false,
         },
         {
-          id: "build-workflow",
-          title: "Build Workflow Package",
-          description: "Package your workflow automation with all dependencies.",
+          id: "build-function",
+          title: "Build Lambda Function",
+          description: "Use SAM CLI to build your Lambda function with dependencies.",
           commands: [
-            "python -m pip install -r requirements.txt",
+            "sam build",
           ],
           isCompleted: false,
           isOptional: false,
         },
         {
-          id: "deploy-workflow",
-          title: "Deploy Workflow",
-          description: "Deploy your workflow automation to your chosen hosting platform.",
+          id: "deploy-function",
+          title: "Deploy to AWS",
+          description: "Deploy your Lambda function using SAM CLI guided deployment.",
           commands: [
-            "# Deploy according to your platform's instructions",
+            "sam deploy --guided",
           ],
           isCompleted: false,
           isOptional: false,
@@ -166,9 +166,10 @@ class DeploymentService {
         {
           id: "test-deployment",
           title: "Test Deployment",
-          description: "Test your deployed workflow to verify it's working correctly.",
+          description: "Invoke your deployed function to verify it's working correctly.",
           commands: [
-            "python workflow_handler.py",
+            "sam local invoke",
+            "aws lambda invoke --function-name YourFunctionName output.json",
           ],
           isCompleted: false,
           isOptional: false,
@@ -176,7 +177,7 @@ class DeploymentService {
         {
           id: "setup-monitoring",
           title: "Set Up Monitoring (Optional)",
-          description: "Configure logging and monitoring for your workflow automation.",
+          description: "Configure CloudWatch logs and alarms for your Lambda function.",
           isCompleted: false,
           isOptional: true,
         },

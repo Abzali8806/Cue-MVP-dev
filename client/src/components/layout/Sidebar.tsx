@@ -81,7 +81,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
       icon: HelpCircle,
       label: "Documentation",
       action: () => {
-        window.open('https://github.com/your-repo/workflow-generator/docs', '_blank');
+        window.open('https://github.com/workflow-generator/docs', '_blank');
       },
     },
   ];
