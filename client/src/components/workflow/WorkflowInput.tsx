@@ -57,7 +57,7 @@ export default function WorkflowInput() {
               Speak It. Build It. Deploy It.
             </h1>
             <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold text-muted-foreground">
-              Effortless workflow automation from prompt to deployment with <span className="font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">Cue</span>
+              Effortless workflow automation from prompt to deployment with <span className="font-bold text-primary">Cue</span>
             </h2>
           </div>
           <div className="flex flex-wrap justify-center gap-4 text-xs sm:text-sm text-muted-foreground pt-2">
