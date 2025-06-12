@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Plus, User, Menu, X, LogIn, Settings } from "lucide-react";
+import { Plus, User, Menu, X, LogIn, LogOut, Settings } from "lucide-react";
 import { useWorkflowGeneration } from "../../hooks/useWorkflowGeneration";
 import { useAuth } from "../../hooks/useAuth";
 import { Link, useLocation } from "wouter";
@@ -123,7 +123,7 @@ export default function AppHeader({ onMenuToggle, isMobileMenuOpen }: AppHeaderP
                   </Link>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleLogout}>
-                    <LogIn className="mr-2 h-4 w-4" />
+                    <LogOut className="mr-2 h-4 w-4" />
                     <span>Sign out</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
