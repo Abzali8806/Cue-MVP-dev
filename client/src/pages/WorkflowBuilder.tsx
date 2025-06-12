@@ -170,7 +170,7 @@ export default function WorkflowBuilder() {
                               <div className="flex items-center">
                                 <Code className="h-5 w-5 mr-3 text-primary" />
                                 <h2 className="text-lg font-semibold">Generated Code</h2>
-                                <span className="ml-3 text-sm text-muted-foreground">Python Lambda function</span>
+                                <span className="ml-3 text-sm text-muted-foreground">Python workflow automation</span>
                               </div>
                             </div>
                             <div className="h-96 overflow-hidden">

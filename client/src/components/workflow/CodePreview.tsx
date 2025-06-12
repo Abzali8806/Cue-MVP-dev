@@ -28,7 +28,7 @@ export default function CodePreview() {
   const [copiedStates, setCopiedStates] = useState<Record<string, boolean>>({});
 
   // Use generated code if available, otherwise use sample
-  const lambdaCode = workflowState.generatedCode || SAMPLE_LAMBDA_CODE;
+  const workflowCode = workflowState.generatedCode || SAMPLE_LAMBDA_CODE;
   const requirementsTxt = SAMPLE_REQUIREMENTS_TXT;
   const samTemplate = SAMPLE_SAM_TEMPLATE;
 
@@ -43,8 +43,8 @@ export default function CodePreview() {
   };
 
   const handleDownloadPython = () => {
-    const formattedCode = formatPythonCode(lambdaCode);
-    downloadPythonFile("lambda_function.py", formattedCode);
+    const formattedCode = formatPythonCode(workflowCode);
+    downloadPythonFile("workflow_handler.py", formattedCode);
   };
 
   const handleDownloadRequirements = () => {
@@ -57,7 +57,7 @@ export default function CodePreview() {
 
   const handleDownloadAll = () => {
     const files = [
-      { filename: "lambda_function.py", content: formatPythonCode(lambdaCode) },
+      { filename: "workflow_handler.py", content: formatPythonCode(workflowCode) },
       { filename: "requirements.txt", content: requirementsTxt },
       { filename: "template.yaml", content: samTemplate },
     ];
@@ -77,9 +77,9 @@ export default function CodePreview() {
 
   const tabs = [
     {
-      value: "lambda",
-      label: "lambda_function.py",
-      content: lambdaCode,
+      value: "workflow",
+      label: "workflow_handler.py",
+      content: workflowCode,
       language: "python",
       onDownload: handleDownloadPython,
     },
@@ -119,7 +119,7 @@ export default function CodePreview() {
       </CardHeader>
       
       <CardContent className="h-[calc(100%-5rem)] p-0">
-        <Tabs defaultValue="lambda" className="h-full flex flex-col">
+        <Tabs defaultValue="workflow" className="h-full flex flex-col">
           <TabsList className="grid w-full grid-cols-3 mx-6 mb-4">
             {tabs.map((tab) => (
               <TabsTrigger key={tab.value} value={tab.value} className="text-sm">
@@ -191,7 +191,7 @@ export default function CodePreview() {
       </CardContent>
       
       {/* Empty State */}
-      {!lambdaCode && (
+      {!workflowCode && (
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center space-y-4 p-8">
             <div className="w-16 h-16 mx-auto bg-muted rounded-full flex items-center justify-center">
