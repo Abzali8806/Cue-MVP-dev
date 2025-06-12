@@ -99,8 +99,8 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
       {/* Sidebar */}
       <aside 
         className={cn(
-          "fixed lg:relative inset-y-0 left-0 z-50 bg-background transition-all duration-300 ease-in-out",
-          "flex flex-col h-screen",
+          "fixed lg:relative left-0 z-50 bg-background transition-all duration-300 ease-in-out border-r border-border",
+          "flex flex-col h-[calc(100vh-3rem)] sm:h-[calc(100vh-3.5rem)] lg:h-[calc(100vh-4rem)]",
           isOpen ? "w-80" : "w-0 lg:w-20",
           "lg:block overflow-hidden"
         )}

@@ -60,7 +60,7 @@ export default function WorkflowBuilder() {
       <div className="flex">
         {/* Sidebar - Always visible on large screens, overlay on smaller screens */}
         {isDesktopLayout ? (
-          <div className={desktopSidebarOpen ? "w-64 flex-shrink-0" : "w-16 flex-shrink-0"}>
+          <div className={desktopSidebarOpen ? "w-80 flex-shrink-0" : "w-20 flex-shrink-0"}>
             <Sidebar isOpen={desktopSidebarOpen} onToggle={() => setDesktopSidebarOpen(!desktopSidebarOpen)} />
           </div>
         ) : (
