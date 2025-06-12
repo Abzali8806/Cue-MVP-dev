@@ -59,11 +59,8 @@ export default function WorkflowInput() {
             </h1>
           </div>
           <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold text-foreground">
-            Speak It. Build It. Deploy It.
+            Effortless workflow automation, from prompt to deployment.
           </h2>
-          <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto">
-            Transform your ideas into working automation without writing a single line of code.
-          </p>
           <div className="flex flex-wrap justify-center gap-4 text-xs sm:text-sm text-muted-foreground pt-2">
             <span className="flex items-center gap-1">
               <span className="w-2 h-2 bg-green-500 rounded-full"></span>
