@@ -51,7 +51,7 @@ export default function CodePreview() {
     downloadTextFile("requirements.txt", requirementsTxt, "text/plain");
   };
 
-  const handleDownloadTemplate = () => {
+  const handleDownloadSAM = () => {
     downloadYAML("template.yaml", samTemplate);
   };
 
@@ -95,7 +95,7 @@ export default function CodePreview() {
       label: "template.yaml",
       content: samTemplate,
       language: "yaml",
-      onDownload: handleDownloadTemplate,
+      onDownload: handleDownloadSAM,
     },
   ];
 
