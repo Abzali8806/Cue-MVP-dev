@@ -69,7 +69,10 @@ export const formatPythonCode = (code: string): string => {
     }
     
     // Decrease indent for certain keywords
-    if (trimmedLine.startsWith(('except', 'elif', 'else', 'finally'))) {
+    if (trimmedLine.startsWith('except') || 
+        trimmedLine.startsWith('elif') || 
+        trimmedLine.startsWith('else') || 
+        trimmedLine.startsWith('finally')) {
       indentLevel = Math.max(0, indentLevel - 1);
     }
     
@@ -107,7 +110,7 @@ Transform: AWS::Serverless-2016-10-31
 Description: >
   ${functionName}
   
-  Generated AWS Lambda function for workflow processing
+  Generated workflow automation for cloud deployment
 
 Globals:
   Function:
@@ -119,7 +122,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./
-      Handler: lambda_function.lambda_handler
+      Handler: workflow_handler.workflow_handler
       Runtime: ${runtime}
       Architectures:
         - x86_64
@@ -142,7 +145,7 @@ Parameters:
 
 Outputs:
   ${functionName}Function:
-    Description: "${functionName} Lambda Function ARN"
+    Description: "${functionName} Workflow Function ARN"
     Value: !GetAtt ${functionName}Function.Arn
   ${functionName}FunctionIamRole:
     Description: "Implicit IAM Role created for ${functionName} function"

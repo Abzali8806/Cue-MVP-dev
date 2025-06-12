@@ -744,12 +744,12 @@ async function generateDeploymentTemplate(workflowId: number) {
   const workflow = await storage.getWorkflow(workflowId);
   
   return {
-    samTemplate: generateSAMTemplate(workflow?.nodeData?.nodes || []),
+    samTemplate: generateSAMTemplate((workflow?.nodeData as any)?.nodes || []),
     requirementsTxt: "boto3==1.34.0\nstripe==5.4.0\nsendgrid==6.10.0\nrequests==2.31.0",
     envVariables: {
       STRIPE_SECRET_KEY: "${STRIPE_SECRET_KEY}",
       SENDGRID_API_KEY: "${SENDGRID_API_KEY}",
     },
-    awsPermissions: ["lambda:InvokeFunction", "dynamodb:PutItem", "dynamodb:GetItem"],
+    awsPermissions: ["execute-api:Invoke", "dynamodb:PutItem", "dynamodb:GetItem"],
   };
 }

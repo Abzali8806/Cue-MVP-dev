@@ -195,7 +195,7 @@ Transform: AWS::Serverless-2016-10-31
 Description: >
   stripe-webhook-processor
   
-  Generated AWS Lambda function for Stripe webhook processing
+  Generated workflow automation for Stripe webhook processing
 
 Globals:
   Function:
