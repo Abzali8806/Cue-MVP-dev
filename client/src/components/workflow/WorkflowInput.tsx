@@ -52,9 +52,14 @@ export default function WorkflowInput() {
       {/* Hero Section */}
       <div className="p-4 sm:p-6 lg:p-8 border-b border-border bg-gradient-to-br from-background via-background to-muted/20">
         <div className="max-w-4xl mx-auto text-center space-y-4">
-          <h1 className="text-lg sm:text-xl lg:text-2xl font-semibold text-foreground">
-            <span className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">Cue</span> - Effortless workflow automation from prompt to deployment
-          </h1>
+          <div className="space-y-2">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+              Cue
+            </h1>
+            <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold text-foreground">
+              Effortless workflow automation from prompt to deployment
+            </h2>
+          </div>
           <div className="flex flex-wrap justify-center gap-4 text-xs sm:text-sm text-muted-foreground pt-2">
             <span className="flex items-center gap-1">
               <span className="w-2 h-2 bg-green-500 rounded-full"></span>
