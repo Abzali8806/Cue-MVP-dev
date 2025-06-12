@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { Plus, User, Menu, X } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Plus, User, Menu, X, LogIn, Settings } from "lucide-react";
 import { useWorkflowGeneration } from "../../hooks/useWorkflowGeneration";
+import { useAuth } from "../../hooks/useAuth";
 import { Link, useLocation } from "wouter";
 
 interface AppHeaderProps {
@@ -13,10 +15,15 @@ interface AppHeaderProps {
 
 export default function AppHeader({ onMenuToggle, isMobileMenuOpen }: AppHeaderProps) {
   const { createSampleWorkflow } = useWorkflowGeneration();
+  const { user, logout, isAuthenticated } = useAuth();
   const [location] = useLocation();
 
   const handleNewWorkflow = () => {
     createSampleWorkflow();
+  };
+
+  const handleLogout = () => {
+    logout();
   };
 
   return (
@@ -83,13 +90,53 @@ export default function AppHeader({ onMenuToggle, isMobileMenuOpen }: AppHeaderP
               </Button>
             </Link>
             
-            <Link href="/login">
-              <Avatar className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 cursor-pointer hover:opacity-80 transition-opacity">
-                <AvatarFallback className="bg-muted">
-                  <User className="h-3 w-3 sm:h-4 sm:w-4" />
-                </AvatarFallback>
-              </Avatar>
-            </Link>
+            {isAuthenticated ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Avatar className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 cursor-pointer hover:opacity-80 transition-opacity">
+                    <AvatarImage src={user?.profileImageUrl} alt={user?.firstName || 'User'} />
+                    <AvatarFallback className="bg-primary text-primary-foreground">
+                      {user?.firstName?.[0] || user?.email?.[0]?.toUpperCase() || 'U'}
+                    </AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <div className="flex items-center justify-start gap-2 p-2">
+                    <div className="flex flex-col space-y-1 leading-none">
+                      <p className="font-medium text-sm">
+                        {user?.firstName && user?.lastName 
+                          ? `${user.firstName} ${user.lastName}`
+                          : user?.firstName || 'User'
+                        }
+                      </p>
+                      <p className="w-[200px] truncate text-xs text-muted-foreground">
+                        {user?.email}
+                      </p>
+                    </div>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <Link href="/settings">
+                    <DropdownMenuItem>
+                      <Settings className="mr-2 h-4 w-4" />
+                      <span>Settings</span>
+                    </DropdownMenuItem>
+                  </Link>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout}>
+                    <LogIn className="mr-2 h-4 w-4" />
+                    <span>Sign out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link href="/login">
+                <Button variant="outline" size="sm" className="h-8 sm:h-9 lg:h-10">
+                  <LogIn className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                  <span className="hidden sm:inline">Sign in</span>
+                  <span className="sm:hidden">Sign in</span>
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
       </div>

@@ -99,9 +99,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const workflowData = saveWorkflowSchema.parse(req.body);
       
+      // Get user ID if authenticated, otherwise use null for anonymous workflows
+      const userId = req.isAuthenticated() ? (req.user as any)?.id : null;
+      
       // Save workflow to storage
       const savedWorkflow = await storage.saveWorkflow({
-        userId: 1, // Default user for MVP
+        userId,
         name: workflowData.name,
         description: workflowData.description,
         nodeData: workflowData.nodeData,
