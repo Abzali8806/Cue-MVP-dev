@@ -75,7 +75,7 @@
   --popover-foreground: hsl(0, 0%, 98%);
   --card: hsl(240, 10%, 6%);
   --card-foreground: hsl(0, 0%, 98%);
-  --border: hsl(240, 3.7%, 5%);
+  --border: hsl(0, 0%, 25%);
   --input: hsl(240, 6%, 10%);
   --primary: hsl(231, 48%, 58%);
   --primary-foreground: hsl(0, 0%, 98%);
@@ -272,7 +272,7 @@
 
 /* Navigation border consistency */
 .dark [role="tablist"] {
-  border-color: hsl(240, 3.7%, 5%) !important;
+  border-color: hsl(0, 0%, 25%) !important;
   border-width: 1px !important;
 }
 
@@ -284,7 +284,7 @@
 .dark .border,
 .dark .border-border,
 .dark .border-b {
-  border-color: hsl(240, 3.7%, 5%) !important;
+  border-color: hsl(0, 0%, 25%) !important;
   border-width: 1px !important;
 }
 
