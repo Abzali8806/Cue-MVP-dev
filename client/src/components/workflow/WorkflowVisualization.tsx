@@ -81,7 +81,7 @@ export default function WorkflowVisualization() {
   return (
     <div className="relative w-full h-full bg-workflow-background" style={{ minHeight: '400px' }}>
       {/* Desktop Header Controls */}
-      <div className="absolute top-4 left-4 z-10 bg-surface/95 backdrop-blur-sm rounded-lg p-3 border border-border shadow-lg hidden sm:block">
+      <div className="absolute top-4 left-4 z-10 bg-surface/95 backdrop-blur-sm rounded-lg p-3 border border-border shadow-lg hidden sm:block opacity-10 hover:opacity-100 transition-opacity duration-300">
         <h3 className="text-base lg:text-lg font-semibold mb-3 text-foreground">Workflow Visualization</h3>
         <div className="flex space-x-2">
           <Button
