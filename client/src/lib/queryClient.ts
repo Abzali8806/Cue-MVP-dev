@@ -8,21 +8,12 @@ async function throwIfResNotOk(res: Response) {
 }
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
-const IS_DEV_MODE = import.meta.env.VITE_DEVELOPMENT_MODE === 'true';
 
 export async function apiRequest(
   method: string,
   url: string,
   data?: unknown | undefined,
 ): Promise<Response> {
-  if (IS_DEV_MODE) {
-    // Return mock response for development mode
-    return new Response(JSON.stringify({ message: "Development mode - no backend required" }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    });
-  }
-
   const fullUrl = url.startsWith('http') ? url : `${API_BASE_URL}${url}`;
   
   const res = await fetch(fullUrl, {
