@@ -16,9 +16,11 @@ export interface User {
 export function useAuth() {
   const queryClient = useQueryClient();
 
+  // Disable API calls until FastAPI backend is ready
   const { data: user, isLoading, error } = useQuery({
     queryKey: ["/api/user"],
     retry: false,
+    enabled: false, // Disable until backend is available
   });
 
   const logoutMutation = useMutation({
