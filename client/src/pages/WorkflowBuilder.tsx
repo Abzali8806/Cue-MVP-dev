@@ -34,7 +34,7 @@ export default function WorkflowGenerator() {
   }, []);
   
   const workflowState = useSelector((state: RootState) => state.workflow);
-  const { createSampleWorkflow } = useWorkflowGeneration();
+  const workflowGeneration = useWorkflowGeneration();
 
   // Initialize with sample workflow for demonstration
   // Removed auto-population of sample workflow to keep input empty initially
