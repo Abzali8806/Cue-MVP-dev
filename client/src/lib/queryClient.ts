@@ -16,15 +16,23 @@ export async function apiRequest(
 ): Promise<Response> {
   const fullUrl = url.startsWith('http') ? url : `${API_BASE_URL}${url}`;
   
-  const res = await fetch(fullUrl, {
-    method,
-    headers: data ? { "Content-Type": "application/json" } : {},
-    body: data ? JSON.stringify(data) : undefined,
-    credentials: "include",
-  });
+  try {
+    const res = await fetch(fullUrl, {
+      method,
+      headers: data ? { "Content-Type": "application/json" } : {},
+      body: data ? JSON.stringify(data) : undefined,
+      credentials: "include",
+    });
 
-  await throwIfResNotOk(res);
-  return res;
+    await throwIfResNotOk(res);
+    return res;
+  } catch (error) {
+    // Handle network errors when backend is not available
+    if (error instanceof TypeError && error.message.includes('fetch')) {
+      throw new Error('Backend service unavailable. Please ensure your FastAPI backend is running.');
+    }
+    throw error;
+  }
 }
 
 type UnauthorizedBehavior = "returnNull" | "throw";
@@ -36,16 +44,27 @@ export const getQueryFn: <T>(options: {
     const url = queryKey[0] as string;
     const fullUrl = url.startsWith('http') ? url : `${API_BASE_URL}${url}`;
     
-    const res = await fetch(fullUrl, {
-      credentials: "include",
-    });
+    try {
+      const res = await fetch(fullUrl, {
+        credentials: "include",
+      });
 
-    if (unauthorizedBehavior === "returnNull" && res.status === 401) {
-      return null;
+      if (unauthorizedBehavior === "returnNull" && res.status === 401) {
+        return null;
+      }
+
+      await throwIfResNotOk(res);
+      return await res.json();
+    } catch (error) {
+      // Handle network errors when backend is not available
+      if (error instanceof TypeError && error.message.includes('fetch')) {
+        if (unauthorizedBehavior === "returnNull") {
+          return null;
+        }
+        throw new Error('Backend service unavailable. Please ensure your FastAPI backend is running.');
+      }
+      throw error;
     }
-
-    await throwIfResNotOk(res);
-    return await res.json();
   };
 
 export const queryClient = new QueryClient({

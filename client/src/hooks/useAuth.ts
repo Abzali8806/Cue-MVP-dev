@@ -24,14 +24,35 @@ export function useAuth() {
   const { data: user, isLoading, error, isSuccess } = useQuery({
     queryKey: ["/api/auth/user"],
     retry: false,
-    refetchOnWindowFocus: true,
+    refetchOnWindowFocus: false,
     refetchOnMount: true,
+    enabled: true,
+    queryFn: ({ queryKey }) => {
+      const url = queryKey[0] as string;
+      const fullUrl = url.startsWith('http') ? url : `http://localhost:8000${url}`;
+      
+      return fetch(fullUrl, {
+        credentials: "include",
+      })
+      .then(res => {
+        if (res.status === 401) return null;
+        if (!res.ok) throw new Error(`${res.status}: ${res.statusText}`);
+        return res.json();
+      })
+      .catch(error => {
+        // Return null for network errors instead of throwing
+        if (error instanceof TypeError && error.message.includes('fetch')) {
+          return null;
+        }
+        throw error;
+      });
+    },
   });
 
-  // Show authentication feedback (only once per session)
+  // Show authentication feedback (only once per session and only if user exists)
   useEffect(() => {
     const hasShownWelcome = sessionStorage.getItem('welcomeShown');
-    if (isSuccess && user && !isLoading && !hasShownWelcome) {
+    if (isSuccess && user && !isLoading && !hasShownWelcome && !error) {
       const typedUser = user as User;
       const name = typedUser.firstName || typedUser.email?.split('@')[0] || 'there';
       toast({
@@ -41,7 +62,7 @@ export function useAuth() {
       });
       sessionStorage.setItem('welcomeShown', 'true');
     }
-  }, [isSuccess, user, isLoading, toast]);
+  }, [isSuccess, user, isLoading, toast, error]);
 
   // Handle OAuth callback success
   useEffect(() => {
