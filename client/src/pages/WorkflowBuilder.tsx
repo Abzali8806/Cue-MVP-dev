@@ -201,7 +201,7 @@ export default function WorkflowBuilder() {
               <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full flex flex-col">
                 <div className="border-b border-border bg-surface">
                   <div className="overflow-x-auto">
-                    <TabsList className="h-12 w-full min-w-max justify-start rounded-none bg-transparent p-0">
+                    <TabsList className="h-12 w-full min-w-max justify-start rounded-none bg-transparent p-0 border-0">
                       <TabsTrigger 
                         value="input" 
                         className="flex items-center gap-1.5 h-12 px-3 sm:px-4 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent whitespace-nowrap"

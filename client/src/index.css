@@ -75,7 +75,7 @@
   --popover-foreground: hsl(0, 0%, 98%);
   --card: hsl(240, 10%, 6%);
   --card-foreground: hsl(0, 0%, 98%);
-  --border: hsl(240, 3.7%, 8%);
+  --border: hsl(240, 3.7%, 5%);
   --input: hsl(240, 6%, 10%);
   --primary: hsl(231, 48%, 58%);
   --primary-foreground: hsl(0, 0%, 98%);
@@ -268,6 +268,24 @@
   top: 50%;
   transform: translateY(-50%);
   border: 2px solid var(--surface);
+}
+
+/* Navigation border consistency */
+.dark [role="tablist"] {
+  border-color: hsl(240, 3.7%, 5%) !important;
+  border-width: 1px !important;
+}
+
+.dark [role="tab"] {
+  border-width: 1px !important;
+}
+
+/* Ensure all navigation borders are consistent */
+.dark .border,
+.dark .border-border,
+.dark .border-b {
+  border-color: hsl(240, 3.7%, 5%) !important;
+  border-width: 1px !important;
 }
 
 /* Responsive adjustments */
