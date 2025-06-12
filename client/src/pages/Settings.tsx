@@ -179,31 +179,6 @@ export default function Settings() {
             </CardContent>
           </Card>
 
-          {/* API Keys */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Shield className="h-5 w-5 mr-2" />
-                API Configuration
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="awsRegion">AWS Default Region</Label>
-                <Input id="awsRegion" placeholder="us-east-1" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="timeout">Workflow Timeout (seconds)</Label>
-                <Input id="timeout" type="number" placeholder="300" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="memory">Workflow Memory (MB)</Label>
-                <Input id="memory" type="number" placeholder="512" />
-              </div>
-              <Button size="sm">Save Configuration</Button>
-            </CardContent>
-          </Card>
-
           {/* Data Management */}
           <Card>
             <CardHeader>
