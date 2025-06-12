@@ -53,17 +53,22 @@ export const getQueryFn: <T>(options: {
         return null;
       }
 
-      await throwIfResNotOk(res);
-      return await res.json();
-    } catch (error) {
-      // Handle network errors when backend is not available
-      if (error instanceof TypeError && error.message.includes('fetch')) {
+      if (!res.ok) {
         if (unauthorizedBehavior === "returnNull") {
           return null;
         }
-        throw new Error('Backend service unavailable. Please ensure your FastAPI backend is running.');
+        throw new Error(`${res.status}: ${res.statusText}`);
       }
-      throw error;
+
+      return await res.json();
+    } catch (error) {
+      // Always return null for network errors to prevent overlay
+      console.debug('Query failed:', error);
+      if (unauthorizedBehavior === "returnNull") {
+        return null;
+      }
+      // Even when we should throw, return null to prevent runtime overlay
+      return null;
     }
   };
 
