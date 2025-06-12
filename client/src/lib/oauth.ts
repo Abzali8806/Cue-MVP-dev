@@ -1,10 +1,12 @@
-// OAuth configuration for production deployment
+// OAuth configuration - connects to FastAPI backend
 export const getGoogleOAuthUrl = () => {
-  // For production: Connect to your FastAPI backend OAuth endpoint
-  return 'https://accounts.google.com/o/oauth2/v2/auth?client_id=YOUR_GOOGLE_CLIENT_ID&redirect_uri=YOUR_CALLBACK_URL&response_type=code&scope=openid%20email%20profile';
+  // In production, this will redirect to your FastAPI backend OAuth endpoint
+  // which handles the actual Google OAuth flow with real credentials
+  return '/auth/google'; // FastAPI backend endpoint
 };
 
 export const getGitHubOAuthUrl = () => {
-  // For production: Connect to your FastAPI backend OAuth endpoint  
-  return 'https://github.com/login/oauth/authorize?client_id=YOUR_GITHUB_CLIENT_ID&redirect_uri=YOUR_CALLBACK_URL&scope=user:email';
+  // In production, this will redirect to your FastAPI backend OAuth endpoint  
+  // which handles the actual GitHub OAuth flow with real credentials
+  return '/auth/github'; // FastAPI backend endpoint
 };

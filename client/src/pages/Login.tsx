@@ -53,6 +53,11 @@ export default function Login() {
             <CardDescription className="text-center">
               Choose your preferred sign-in method
             </CardDescription>
+            <Alert>
+              <AlertDescription className="text-sm">
+                OAuth requires FastAPI backend connection. These buttons will work once your backend is configured with valid OAuth credentials.
+              </AlertDescription>
+            </Alert>
           </CardHeader>
 
           <CardContent className="space-y-4">
