@@ -84,11 +84,14 @@ export default function WorkflowVisualization() {
       >
         <Controls 
           position="bottom-right"
-          className="bg-surface border-border"
+          className="bg-surface/80 backdrop-blur-sm border-border shadow-sm"
+          showZoom={true}
+          showFitView={true}
+          showInteractive={false}
         />
         <MiniMap 
           position="top-right"
-          className="bg-surface border border-border"
+          className="bg-surface/80 backdrop-blur-sm border border-border shadow-sm"
           nodeColor={(node: Node) => {
             switch (node.data?.validationStatus) {
               case 'valid': return 'hsl(122, 39%, 49%)';
@@ -97,6 +100,8 @@ export default function WorkflowVisualization() {
               default: return 'hsl(231, 48%, 48%)';
             }
           }}
+          nodeStrokeWidth={2}
+          maskColor="rgba(0, 0, 0, 0.1)"
         />
         <Background color="var(--border)" gap={16} />
       </ReactFlow>

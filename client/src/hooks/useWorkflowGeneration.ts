@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
 import { generateWorkflow, saveWorkflow } from "../store/slices/workflowSlice";
+import { setDescription } from "../store/slices/workflowSlice";
 import { setNodes, setEdges, clearNodes } from "../store/slices/nodesSlice";
 import { initializeCredentials } from "../store/slices/credentialsSlice";
 import { clearAllValidations } from "../store/slices/validationSlice";
@@ -19,7 +20,7 @@ export const useWorkflowGeneration = () => {
       dispatch(clearAllValidations());
 
       // Generate workflow
-      const result = await dispatch(generateWorkflow(description)).unwrap();
+      const result = await dispatch(generateWorkflow(description) as any).unwrap();
 
       // Parse and set nodes
       if (result.nodes && result.edges) {
@@ -77,7 +78,7 @@ export const useWorkflowGeneration = () => {
         generatedCode: workflowState.generatedCode,
       };
 
-      const result = await dispatch(saveWorkflow(workflowData)).unwrap();
+      const result = await dispatch(saveWorkflow(workflowData) as any).unwrap();
       return result;
     } catch (error) {
       throw error;
@@ -85,7 +86,10 @@ export const useWorkflowGeneration = () => {
   }, [dispatch, workflowState, nodesState]);
 
   const createSampleWorkflow = useCallback(() => {
-    // Create a sample workflow for demonstration
+    // Set sample description
+    dispatch(setDescription("Create an e-commerce order processing workflow that receives Stripe payment webhooks, validates transactions, sends confirmation emails through SendGrid, updates inventory in a database, and triggers fulfillment notifications."));
+    
+    // Create a comprehensive sample workflow
     const sampleNodes = [
       {
         id: 'webhook-1',
@@ -93,19 +97,19 @@ export const useWorkflowGeneration = () => {
         position: { x: 50, y: 100 },
         data: {
           id: 'webhook-1',
-          name: 'Webhook Receiver',
-          description: 'Receives and validates Stripe webhook payload',
-          serviceType: 'webhook',
+          name: 'Payment Webhook',
+          description: 'Receives Stripe payment confirmation webhooks',
+          serviceType: 'stripe',
           icon: 'webhook',
           requiredCredentials: [
             {
               id: 'stripe_webhook_secret',
               type: 'password',
-              name: 'Webhook Secret',
-              description: 'Stripe webhook endpoint secret',
+              name: 'Webhook Endpoint Secret',
+              description: 'Secret key for validating Stripe webhook signatures',
               required: true,
-              placeholder: 'whsec_...',
-              helpUrl: '/help/stripe-webhooks',
+              placeholder: 'whsec_1a2b3c4d...',
+              helpUrl: 'https://stripe.com/docs/webhooks/signatures',
             },
           ],
           validationStatus: 'pending' as const,
