@@ -129,13 +129,15 @@ export default function AppHeader({ onMenuToggle, isMobileMenuOpen }: AppHeaderP
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Link href="/login">
-                <Button variant="outline" size="sm" className="h-8 sm:h-9 lg:h-10">
-                  <LogIn className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-                  <span className="hidden sm:inline">Sign in</span>
-                  <span className="sm:hidden">Sign in</span>
-                </Button>
-              </Link>
+              import.meta.env.VITE_GOOGLE_CLIENT_ID || import.meta.env.VITE_GITHUB_CLIENT_ID ? (
+                <Link href="/login">
+                  <Button variant="outline" size="sm" className="h-8 sm:h-9 lg:h-10">
+                    <LogIn className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                    <span className="hidden sm:inline">Sign in</span>
+                    <span className="sm:hidden">Sign in</span>
+                  </Button>
+                </Link>
+              ) : null
             )}
           </div>
         </div>
