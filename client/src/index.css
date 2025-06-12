@@ -185,12 +185,12 @@
 .react-flow__controls {
   background-color: var(--surface);
   border: 1px solid var(--border);
-  opacity: 0.1;
+  opacity: 0.1 !important;
   transition: opacity 0.3s ease;
 }
 
 .react-flow__controls:hover {
-  opacity: 1;
+  opacity: 1 !important;
 }
 
 .react-flow__controls button {
