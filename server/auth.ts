@@ -60,44 +60,18 @@ export function setupPassport() {
       const lastName = profile.name?.familyName || profile.displayName?.split(' ').slice(1).join(' ');
       const profileImageUrl = profile.photos?.[0]?.value;
 
-      // Check if user exists
-      const [existingUser] = await db
-        .select()
-        .from(users)
-        .where(eq(users.id, userId));
-
-      if (existingUser) {
-        // Update existing user
-        const [updatedUser] = await db
-          .update(users)
-          .set({
-            email,
-            firstName,
-            lastName,
-            profileImageUrl,
-            updatedAt: new Date(),
-          })
-          .where(eq(users.id, userId))
-          .returning();
-        
-        return done(null, updatedUser);
-      } else {
-        // Create new user
-        const [newUser] = await db
-          .insert(users)
-          .values({
-            id: userId,
-            email,
-            firstName,
-            lastName,
-            profileImageUrl,
-            provider: 'google',
-            providerId: profile.id,
-          })
-          .returning();
-        
-        return done(null, newUser);
-      }
+      // Create session user object without storing in database
+      const sessionUser = {
+        id: userId,
+        email,
+        firstName,
+        lastName,
+        profileImageUrl,
+        provider: 'google',
+        providerId: profile.id,
+      };
+      
+      return done(null, sessionUser);
     } catch (error) {
       return done(error, false);
     }
@@ -118,44 +92,18 @@ export function setupPassport() {
       const lastName = profile.displayName?.split(' ').slice(1).join(' ') || '';
       const profileImageUrl = profile.photos?.[0]?.value;
 
-      // Check if user exists
-      const [existingUser] = await db
-        .select()
-        .from(users)
-        .where(eq(users.id, userId));
-
-      if (existingUser) {
-        // Update existing user
-        const [updatedUser] = await db
-          .update(users)
-          .set({
-            email,
-            firstName,
-            lastName,
-            profileImageUrl,
-            updatedAt: new Date(),
-          })
-          .where(eq(users.id, userId))
-          .returning();
-        
-        return done(null, updatedUser);
-      } else {
-        // Create new user
-        const [newUser] = await db
-          .insert(users)
-          .values({
-            id: userId,
-            email,
-            firstName,
-            lastName,
-            profileImageUrl,
-            provider: 'github',
-            providerId: profile.id,
-          })
-          .returning();
-        
-        return done(null, newUser);
-      }
+      // Create session user object without storing in database
+      const sessionUser = {
+        id: userId,
+        email,
+        firstName,
+        lastName,
+        profileImageUrl,
+        provider: 'github',
+        providerId: profile.id,
+      };
+      
+      return done(null, sessionUser);
     } catch (error) {
       return done(error, false);
     }

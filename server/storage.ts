@@ -3,39 +3,12 @@ import { db } from "./db";
 import { eq } from "drizzle-orm";
 
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
-  getUserByEmail(email: string): Promise<User | undefined>;
-  upsertUser(user: Partial<InsertUser> & { id: string }): Promise<User>;
   saveWorkflow(workflow: InsertWorkflow): Promise<Workflow>;
   getWorkflow(id: number): Promise<Workflow | undefined>;
   listWorkflows(userId?: string): Promise<Workflow[]>;
 }
 
 export class DatabaseStorage implements IStorage {
-  async getUser(id: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.id, id));
-    return user;
-  }
-
-  async getUserByEmail(email: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.email, email));
-    return user;
-  }
-
-  async upsertUser(userData: Partial<InsertUser> & { id: string }): Promise<User> {
-    const [user] = await db
-      .insert(users)
-      .values(userData as any)
-      .onConflictDoUpdate({
-        target: users.id,
-        set: {
-          ...userData,
-          updatedAt: new Date(),
-        },
-      })
-      .returning();
-    return user;
-  }
 
   async saveWorkflow(insertWorkflow: InsertWorkflow): Promise<Workflow> {
     const [workflow] = await db
