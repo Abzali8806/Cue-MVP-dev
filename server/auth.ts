@@ -49,7 +49,9 @@ export function setupPassport() {
   passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID!,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    callbackURL: "/auth/google/callback"
+    callbackURL: process.env.NODE_ENV === 'production' 
+      ? `https://${process.env.REPLIT_DOMAINS}/auth/google/callback`
+      : "http://localhost:5000/auth/google/callback"
   }, async (accessToken: any, refreshToken: any, profile: any, done: any) => {
     try {
       const userId = `google_${profile.id}`;
@@ -105,7 +107,9 @@ export function setupPassport() {
   passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID!,
     clientSecret: process.env.GITHUB_CLIENT_SECRET!,
-    callbackURL: "/auth/github/callback"
+    callbackURL: process.env.NODE_ENV === 'production' 
+      ? `https://${process.env.REPLIT_DOMAINS}/auth/github/callback`
+      : "http://localhost:5000/auth/github/callback"
   }, async (accessToken: any, refreshToken: any, profile: any, done: any) => {
     try {
       const userId = `github_${profile.id}`;
