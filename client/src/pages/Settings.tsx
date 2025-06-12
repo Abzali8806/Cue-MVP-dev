@@ -4,12 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { 
-  User, 
   Bell, 
   Shield, 
   LogOut,
@@ -21,16 +18,26 @@ import {
 import { Link } from "wouter";
 import { useTheme } from "../lib/theme";
 import { useAuth } from "@/hooks/useAuth";
+import { useWorkspacePersistence } from "@/hooks/useWorkspacePersistence";
+import ProfileManagement from "@/components/auth/ProfileManagement";
 
 export default function Settings() {
   const { theme, toggleTheme } = useTheme();
   const { user, logout, isLoggingOut } = useAuth();
+  const { clearWorkspace } = useWorkspacePersistence();
   const [notifications, setNotifications] = useState(true);
   const [autoSave, setAutoSave] = useState(true);
 
   const handleLogout = async () => {
     if (confirm("Are you sure you want to sign out?")) {
       logout();
+    }
+  };
+
+  const handleClearData = async () => {
+    if (confirm("Are you sure you want to clear all workspace data? This action cannot be undone.")) {
+      clearWorkspace();
+      alert("All workspace data has been cleared.");
     }
   };
 
@@ -63,45 +70,22 @@ export default function Settings() {
         </div>
 
         <div className="space-y-6">
-          {/* Profile Information */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <User className="h-5 w-5 mr-2" />
-                Profile
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {user ? (
-                <>
-                  <div className="flex items-center space-x-4">
-                    <Avatar className="h-16 w-16">
-                      <AvatarImage src={user.profileImageUrl} alt={user.firstName || 'User'} />
-                      <AvatarFallback className="text-lg">
-                        {user.firstName?.[0] || user.email?.[0]?.toUpperCase() || 'U'}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="space-y-1">
-                      <h3 className="text-lg font-semibold">
-                        {user.firstName && user.lastName 
-                          ? `${user.firstName} ${user.lastName}`
-                          : user.firstName || 'User'
-                        }
-                      </h3>
-                      <p className="text-sm text-muted-foreground">{user.email}</p>
-                      <Badge className={getProviderBadgeColor(user.provider)}>
-                        Signed in with {user.provider === 'google' ? 'Google' : 'GitHub'}
-                      </Badge>
-                    </div>
-                  </div>
-                  
-                  <Separator />
-                  
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-1">
-                      <h4 className="font-medium">Account Actions</h4>
+          {/* Profile Management */}
+          {user ? (
+            <div className="space-y-6">
+              <ProfileManagement />
+              
+              {/* Account Actions */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Account Actions</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center justify-between p-4 border rounded-lg">
+                    <div>
+                      <h4 className="font-medium">Sign Out</h4>
                       <p className="text-sm text-muted-foreground">
-                        Manage your account settings
+                        Sign out of your account
                       </p>
                     </div>
                     <Button 
@@ -114,16 +98,16 @@ export default function Settings() {
                       <span>{isLoggingOut ? 'Signing out...' : 'Sign out'}</span>
                     </Button>
                   </div>
-                </>
-              ) : (
-                <Alert>
-                  <AlertDescription>
-                    Unable to load profile information. Please try refreshing the page.
-                  </AlertDescription>
-                </Alert>
-              )}
-            </CardContent>
-          </Card>
+                </CardContent>
+              </Card>
+            </div>
+          ) : (
+            <Alert>
+              <AlertDescription>
+                Unable to load profile information. Please try refreshing the page.
+              </AlertDescription>
+            </Alert>
+          )}
 
           {/* Preferences */}
           <Card>
@@ -203,12 +187,12 @@ export default function Settings() {
               
               <div className="flex items-center justify-between p-4 border rounded-lg border-destructive/20">
                 <div>
-                  <h4 className="font-medium text-destructive">Clear All Data</h4>
+                  <h4 className="font-medium text-destructive">Clear Workspace Data</h4>
                   <p className="text-sm text-muted-foreground">
-                    Permanently delete all workflows and settings
+                    Permanently delete all saved workflows and workspace data
                   </p>
                 </div>
-                <Button variant="destructive" size="sm">
+                <Button variant="destructive" size="sm" onClick={handleClearData}>
                   <Trash2 className="h-4 w-4 mr-2" />
                   Clear
                 </Button>
