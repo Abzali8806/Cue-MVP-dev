@@ -15,6 +15,7 @@ import { FileText, Workflow, Code, Settings, Rocket } from "lucide-react";
 
 export default function WorkflowBuilder() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [desktopSidebarOpen, setDesktopSidebarOpen] = useState(true);
   const [helpModalOpen, setHelpModalOpen] = useState(false);
   const [helpContent, setHelpContent] = useState<{ title: string; content: string } | null>(null);
   const [activeTab, setActiveTab] = useState("input");
@@ -59,8 +60,8 @@ export default function WorkflowBuilder() {
       <div className="flex">
         {/* Sidebar - Always visible on large screens, overlay on smaller screens */}
         {isDesktopLayout ? (
-          <div className="w-64 flex-shrink-0">
-            <Sidebar isOpen={true} onToggle={() => {}} />
+          <div className={desktopSidebarOpen ? "w-64 flex-shrink-0" : "w-16 flex-shrink-0"}>
+            <Sidebar isOpen={desktopSidebarOpen} onToggle={() => setDesktopSidebarOpen(!desktopSidebarOpen)} />
           </div>
         ) : (
           <>

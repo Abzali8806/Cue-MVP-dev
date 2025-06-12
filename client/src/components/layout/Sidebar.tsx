@@ -109,7 +109,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
         <Button
           variant="ghost"
           size="sm"
-          className="hidden lg:flex absolute -right-3 top-6 h-6 w-6 rounded-full border border-border bg-surface hover:bg-muted z-10"
+          className="hidden lg:flex absolute -right-3 top-6 h-6 w-6 rounded-full border border-border bg-surface hover:bg-muted z-10 items-center justify-center"
           onClick={onToggle}
         >
           {isOpen ? (
