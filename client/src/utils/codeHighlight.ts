@@ -99,7 +99,7 @@ export const unescapeHTML = (html: string): string => {
 };
 
 // Sample Python code for demonstration
-export const SAMPLE_LAMBDA_CODE = `# AWS Lambda function for Stripe webhook processing
+export const SAMPLE_LAMBDA_CODE = `# Workflow automation handler for Stripe webhook processing
 import json
 import os
 import boto3
@@ -107,7 +107,7 @@ import stripe
 import sendgrid
 from sendgrid.helpers.mail import Mail
 
-def lambda_handler(event, context):
+def workflow_handler(event, context):
     """
     Process Stripe webhook events and handle payment confirmations
     """

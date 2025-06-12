@@ -418,7 +418,7 @@ async function generateWorkflowFromDescription(description: string) {
   }
 
   // Generate Python code based on nodes
-  generatedCode = generateLambdaCode(nodes, description);
+  generatedCode = generateWorkflowCode(nodes, description);
 
   return {
     workflowId: Date.now().toString(),
@@ -430,7 +430,7 @@ async function generateWorkflowFromDescription(description: string) {
   };
 }
 
-function generateLambdaCode(nodes: any[], description: string): string {
+function generateWorkflowCode(nodes: any[], description: string): string {
   const hasStripe = nodes.some(n => n.serviceType === 'stripe' || n.serviceType === 'webhook');
   const hasSendGrid = nodes.some(n => n.serviceType === 'sendgrid');
   const hasDynamoDB = nodes.some(n => n.serviceType === 'dynamodb');
@@ -440,12 +440,12 @@ function generateLambdaCode(nodes: any[], description: string): string {
   if (hasStripe) imports.push('import stripe');
   if (hasSendGrid) imports.push('import sendgrid', 'from sendgrid.helpers.mail import Mail');
 
-  const code = `# AWS Lambda function for workflow processing
+  const code = `# Workflow automation handler
 # Generated from description: ${description}
 
 ${imports.join('\n')}
 
-def lambda_handler(event, context):
+def workflow_handler(event, context):
     """
     Process workflow events based on the generated configuration
     """
@@ -718,8 +718,8 @@ async function getDeploymentInstructions(workflowId: number) {
       },
       {
         id: "deploy",
-        title: "Deploy Lambda Function",
-        description: "Use SAM CLI to build and deploy your Lambda function to AWS.",
+        title: "Deploy Workflow",
+        description: "Use SAM CLI to build and deploy your workflow automation to AWS.",
         commands: ["sam build", "sam deploy --guided"],
         isCompleted: false,
         isOptional: false,
