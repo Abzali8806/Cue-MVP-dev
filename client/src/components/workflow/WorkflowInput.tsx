@@ -3,29 +3,55 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import { setDescription } from "../../store/slices/workflowSlice";
 import { useWorkflowGeneration } from "../../hooks/useWorkflowGeneration";
+import { useWorkspacePersistence } from "../../hooks/useWorkspacePersistence";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2, Sparkles } from "lucide-react";
+import { Loader2, Sparkles, Save } from "lucide-react";
 import SpeechToText from "./SpeechToText";
 
 export default function WorkflowInput() {
   const dispatch = useDispatch();
   const workflowState = useSelector((state: RootState) => state.workflow);
+  const nodesState = useSelector((state: RootState) => state.nodes);
   const { generateWorkflowFromDescription, isGenerating, error } = useWorkflowGeneration();
+  const { saveWorkspace, loadWorkspace, autoSave } = useWorkspacePersistence();
   
   const [characterCount, setCharacterCount] = useState(0);
   const [isValid, setIsValid] = useState(false);
+  const [lastSaved, setLastSaved] = useState<string | null>(null);
 
   const description = workflowState.description;
   const minLength = 0;
   const maxLength = 3000;
 
+  // Load workspace data on component mount
+  useEffect(() => {
+    const savedData = loadWorkspace();
+    if (savedData && savedData.workflowDescription) {
+      dispatch(setDescription(savedData.workflowDescription));
+      setLastSaved(savedData.lastSaved);
+    }
+  }, [dispatch, loadWorkspace]);
+
   useEffect(() => {
     setCharacterCount(description.length);
     setIsValid(description.length > 0 && description.length <= maxLength);
   }, [description, maxLength]);
+
+  // Auto-save workspace data when description changes
+  useEffect(() => {
+    if (description) {
+      const cleanup = autoSave({
+        workflowDescription: description,
+        nodes: nodesState.nodes,
+        edges: nodesState.edges,
+      });
+      setLastSaved(new Date().toISOString());
+      return cleanup;
+    }
+  }, [description, nodesState.nodes, nodesState.edges, autoSave]);
 
   const handleDescriptionChange = (value: string) => {
     dispatch(setDescription(value));
@@ -45,6 +71,26 @@ export default function WorkflowInput() {
     // Append transcription to existing description
     const separator = description.length > 0 ? " " : "";
     handleDescriptionChange(description + separator + transcription);
+  };
+
+  const handleManualSave = () => {
+    saveWorkspace({
+      workflowDescription: description,
+      nodes: nodesState.nodes,
+      edges: nodesState.edges,
+    });
+    setLastSaved(new Date().toISOString());
+  };
+
+  const formatLastSaved = (timestamp: string) => {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffMinutes = Math.floor((now.getTime() - date.getTime()) / 60000);
+    
+    if (diffMinutes < 1) return "just now";
+    if (diffMinutes < 60) return `${diffMinutes}m ago`;
+    if (diffMinutes < 1440) return `${Math.floor(diffMinutes / 60)}h ago`;
+    return date.toLocaleDateString();
   };
 
   return (
@@ -108,37 +154,58 @@ export default function WorkflowInput() {
           />
           
           <div className="flex justify-between items-center text-xs">
-            <span className={`${isValid ? 'text-muted-foreground' : 'text-destructive'}`}>
-              {characterCount === 0 ? 'Enter a description to generate' : 
-               characterCount > maxLength ? 'Description too long' : 'Ready to generate'}
-            </span>
+            <div className="flex items-center gap-2">
+              <span className={`${isValid ? 'text-muted-foreground' : 'text-destructive'}`}>
+                {characterCount === 0 ? 'Enter a description to generate' : 
+                 characterCount > maxLength ? 'Description too long' : 'Ready to generate'}
+              </span>
+              {lastSaved && (
+                <span className="text-muted-foreground/60">
+                  • Saved {formatLastSaved(lastSaved)}
+                </span>
+              )}
+            </div>
             <span className={`${characterCount > maxLength ? 'text-destructive' : 'text-muted-foreground'}`}>
               {characterCount}/{maxLength}
             </span>
           </div>
         </div>
 
-        {/* Generate Button */}
-        <Button 
-          onClick={handleGenerate}
-          disabled={!isValid || isGenerating}
-          className="w-full h-9 sm:h-10 lg:h-11 text-xs sm:text-sm font-medium"
-          size="lg"
-        >
-          {isGenerating ? (
-            <>
-              <Loader2 className="h-3 w-3 sm:h-4 sm:w-4 mr-2 animate-spin" />
-              <span className="hidden sm:inline">Generating Workflow...</span>
-              <span className="sm:hidden">Generating...</span>
-            </>
-          ) : (
-            <>
-              <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
-              <span className="hidden sm:inline">Generate Workflow</span>
-              <span className="sm:hidden">Generate</span>
-            </>
+        {/* Action Buttons */}
+        <div className="flex gap-2">
+          <Button 
+            onClick={handleGenerate}
+            disabled={!isValid || isGenerating}
+            className="flex-1 h-9 sm:h-10 lg:h-11 text-xs sm:text-sm font-medium"
+            size="lg"
+          >
+            {isGenerating ? (
+              <>
+                <Loader2 className="h-3 w-3 sm:h-4 sm:w-4 mr-2 animate-spin" />
+                <span className="hidden sm:inline">Generating Workflow...</span>
+                <span className="sm:hidden">Generating...</span>
+              </>
+            ) : (
+              <>
+                <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
+                <span className="hidden sm:inline">Generate Workflow</span>
+                <span className="sm:hidden">Generate</span>
+              </>
+            )}
+          </Button>
+          
+          {description && (
+            <Button 
+              onClick={handleManualSave}
+              variant="outline"
+              className="h-9 sm:h-10 lg:h-11 px-3 sm:px-4"
+              size="lg"
+            >
+              <Save className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline ml-2">Save</span>
+            </Button>
           )}
-        </Button>
+        </div>
 
         {/* Error Display */}
         {error && (

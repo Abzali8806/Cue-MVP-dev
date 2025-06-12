@@ -18,6 +18,10 @@ export default function PersonalizedGreeting() {
   };
 
   const getUserDisplayName = () => {
+    // Use custom display name if set, otherwise fall back to profile name
+    if (user.displayName) {
+      return user.displayName;
+    }
     if (user.firstName && user.lastName) {
       return `${user.firstName} ${user.lastName}`;
     }
