@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "./lib/theme";
 import { useAuth } from "@/hooks/useAuth";
+import { AuthGreeting } from "@/components/auth/AuthGreeting";
 import WorkflowBuilder from "@/pages/WorkflowBuilder";
 import History from "@/pages/History";
 import Settings from "@/pages/Settings";
