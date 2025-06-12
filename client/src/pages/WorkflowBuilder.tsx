@@ -9,7 +9,9 @@ import CodePreview from "../components/workflow/CodePreview";
 import DeploymentInstructions from "../components/workflow/DeploymentInstructions";
 import CredentialManagement from "../components/credentials/CredentialManagement";
 import HelpModal from "../components/modals/HelpModal";
+import PersonalizedGreeting from "../components/auth/PersonalizedGreeting";
 import { useWorkflowGeneration } from "../hooks/useWorkflowGeneration";
+import { useAuth } from "../hooks/useAuth";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FileText, Workflow, Code, Settings, Rocket } from "lucide-react";
 

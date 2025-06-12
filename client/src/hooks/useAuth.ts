@@ -1,5 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
+import { useEffect } from "react";
 
 export interface User {
   id: string;
@@ -15,21 +17,74 @@ export interface User {
 
 export function useAuth() {
   const queryClient = useQueryClient();
+  const { toast } = useToast();
 
-  // Disable API calls until FastAPI backend is ready
-  const { data: user, isLoading, error } = useQuery({
-    queryKey: ["/api/user"],
+  const { data: user, isLoading, error, isSuccess } = useQuery({
+    queryKey: ["/api/auth/user"],
     retry: false,
-    enabled: false, // Disable until backend is available
+    refetchOnWindowFocus: true,
+    refetchOnMount: true,
   });
+
+  // Show authentication feedback (only once per session)
+  useEffect(() => {
+    const hasShownWelcome = sessionStorage.getItem('welcomeShown');
+    if (isSuccess && user && !isLoading && !hasShownWelcome) {
+      const typedUser = user as User;
+      const name = typedUser.firstName || typedUser.email?.split('@')[0] || 'there';
+      toast({
+        title: "Welcome back!",
+        description: `Successfully signed in as ${name}`,
+        variant: "default",
+      });
+      sessionStorage.setItem('welcomeShown', 'true');
+    }
+  }, [isSuccess, user, isLoading, toast]);
+
+  // Handle OAuth callback success
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const authSuccess = urlParams.get('auth_success');
+    const authError = urlParams.get('auth_error');
+
+    if (authSuccess === 'true') {
+      toast({
+        title: "Authentication Successful!",
+        description: "You've been successfully signed in.",
+        variant: "default",
+      });
+      
+      // Clean up URL parameters
+      window.history.replaceState({}, document.title, window.location.pathname);
+      
+      // Refetch user data
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+    }
+
+    if (authError) {
+      toast({
+        title: "Authentication Failed",
+        description: "There was an issue signing you in. Please try again.",
+        variant: "destructive",
+      });
+      
+      // Clean up URL parameters
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, [toast, queryClient]);
 
   const logoutMutation = useMutation({
     mutationFn: async () => {
-      await apiRequest("POST", "/auth/logout");
+      await apiRequest("POST", "/api/auth/logout");
     },
     onSuccess: () => {
-      queryClient.setQueryData(["/api/user"], null);
-      window.location.href = '/login';
+      queryClient.setQueryData(["/api/auth/user"], null);
+      toast({
+        title: "Signed Out",
+        description: "You've been successfully signed out.",
+        variant: "default",
+      });
+      window.location.href = '/';
     },
   });
 
