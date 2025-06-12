@@ -66,12 +66,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/auth/github/callback', 
     passport.authenticate('github', { failureRedirect: '/login?error=github_auth_failed' }),
     async (req, res) => {
+      console.log('GitHub callback - Auth status:', {
+        isAuthenticated: req.isAuthenticated(),
+        user: req.user,
+        sessionID: req.sessionID
+      });
+      
       // Transfer any session workflows to the authenticated user
       if (req.isAuthenticated() && req.sessionID) {
         const userId = (req.user as any)?.id;
         if (userId) {
           try {
             await storage.transferSessionWorkflows(req.sessionID, userId);
+            console.log('Transferred workflows for user:', userId);
           } catch (error) {
             console.error('Error transferring session workflows:', error);
           }
@@ -92,6 +99,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Get current user
   app.get('/api/user', (req, res) => {
+    console.log('Auth check:', {
+      isAuthenticated: req.isAuthenticated(),
+      user: req.user,
+      sessionID: req.sessionID
+    });
+    
     if (req.isAuthenticated()) {
       res.json(req.user);
     } else {

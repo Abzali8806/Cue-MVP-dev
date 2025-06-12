@@ -109,23 +109,14 @@ export function setupPassport() {
     }
   }));
 
-  // Serialize user for session
+  // Serialize user for session (store full user object for session-only auth)
   passport.serializeUser((user: any, done) => {
-    done(null, user.id);
+    done(null, user);
   });
 
-  // Deserialize user from session
-  passport.deserializeUser(async (id: string, done) => {
-    try {
-      const [user] = await db
-        .select()
-        .from(users)
-        .where(eq(users.id, id));
-      
-      done(null, user || null);
-    } catch (error) {
-      done(error, null);
-    }
+  // Deserialize user from session (return stored user object)
+  passport.deserializeUser((user: any, done) => {
+    done(null, user);
   });
 }
 
