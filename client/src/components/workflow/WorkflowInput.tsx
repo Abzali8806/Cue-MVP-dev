@@ -59,7 +59,7 @@ export default function WorkflowInput() {
             </h1>
           </div>
           <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold text-foreground">
-            Effortless workflow automation, from prompt to deployment.
+            Effortless workflow automation from prompt to deployment
           </h2>
           <div className="flex flex-wrap justify-center gap-4 text-xs sm:text-sm text-muted-foreground pt-2">
             <span className="flex items-center gap-1">
