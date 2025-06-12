@@ -207,7 +207,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./
-      Handler: lambda_function.lambda_handler
+      Handler: workflow_handler.workflow_handler
       Runtime: python3.9
       Architectures:
         - x86_64
@@ -244,6 +244,6 @@ Outputs:
     Description: "API Gateway endpoint URL"
     Value: !Sub "https://\${ServerlessRestApi}.execute-api.\${AWS::Region}.amazonaws.com/Prod/webhook/"
   StripeWebhookProcessorFunction:
-    Description: "Stripe Webhook Processor Lambda Function ARN"
+    Description: "Stripe Webhook Processor Workflow Function ARN"
     Value: !GetAtt StripeWebhookProcessorFunction.Arn
 `;
