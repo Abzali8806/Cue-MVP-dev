@@ -115,7 +115,7 @@ export function useAuth() {
 
   const logout = () => {
     // Clear workspace persistence on logout if not remember me
-    if (user && !user.rememberMe) {
+    if (user && !(user as User).rememberMe) {
       localStorage.removeItem('workspaceData');
       sessionStorage.removeItem('workspaceData');
     }
