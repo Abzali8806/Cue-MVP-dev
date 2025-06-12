@@ -1,53 +1,41 @@
-import { useEffect, useRef } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
+import { LogIn, User } from "lucide-react";
 
-export function AuthGreeting() {
-  const { user, isAuthenticated, isLoading } = useAuth();
-  const { toast } = useToast();
-  const wasAuthenticatedRef = useRef(false);
-  const hasShownGreetingRef = useRef(false);
+export default function AuthGreeting() {
+  const { isAuthenticated, user, logout, isLoggingOut } = useAuth();
 
-  useEffect(() => {
-    // Check if user just signed in (was not authenticated, now is)
-    if (!isLoading && isAuthenticated && user && !wasAuthenticatedRef.current && !hasShownGreetingRef.current) {
-      // Try different approaches to get the user's name
-      let displayName = 'there';
-      
-      if (user.firstName) {
-        displayName = user.firstName;
-      } else if (user.email) {
-        // Extract name from email (before @)
-        displayName = user.email.split('@')[0];
-        // Capitalize first letter if it's all lowercase
-        if (displayName === displayName.toLowerCase()) {
-          displayName = displayName.charAt(0).toUpperCase() + displayName.slice(1);
-        }
-      }
-      
-      const provider = user.provider === 'google' ? 'Google' : 
-                      user.provider === 'github' ? 'GitHub' : 
-                      user.provider;
-      
-      toast({
-        title: `Welcome, ${displayName}!`,
-        description: `Successfully signed in with ${provider}. Your workflows from this session have been saved to your account.`,
-        duration: 5000,
-      });
-      
-      hasShownGreetingRef.current = true;
-    }
-    
-    // Update previous authentication state
-    wasAuthenticatedRef.current = isAuthenticated;
-  }, [isAuthenticated, isLoading, user, toast]);
+  if (isAuthenticated && user) {
+    return (
+      <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          <User className="h-4 w-4" />
+          <span className="text-sm">
+            {user.displayName || user.firstName || user.email?.split('@')[0] || 'User'}
+          </span>
+        </div>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={logout}
+          disabled={isLoggingOut}
+        >
+          {isLoggingOut ? 'Signing out...' : 'Sign out'}
+        </Button>
+      </div>
+    );
+  }
 
-  // Reset greeting flag when user logs out
-  useEffect(() => {
-    if (!isAuthenticated && !isLoading) {
-      hasShownGreetingRef.current = false;
-    }
-  }, [isAuthenticated, isLoading]);
-
-  return null; // This component doesn't render anything
+  return (
+    <div className="flex items-center gap-2">
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => window.location.href = '/api/login'}
+      >
+        <LogIn className="h-4 w-4 mr-2" />
+        Sign in
+      </Button>
+    </div>
+  );
 }
