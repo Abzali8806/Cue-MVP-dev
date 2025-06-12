@@ -40,6 +40,11 @@
   border-color: hsl(20, 5.9%, 75%) !important;
 }
 
+/* Light mode tab styling to match dark mode */
+:root [role="tab"][data-state="active"] {
+  border-bottom: 2px solid var(--primary) !important;
+}
+
 /* Ensure card components have visible borders in light mode */
 :root .bg-card,
 :root .bg-surface {
