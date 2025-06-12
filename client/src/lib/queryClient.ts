@@ -33,14 +33,6 @@ export const getQueryFn: <T>(options: {
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
-    if (IS_DEV_MODE) {
-      // Return null for auth queries in development mode
-      if (unauthorizedBehavior === "returnNull") {
-        return null;
-      }
-      return { message: "Development mode - no backend required" };
-    }
-
     const url = queryKey[0] as string;
     const fullUrl = url.startsWith('http') ? url : `${API_BASE_URL}${url}`;
     
