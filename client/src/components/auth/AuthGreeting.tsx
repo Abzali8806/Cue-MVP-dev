@@ -11,8 +11,23 @@ export function AuthGreeting() {
   useEffect(() => {
     // Check if user just signed in (was not authenticated, now is)
     if (!isLoading && isAuthenticated && user && !wasAuthenticatedRef.current && !hasShownGreetingRef.current) {
-      const displayName = user.firstName || user.email?.split('@')[0] || 'there';
-      const provider = user.provider === 'google' ? 'Google' : 'GitHub';
+      // Try different approaches to get the user's name
+      let displayName = 'there';
+      
+      if (user.firstName) {
+        displayName = user.firstName;
+      } else if (user.email) {
+        // Extract name from email (before @)
+        displayName = user.email.split('@')[0];
+        // Capitalize first letter if it's all lowercase
+        if (displayName === displayName.toLowerCase()) {
+          displayName = displayName.charAt(0).toUpperCase() + displayName.slice(1);
+        }
+      }
+      
+      const provider = user.provider === 'google' ? 'Google' : 
+                      user.provider === 'github' ? 'GitHub' : 
+                      user.provider;
       
       toast({
         title: `Welcome, ${displayName}!`,

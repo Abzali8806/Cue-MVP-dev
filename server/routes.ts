@@ -174,7 +174,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const userId = req.isAuthenticated() ? (req.user as any)?.id : null;
       const sessionId = !userId ? req.sessionID : null;
       
-      const workflows = await storage.listWorkflows(userId, sessionId);
+      const workflows = await storage.listWorkflows(userId ?? undefined, sessionId ?? undefined);
       res.json(workflows);
     } catch (error) {
       console.error("Error listing workflows:", error);
