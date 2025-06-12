@@ -13,7 +13,7 @@ import { useWorkflowGeneration } from "../hooks/useWorkflowGeneration";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FileText, Workflow, Code, Settings, Rocket } from "lucide-react";
 
-export default function WorkflowBuilder() {
+export default function WorkflowGenerator() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [desktopSidebarOpen, setDesktopSidebarOpen] = useState(true);
   const [helpModalOpen, setHelpModalOpen] = useState(false);
@@ -100,7 +100,7 @@ export default function WorkflowBuilder() {
                         className="h-14 px-6 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent text-base font-medium"
                       >
                         <Workflow className="h-5 w-5 mr-3" />
-                        Workflow Dashboard
+                        Generator Dashboard
                       </TabsTrigger>
                     </TabsList>
                   </div>
@@ -139,7 +139,7 @@ export default function WorkflowBuilder() {
                               <div className="flex items-center">
                                 <Workflow className="h-5 w-5 mr-3 text-primary" />
                                 <h2 className="text-lg font-semibold">Workflow Visualization</h2>
-                                <span className="ml-3 text-sm text-muted-foreground">Interactive node-based workflow builder</span>
+                                <span className="ml-3 text-sm text-muted-foreground">Interactive node-based workflow generator</span>
                               </div>
                             </div>
                           </div>

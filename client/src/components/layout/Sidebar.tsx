@@ -31,7 +31,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
   const sidebarItems = [
     {
       icon: Code2,
-      label: "Workflow Builder",
+      label: "Workflow Generator",
       href: "/",
       active: location === "/",
     },
