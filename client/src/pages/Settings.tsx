@@ -6,12 +6,17 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { 
   User, 
   Bell, 
   Shield, 
   LogOut,
-  ExternalLink
+  ExternalLink,
+  Settings as SettingsIcon,
+  Download,
+  Trash2
 } from "lucide-react";
 import { Link } from "wouter";
 import { useTheme } from "../lib/theme";
@@ -47,7 +52,7 @@ export default function Settings() {
           <div>
             <h1 className="text-3xl font-bold">Settings</h1>
             <p className="text-muted-foreground mt-2">
-              Configure your Cue experience
+              Configure your Workflow Generator experience
             </p>
           </div>
           <Link href="/">
@@ -188,11 +193,11 @@ export default function Settings() {
                 <Input id="awsRegion" placeholder="us-east-1" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="timeout">Lambda Timeout (seconds)</Label>
+                <Label htmlFor="timeout">Workflow Timeout (seconds)</Label>
                 <Input id="timeout" type="number" placeholder="300" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="memory">Lambda Memory (MB)</Label>
+                <Label htmlFor="memory">Workflow Memory (MB)</Label>
                 <Input id="memory" type="number" placeholder="512" />
               </div>
               <Button size="sm">Save Configuration</Button>
