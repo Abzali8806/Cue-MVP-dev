@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "./lib/theme";
 import { useAuth } from "@/hooks/useAuth";
-import AuthGreeting from "@/components/auth/AuthGreeting";
+
 import WorkflowGenerator from "@/pages/WorkflowBuilder";
 import History from "@/pages/History";
 import Settings from "@/pages/Settings";
@@ -31,7 +31,6 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
         <TooltipProvider>
-          <AuthGreeting />
           <Toaster />
           <Router />
         </TooltipProvider>
