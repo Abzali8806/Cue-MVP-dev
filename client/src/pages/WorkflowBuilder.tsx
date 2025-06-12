@@ -130,6 +130,9 @@ export default function WorkflowGenerator() {
                   <TabsContent value="dashboard" className="h-full m-0 p-0">
                     <div className="h-full overflow-auto">
                       <div className="max-w-7xl mx-auto p-6 space-y-6">
+                        {/* Personalized Greeting for Authenticated Users */}
+                        <PersonalizedGreeting />
+                        
                         {/* Workflow Visualization Section */}
                         <div className="bg-white dark:bg-gray-900 rounded-lg border border-border shadow-sm">
                           <div className="border-b border-border bg-muted/20 px-6 py-4">
@@ -248,8 +251,13 @@ export default function WorkflowGenerator() {
                   </TabsContent>
 
                   <TabsContent value="visualization" className="h-full m-0 p-0 data-[state=active]:flex data-[state=active]:flex-col">
-                    <div className="flex-1 w-full min-h-0">
-                      <WorkflowVisualization />
+                    <div className="flex-1 w-full min-h-0 overflow-auto">
+                      <div className="p-4">
+                        <PersonalizedGreeting />
+                      </div>
+                      <div className="flex-1 min-h-[400px]">
+                        <WorkflowVisualization />
+                      </div>
                     </div>
                   </TabsContent>
 
