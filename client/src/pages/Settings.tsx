@@ -1,27 +1,44 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { 
-  Settings as SettingsIcon, 
   User, 
   Bell, 
   Shield, 
-  Download,
-  Trash2,
+  LogOut,
   ExternalLink
 } from "lucide-react";
 import { Link } from "wouter";
 import { useTheme } from "../lib/theme";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Settings() {
   const { theme, toggleTheme } = useTheme();
+  const { user, logout, isLoggingOut } = useAuth();
   const [notifications, setNotifications] = useState(true);
   const [autoSave, setAutoSave] = useState(true);
+
+  const handleLogout = async () => {
+    if (confirm("Are you sure you want to sign out?")) {
+      logout();
+    }
+  };
+
+  const getProviderBadgeColor = (provider: string) => {
+    switch (provider) {
+      case 'google':
+        return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100';
+      case 'github':
+        return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100';
+      default:
+        return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100';
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -41,7 +58,7 @@ export default function Settings() {
         </div>
 
         <div className="space-y-6">
-          {/* Profile Settings */}
+          {/* Profile Information */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center">
@@ -49,22 +66,57 @@ export default function Settings() {
                 Profile
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="firstName">First Name</Label>
-                  <Input id="firstName" placeholder="Enter your first name" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="lastName">Last Name</Label>
-                  <Input id="lastName" placeholder="Enter your last name" />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="your.email@example.com" />
-              </div>
-              <Button size="sm">Save Profile</Button>
+            <CardContent className="space-y-6">
+              {user ? (
+                <>
+                  <div className="flex items-center space-x-4">
+                    <Avatar className="h-16 w-16">
+                      <AvatarImage src={user.profileImageUrl} alt={user.firstName || 'User'} />
+                      <AvatarFallback className="text-lg">
+                        {user.firstName?.[0] || user.email?.[0]?.toUpperCase() || 'U'}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="space-y-1">
+                      <h3 className="text-lg font-semibold">
+                        {user.firstName && user.lastName 
+                          ? `${user.firstName} ${user.lastName}`
+                          : user.firstName || 'User'
+                        }
+                      </h3>
+                      <p className="text-sm text-muted-foreground">{user.email}</p>
+                      <Badge className={getProviderBadgeColor(user.provider)}>
+                        Signed in with {user.provider === 'google' ? 'Google' : 'GitHub'}
+                      </Badge>
+                    </div>
+                  </div>
+                  
+                  <Separator />
+                  
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-1">
+                      <h4 className="font-medium">Account Actions</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Manage your account settings
+                      </p>
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      onClick={handleLogout}
+                      disabled={isLoggingOut}
+                      className="flex items-center space-x-2"
+                    >
+                      <LogOut className="h-4 w-4" />
+                      <span>{isLoggingOut ? 'Signing out...' : 'Sign out'}</span>
+                    </Button>
+                  </div>
+                </>
+              ) : (
+                <Alert>
+                  <AlertDescription>
+                    Unable to load profile information. Please try refreshing the page.
+                  </AlertDescription>
+                </Alert>
+              )}
             </CardContent>
           </Card>
 

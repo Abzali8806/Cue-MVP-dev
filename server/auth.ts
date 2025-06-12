@@ -97,7 +97,7 @@ export function setupPassport() {
         return done(null, newUser);
       }
     } catch (error) {
-      return done(error, null);
+      return done(error, false);
     }
   }));
 
@@ -153,7 +153,7 @@ export function setupPassport() {
         return done(null, newUser);
       }
     } catch (error) {
-      return done(error, null);
+      return done(error, false);
     }
   }));
 
