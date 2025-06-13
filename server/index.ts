@@ -1,40 +1,51 @@
 import express from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { spawn } from 'child_process';
+import { createServer } from 'http';
 
 const app = express();
-const PORT = 5000;
-const VITE_PORT = 5173;
+const VITE_PORT = 5174; // Changed to avoid port conflicts
 
 console.log('Starting Cue MVP Frontend...');
 
 // Start Vite dev server
 const vite = spawn('npx', ['vite', '--host', '0.0.0.0', '--port', VITE_PORT.toString()], {
-  stdio: 'pipe',
+  stdio: 'inherit',
   shell: true,
   cwd: process.cwd()
 });
 
-vite.stdout?.on('data', (data) => {
-  console.log(data.toString());
-});
-
-vite.stderr?.on('data', (data) => {
-  console.error(data.toString());
-});
+// Function to find available port
+function findAvailablePort(startPort: number): Promise<number> {
+  return new Promise((resolve) => {
+    const server = createServer();
+    server.listen(startPort, '0.0.0.0', () => {
+      const port = (server.address() as any)?.port || startPort;
+      server.close(() => resolve(port));
+    });
+    server.on('error', () => {
+      resolve(findAvailablePort(startPort + 1));
+    });
+  });
+}
 
 // Wait for Vite to start, then set up proxy
-setTimeout(() => {
+setTimeout(async () => {
   app.use('/', createProxyMiddleware({
     target: `http://localhost:${VITE_PORT}`,
     changeOrigin: true,
     ws: true
   }));
 
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Proxy server running on http://0.0.0.0:${PORT}`);
-    console.log(`Proxying to Vite dev server on port ${VITE_PORT}`);
-  });
+  try {
+    const availablePort = await findAvailablePort(5000);
+    app.listen(availablePort, '0.0.0.0', () => {
+      console.log(`Proxy server running on http://0.0.0.0:${availablePort}`);
+      console.log(`Proxying to Vite dev server on port ${VITE_PORT}`);
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+  }
 }, 3000);
 
 // Handle graceful shutdown

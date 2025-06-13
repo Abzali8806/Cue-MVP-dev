@@ -13,7 +13,7 @@ export interface User {
 export function useAuth() {
   // TODO: Replace with actual FastAPI backend authentication when available
   // This is a placeholder that always returns unauthenticated state
-  const user = null;
+  const user: User | null = null;
   const isLoading = false;
   const isAuthenticated = false;
 
