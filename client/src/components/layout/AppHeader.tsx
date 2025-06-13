@@ -19,7 +19,29 @@ export default function AppHeader({ onMenuToggle, isMobileMenuOpen }: AppHeaderP
   const [location] = useLocation();
 
   const handleNewWorkflow = () => {
-    // Create new workflow - can be enhanced with modal or direct generation
+    // Clear workspace data before reload to ensure fresh start
+    const clearWorkspace = () => {
+      try {
+        // Clear from both localStorage and sessionStorage
+        const keys = ['workspace_guest'];
+        // Also try user-specific keys if they exist
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && key.startsWith('workspace_')) {
+            keys.push(key);
+          }
+        }
+        
+        keys.forEach(key => {
+          localStorage.removeItem(key);
+          sessionStorage.removeItem(key);
+        });
+      } catch (error) {
+        console.warn('Failed to clear workspace:', error);
+      }
+    };
+    
+    clearWorkspace();
     window.location.reload();
   };
 

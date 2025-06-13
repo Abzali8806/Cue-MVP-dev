@@ -28,8 +28,7 @@ setTimeout(() => {
   app.use('/', createProxyMiddleware({
     target: `http://localhost:${VITE_PORT}`,
     changeOrigin: true,
-    ws: true,
-    logLevel: 'silent'
+    ws: true
   }));
 
   app.listen(PORT, '0.0.0.0', () => {
