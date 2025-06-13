@@ -11,7 +11,7 @@ import History from "@/pages/History";
 import Settings from "@/pages/Settings";
 import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
-import AuthCallback from "@/pages/AuthCallback";
+
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -22,7 +22,7 @@ function Router() {
       <Route path="/settings" component={Settings} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
-      <Route path="/auth/callback" component={AuthCallback} />
+
       <Route component={NotFound} />
     </Switch>
   );
