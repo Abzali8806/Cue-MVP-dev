@@ -1,0 +1,38 @@
+Compose can now delegate builds to bake for better performance.
+ To do so, set COMPOSE_BAKE=true.
+[+] Building 2.1s (20/31)                                                                                                                                                                  docker:desktop-linux
+ => [frontend internal] load build definition from Dockerfile                                                                                                                                              0.0s
+ => => transferring dockerfile: 1.69kB                                                                                                                                                                     0.0s
+ => [frontend internal] load metadata for docker.io/library/node:20-alpine                                                                                                                                 2.0s
+ => [frontend internal] load metadata for docker.io/library/nginx:1.25-alpine                                                                                                                              2.0s
+ => [frontend auth] library/nginx:pull token for registry-1.docker.io                                                                                                                                      0.0s
+ => [frontend auth] library/node:pull token for registry-1.docker.io                                                                                                                                       0.0s
+ => [frontend internal] load .dockerignore                                                                                                                                                                 0.0s
+ => => transferring context: 273B                                                                                                                                                                          0.0s
+ => [frontend internal] load build context                                                                                                                                                                 0.0s
+ => => transferring context: 11.47kB                                                                                                                                                                       0.0s
+ => CANCELED [frontend builder  1/13] FROM docker.io/library/node:20-alpine@sha256:d3507a213936fe4ef54760a186e113db5188472d9efdf491686bd94580a1c1e8                                                        0.0s
+ => => resolve docker.io/library/node:20-alpine@sha256:d3507a213936fe4ef54760a186e113db5188472d9efdf491686bd94580a1c1e8                                                                                    0.0s
+ => => sha256:d3507a213936fe4ef54760a186e113db5188472d9efdf491686bd94580a1c1e8 7.67kB / 7.67kB                                                                                                             0.0s
+ => => sha256:bcab863cb36ee45ce7ecbae8f732b8da6e28cc7267606010547090e094396bce 1.72kB / 1.72kB                                                                                                             0.0s
+ => => sha256:452cdbae2e5e353f480899878352a644edd75fc20b497ee219a40957676a79a5 6.23kB / 6.23kB                                                                                                             0.0s
+ => CANCELED [frontend production  1/11] FROM docker.io/library/nginx:1.25-alpine@sha256:516475cc129da42866742567714ddc681e5eed7b9ee0b9e9c015e464b4221a00                                                  0.0s
+ => => resolve docker.io/library/nginx:1.25-alpine@sha256:516475cc129da42866742567714ddc681e5eed7b9ee0b9e9c015e464b4221a00                                                                                 0.0s
+ => => sha256:516475cc129da42866742567714ddc681e5eed7b9ee0b9e9c015e464b4221a00 9.07kB / 9.07kB                                                                                                             0.0s
+ => => sha256:05325b3a32db871dc396a859d9a9609d75f50d2f7ad12194f9f3a550111bdcaa 2.50kB / 2.50kB                                                                                                             0.0s
+ => => sha256:9d6767b714bf1ecd2cdab75b590f2c572ac33743c7786ef5d619f7b088dbe0bb 10.80kB / 10.80kB                                                                                                           0.0s
+ => CACHED [frontend builder  2/13] WORKDIR /app                                                                                                                                                           0.0s
+ => CACHED [frontend builder  3/13] COPY package*.json ./                                                                                                                                                  0.0s
+ => CACHED [frontend builder  4/13] COPY tsconfig.json ./                                                                                                                                                  0.0s
+ => CACHED [frontend builder  5/13] COPY vite.config.ts ./                                                                                                                                                 0.0s
+ => CACHED [frontend builder  6/13] COPY tailwind.config.ts ./                                                                                                                                             0.0s
+ => CACHED [frontend builder  7/13] COPY postcss.config.js ./                                                                                                                                              0.0s
+ => CACHED [frontend builder  8/13] COPY components.json ./                                                                                                                                                0.0s
+ => CACHED [frontend builder  9/13] RUN npm ci && npm cache clean --force                                                                                                                                  0.0s
+ => CACHED [frontend builder 10/13] COPY client/ ./client/                                                                                                                                                 0.0s
+ => CACHED [frontend builder 11/13] COPY server/ ./server/                                                                                                                                                 0.0s
+ => ERROR [frontend builder 12/13] COPY shared/ ./shared/ 2>/dev/null || true                                                                                                                              0.0s
+------
+ > [frontend builder 12/13] COPY shared/ ./shared/ 2>/dev/null || true:
+------
+failed to solve: failed to compute cache key: failed to calculate checksum of ref f9cc227a-03cf-4d27-a496-bb3a33ef2646::5bnl61usya9zrxrno7nzvrkcr: "/||": not found

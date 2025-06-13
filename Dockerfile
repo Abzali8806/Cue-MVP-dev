@@ -17,7 +17,6 @@ RUN npm ci && npm cache clean --force
 # Copy source code
 COPY client/ ./client/
 COPY server/ ./server/
-COPY shared/ ./shared/ 2>/dev/null || true
 
 # Build the application for production
 RUN npm run build
