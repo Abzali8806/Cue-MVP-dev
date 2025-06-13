@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2, Sparkles, Save } from "lucide-react";
+import { Loader2, Sparkles } from "lucide-react";
 import SpeechToText from "./SpeechToText";
 
 export default function WorkflowInput() {
@@ -73,14 +73,7 @@ export default function WorkflowInput() {
     handleDescriptionChange(description + separator + transcription);
   };
 
-  const handleManualSave = () => {
-    saveWorkspace({
-      workflowDescription: description,
-      nodes: nodesState.nodes,
-      edges: nodesState.edges,
-    });
-    setLastSaved(new Date().toISOString());
-  };
+
 
   const formatLastSaved = (timestamp: string) => {
     const date = new Date(timestamp);
@@ -165,9 +158,11 @@ export default function WorkflowInput() {
                 </span>
               )}
             </div>
-            <span className={`${characterCount > maxLength ? 'text-destructive' : 'text-muted-foreground'}`}>
-              {characterCount}/{maxLength}
-            </span>
+            {characterCount > 0 && (
+              <span className={`${characterCount > maxLength ? 'text-destructive' : 'text-muted-foreground'}`}>
+                {characterCount}/{maxLength}
+              </span>
+            )}
           </div>
         </div>
 
@@ -176,7 +171,7 @@ export default function WorkflowInput() {
           <Button 
             onClick={handleGenerate}
             disabled={!isValid || isGenerating}
-            className="flex-1 h-9 sm:h-10 lg:h-11 text-xs sm:text-sm font-medium"
+            className="w-full h-9 sm:h-10 lg:h-11 text-xs sm:text-sm font-medium"
             size="lg"
           >
             {isGenerating ? (
@@ -193,18 +188,6 @@ export default function WorkflowInput() {
               </>
             )}
           </Button>
-          
-          {description && (
-            <Button 
-              onClick={handleManualSave}
-              variant="outline"
-              className="h-9 sm:h-10 lg:h-11 px-3 sm:px-4"
-              size="lg"
-            >
-              <Save className="h-3 w-3 sm:h-4 sm:w-4" />
-              <span className="hidden sm:inline ml-2">Save</span>
-            </Button>
-          )}
         </div>
 
         {/* Error Display */}
