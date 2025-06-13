@@ -27,10 +27,10 @@ export default function CodePreview() {
   const workflowState = useSelector((state: RootState) => state.workflow);
   const [copiedStates, setCopiedStates] = useState<Record<string, boolean>>({});
 
-  // Use generated code if available, otherwise use sample
-  const workflowCode = workflowState.generatedCode || SAMPLE_LAMBDA_CODE;
-  const requirementsTxt = SAMPLE_REQUIREMENTS_TXT;
-  const samTemplate = SAMPLE_SAM_TEMPLATE;
+  // Code will be provided by FastAPI backend
+  const workflowCode = workflowState.generatedCode || '';
+  const requirementsTxt = '';
+  const samTemplate = '';
 
   const handleCopy = async (content: string, key: string) => {
     const success = await copyToClipboard(content);

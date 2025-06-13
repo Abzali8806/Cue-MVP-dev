@@ -16,13 +16,11 @@ export async function apiRequest(
 ): Promise<Response> {
   const fullUrl = url.startsWith('http') ? url : `${API_BASE_URL}${url}`;
   
-  // Add JWT token to requests if available
-  const token = localStorage.getItem('accessToken');
+  // TODO: Add authentication headers when FastAPI backend is implemented
   const headers: Record<string, string> = data ? { "Content-Type": "application/json" } : {};
   
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
+  // Authentication will be handled by your FastAPI backend
+  // headers.Authorization = `Bearer ${your_jwt_token}`;
   
   try {
     const res = await fetch(fullUrl, {
@@ -32,11 +30,9 @@ export async function apiRequest(
       credentials: "include",
     });
 
-    // Handle 401/403 responses by clearing token and redirecting to login
+    // TODO: Handle authentication errors when FastAPI backend is implemented
     if (res.status === 401 || res.status === 403) {
-      localStorage.removeItem('accessToken');
-      sessionStorage.removeItem('oauth_state');
-      window.location.href = '/login';
+      // Authentication error handling will be implemented with FastAPI backend
       throw new Error(`${res.status}: ${res.statusText || 'Unauthorized'}`);
     }
 

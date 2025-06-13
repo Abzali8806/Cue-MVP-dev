@@ -1,23 +1,12 @@
-#!/usr/bin/env node
+import { createServer } from 'vite'
 
-import { spawn } from 'child_process';
-import path from 'path';
-import { fileURLToPath } from 'url';
+const server = await createServer({
+  configFile: 'vite.config.ts',
+  server: {
+    port: 5173,
+    host: '0.0.0.0'
+  }
+})
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-// Start Vite development server directly
-const viteProcess = spawn('npx', ['vite', '--host', '--port', '5173'], {
-  cwd: path.join(__dirname, 'client'),
-  stdio: 'inherit',
-  shell: true
-});
-
-viteProcess.on('close', (code) => {
-  console.log(`Vite development server exited with code ${code}`);
-});
-
-process.on('SIGINT', () => {
-  viteProcess.kill('SIGINT');
-  process.exit();
-});
+await server.listen()
+console.log('Vite dev server running on port 5173')
