@@ -12,3 +12,8 @@ coverage
 dist
 .DS_Store
 Thumbs.db
+docker-compose.yml
+.dockerignore
+Dockerfile
+attached_assets
+migrations
