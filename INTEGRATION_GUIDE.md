@@ -99,11 +99,84 @@ Authentication will be handled entirely by your FastAPI backend:
 - Example workflow code
 - AWS-specific references (except in deployment sections)
 
+## Deployment Options
+
+### Development Deployment
+
+#### Local Development
+```bash
+npm install
+npm run dev
+```
+Access at: http://localhost:5000
+
+#### Docker Development
+```bash
+docker-compose -f docker-compose.dev.yml up --build
+```
+- Port: 5000:5000
+- Features: Hot reload, volume mounts for live code changes
+- Environment: Development mode with full debugging
+
+### Production Deployment
+
+#### Docker + Nginx Production
+```bash
+docker-compose up --build
+```
+- Port: 80:80
+- Server: Nginx serving optimized static files
+- Features: Gzip compression, security headers, health checks
+- Image size: ~50MB (optimized)
+
+#### Manual Docker Commands
+```bash
+# Development
+docker build -f Dockerfile.dev -t cue-frontend-dev .
+docker run -p 5000:5000 cue-frontend-dev
+
+# Production
+docker build -t cue-frontend .
+docker run -p 80:80 cue-frontend
+```
+
+### Environment Configuration for Docker
+
+#### Development (.env)
+```bash
+VITE_API_BASE_URL=http://localhost:8000
+NODE_ENV=development
+```
+
+#### Production (.env.production)
+```bash
+VITE_API_BASE_URL=https://your-fastapi-backend.com
+NODE_ENV=production
+```
+
+### Health Monitoring
+
+The production Docker setup includes health checks:
+- Endpoint: `/health`
+- Returns: `200 OK` with "healthy" status
+- Monitoring: Automatic container health checks every 30s
+
+### Container Security
+
+Both Docker configurations implement:
+- Non-root user execution
+- Alpine Linux base images
+- Proper signal handling
+- Security headers (production)
+
+For complete Docker deployment documentation, see [DOCKER_DEPLOYMENT.md](./DOCKER_DEPLOYMENT.md)
+
 ## Next Steps
 
 1. Set up your FastAPI backend with the expected endpoints
-2. Configure environment variables
-3. Test frontend-backend communication
-4. Implement authentication in FastAPI
-5. Add database configuration in AWS
-6. Deploy both services separately
+2. Configure environment variables for your deployment method
+3. Choose deployment option (local, Docker dev, or Docker production)
+4. Test frontend-backend communication
+5. Implement authentication in FastAPI
+6. Add database configuration in AWS
+7. Deploy both services with appropriate container orchestration

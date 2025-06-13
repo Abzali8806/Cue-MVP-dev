@@ -13,21 +13,34 @@ Standalone React frontend for the Cue workflow automation platform. This fronten
 
 ## Quick Start
 
-1. **Configure Environment**
-   ```bash
-   cp client/.env.example client/.env
-   # Edit client/.env with your FastAPI backend URL
-   ```
+### Local Development
 
-2. **Install Dependencies**
+1. **Install Dependencies**
    ```bash
    npm install
    ```
 
-3. **Start Development Server**
+2. **Start Development Server**
    ```bash
-   npx vite --host 0.0.0.0 --port 5173
+   npm run dev
    ```
+   Access at: http://localhost:5000
+
+### Docker Development
+
+1. **Run with Docker Compose**
+   ```bash
+   docker-compose -f docker-compose.dev.yml up --build
+   ```
+   Access at: http://localhost:5000
+
+### Docker Production
+
+1. **Deploy with Nginx**
+   ```bash
+   docker-compose up --build
+   ```
+   Access at: http://localhost
 
 ## Backend Integration
 
@@ -46,3 +59,42 @@ See `INTEGRATION_GUIDE.md` for complete API specification.
 - React Query for API state management
 - Redux Toolkit for application state
 - Wouter for routing
+
+## Deployment Options
+
+### Development
+- **Local**: Vite dev server with hot reload
+- **Docker**: Containerized development environment
+- **Port**: 5000
+
+### Production
+- **Docker + Nginx**: Optimized static file serving
+- **Port**: 80
+- **Features**: Gzip compression, security headers, health checks
+
+For detailed deployment instructions, see [DOCKER_DEPLOYMENT.md](./DOCKER_DEPLOYMENT.md)
+
+## Project Structure
+
+```
+├── client/                 # React frontend application
+│   ├── src/
+│   │   ├── components/     # Reusable UI components
+│   │   ├── pages/          # Application pages
+│   │   ├── hooks/          # Custom React hooks
+│   │   ├── store/          # Redux store and slices
+│   │   └── services/       # API service layers
+├── server/                 # Express proxy server
+├── Dockerfile              # Production build (Nginx)
+├── Dockerfile.dev          # Development build
+├── docker-compose.yml      # Production deployment
+├── docker-compose.dev.yml  # Development deployment
+└── nginx.conf              # Nginx configuration
+```
+
+## Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run check` - TypeScript type checking
