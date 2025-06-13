@@ -2,10 +2,14 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Plus, User, Menu, X, LogIn, LogOut, Settings } from "lucide-react";
 import { useWorkflowGeneration } from "../../hooks/useWorkflowGeneration";
 import { useAuth } from "../../hooks/useAuth";
+import { useWorkspacePersistence } from "../../hooks/useWorkspacePersistence";
+import { useDispatch } from "react-redux";
+import { setDescription } from "../../store/slices/workflowSlice";
 import { Link, useLocation } from "wouter";
 
 interface AppHeaderProps {
@@ -16,33 +20,14 @@ interface AppHeaderProps {
 export default function AppHeader({ onMenuToggle, isMobileMenuOpen }: AppHeaderProps) {
   const { generateWorkflowFromDescription } = useWorkflowGeneration();
   const { user, logout, isAuthenticated } = useAuth();
+  const { clearWorkspace } = useWorkspacePersistence();
+  const dispatch = useDispatch();
   const [location] = useLocation();
 
   const handleNewWorkflow = () => {
-    // Clear workspace data before reload to ensure fresh start
-    const clearWorkspace = () => {
-      try {
-        // Clear from both localStorage and sessionStorage
-        const keys = ['workspace_guest'];
-        // Also try user-specific keys if they exist
-        for (let i = 0; i < localStorage.length; i++) {
-          const key = localStorage.key(i);
-          if (key && key.startsWith('workspace_')) {
-            keys.push(key);
-          }
-        }
-        
-        keys.forEach(key => {
-          localStorage.removeItem(key);
-          sessionStorage.removeItem(key);
-        });
-      } catch (error) {
-        console.warn('Failed to clear workspace:', error);
-      }
-    };
-    
+    // Clear workspace data and reset form without page reload
     clearWorkspace();
-    window.location.reload();
+    dispatch(setDescription(''));
   };
 
   const handleLogout = () => {
