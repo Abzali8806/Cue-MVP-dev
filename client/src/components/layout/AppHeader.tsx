@@ -86,17 +86,7 @@ export default function AppHeader({ onMenuToggle, isMobileMenuOpen }: AppHeaderP
           <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4">
             <ThemeToggle />
             
-            <Link href="/">
-              <Button 
-                onClick={handleNewWorkflow} 
-                className="h-8 sm:h-9 lg:h-10 px-2 sm:px-3 lg:px-4 text-xs sm:text-sm"
-                size="sm"
-              >
-                <Plus className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-                <span className="hidden sm:inline">New Workflow</span>
-                <span className="sm:hidden">New</span>
-              </Button>
-            </Link>
+
             
             {isAuthenticated ? (
               <DropdownMenu>

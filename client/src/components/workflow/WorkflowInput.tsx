@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2, Sparkles } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Loader2, Sparkles, RotateCcw } from "lucide-react";
 import SpeechToText from "./SpeechToText";
 
 export default function WorkflowInput() {
@@ -16,7 +17,7 @@ export default function WorkflowInput() {
   const workflowState = useSelector((state: RootState) => state.workflow);
   const nodesState = useSelector((state: RootState) => state.nodes);
   const { generateWorkflowFromDescription, isGenerating, error } = useWorkflowGeneration();
-  const { saveWorkspace, loadWorkspace, autoSave } = useWorkspacePersistence();
+  const { saveWorkspace, loadWorkspace, clearWorkspace, autoSave } = useWorkspacePersistence();
   
   const [characterCount, setCharacterCount] = useState(0);
   const [isValid, setIsValid] = useState(false);
@@ -71,6 +72,12 @@ export default function WorkflowInput() {
     // Append transcription to existing description
     const separator = description.length > 0 ? " " : "";
     handleDescriptionChange(description + separator + transcription);
+  };
+
+  const handleNewWorkflow = () => {
+    // Clear workspace data and reset form
+    clearWorkspace();
+    dispatch(setDescription(''));
   };
 
   const formatLastSaved = (timestamp: string) => {
@@ -136,9 +143,29 @@ export default function WorkflowInput() {
 
         {/* Text Input Section */}
         <div className="space-y-2">
-          <Label htmlFor="workflow-description" className="text-xs sm:text-sm font-medium">
-            Workflow Description
-          </Label>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="workflow-description" className="text-xs sm:text-sm font-medium">
+              Workflow Description
+            </Label>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    onClick={handleNewWorkflow}
+                    variant="outline"
+                    size="sm"
+                    className="h-7 px-2 text-xs"
+                  >
+                    <RotateCcw className="h-3 w-3 mr-1" />
+                    Clear
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Clear the input and start a new workflow</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
           <Textarea
             id="workflow-description"
             placeholder="Example: Create a payment processing workflow that receives Stripe webhooks, validates payments, sends confirmation emails via SendGrid, and stores transaction data in DynamoDB..."
