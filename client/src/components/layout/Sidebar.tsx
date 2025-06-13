@@ -225,7 +225,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
           <div className="p-4 border-t border-border">
             <div className="text-xs text-muted-foreground">
               <p>Cue MVP v1.0</p>
-              <p>Natural Language to AWS Lambda</p>
+              <p>Natural Language to Code</p>
             </div>
           </div>
         )}
