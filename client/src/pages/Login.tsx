@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { ArrowLeft } from "lucide-react";
-import { getGoogleOAuthUrl, getGitHubOAuthUrl, isOAuthConfigured } from "@/lib/oauth";
+import { initiateGoogleLogin, initiateGitHubLogin, isOAuthConfigured } from "@/lib/oauth";
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
@@ -25,8 +25,7 @@ export default function Login() {
   const handleGoogleLogin = () => {
     try {
       setIsLoading(true);
-      const oAuthUrl = getGoogleOAuthUrl();
-      window.location.href = oAuthUrl;
+      initiateGoogleLogin();
     } catch (error) {
       setError("Google authentication is not configured. Please contact support.");
       setIsLoading(false);
@@ -36,8 +35,7 @@ export default function Login() {
   const handleGitHubLogin = () => {
     try {
       setIsLoading(true);
-      const oAuthUrl = getGitHubOAuthUrl();
-      window.location.href = oAuthUrl;
+      initiateGitHubLogin();
     } catch (error) {
       setError("GitHub authentication is not configured. Please contact support.");
       setIsLoading(false);

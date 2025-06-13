@@ -1,0 +1,211 @@
+Replit AI Agent Prompt: Integrate Google & GitHub OAuth Login into Cue Frontend
+
+Objective: Integrate Google and GitHub OAuth 2.0 login functionality into the existing Cue frontend module. The goal is to provide users with a seamless and secure way to authenticate using their Google or GitHub accounts. This task focuses exclusively on the frontend implementation, assuming the backend (FastAPI) is already configured to handle the server-side OAuth flow, including token exchange and user management.
+
+Current State: The Cue frontend is a React application, likely built with Vite. It is assumed to be largely complete in terms of core UI/UX, and this task is an addition to its authentication capabilities.
+
+Required Technologies & Libraries:
+
+•
+React 18+ (already in use)
+
+•
+React Router DOM (for routing and handling callbacks)
+
+•
+Redux Toolkit (if used for global state management, for storing authentication status and tokens)
+
+•
+Axios or Fetch API (for making API calls to the backend)
+
+Detailed Frontend Implementation Steps:
+
+1.
+Environment Variable Configuration:
+
+•
+Ensure the frontend can access the following environment variables. These should be configured in .env files (e.g., .env.development, .env.production) and prefixed with VITE_ for Vite compatibility.
+
+•
+VITE_GOOGLE_CLIENT_ID: Your Google OAuth Client ID (publicly safe).
+
+•
+VITE_GITHUB_CLIENT_ID: Your GitHub OAuth Client ID (publicly safe).
+
+•
+VITE_API_BASE_URL: The base URL of your FastAPI backend (e.g., http://localhost:8000 for dev, https://api.cue-dev.com for deployed dev).
+
+
+
+
+
+2.
+Login Page/Component Enhancements:
+
+•
+Locate or create the primary login component (e.g., src/pages/Login.jsx or src/components/AuthButtons.jsx).
+
+•
+Add two distinct buttons:
+*
+
+•
+"Sign in with Google"
+
+•
+"Sign in with GitHub"
+
+
+
+•
+Each button should trigger a function that constructs the appropriate OAuth authorization URL and redirects the user's browser to it.
+
+
+
+3.
+OAuth Initiation Logic (Client-Side Redirection):
+
+•
+Google Login Function:
+
+•
+Construct the Google OAuth authorization URL using VITE_GOOGLE_CLIENT_ID, VITE_API_BASE_URL (for the backend callback), scope (openid profile email), response_type=code, access_type=offline, and prompt=consent.
+
+•
+Crucially, generate a state parameter (a random, unguessable string) and store it securely (e.g., in localStorage or sessionStorage) before redirection. This state will be validated by the backend upon callback to prevent CSRF attacks.
+
+•
+Redirect window.location.href to this constructed URL.
+
+
+
+•
+GitHub Login Function:
+
+•
+Construct the GitHub OAuth authorization URL using VITE_GITHUB_CLIENT_ID, VITE_API_BASE_URL (for the backend callback), scope (user:email or read:user), and response_type=code.
+
+•
+Similarly, generate and store a state parameter before redirection.
+
+•
+Redirect window.location.href to this constructed URL.
+
+
+
+
+
+4.
+OAuth Callback Handling (Frontend Route):
+
+•
+Create a new React component (e.g., src/pages/AuthCallback.jsx) that will serve as the frontend's OAuth callback handler.
+
+•
+This component should be configured as a route in react-router-dom (e.g., /auth/callback).
+
+•
+When this component loads:
+
+•
+It should parse the URL to extract the JWT (JSON Web Token) that your FastAPI backend sends back (e.g., as a query parameter like ?token=...).
+
+•
+Validate the state parameter (if passed back by the backend) against the stored state from localStorage/sessionStorage. If they don't match, or if the token is missing, handle it as an authentication failure.
+
+•
+If a valid JWT is received, store it securely (e.g., in localStorage as accessToken).
+
+•
+After successful token storage, redirect the user to a protected route within the application (e.g., /dashboard).
+
+•
+Implement error handling and user feedback for failed authentication attempts.
+
+
+
+
+
+5.
+State Management (Redux Toolkit Integration - if applicable):
+
+•
+If Redux Toolkit is in use, create an authentication slice to manage the user's login state.
+
+•
+This slice should store:
+
+•
+isAuthenticated (boolean)
+
+•
+accessToken (string)
+
+•
+user (object, containing basic user info like email, name, etc., which can be decoded from the JWT or fetched from a backend endpoint).
+
+
+
+•
+Dispatch actions to update this state upon successful login and logout.
+
+
+
+6.
+Authenticated API Requests:
+
+•
+Modify your existing API client (e.g., src/utils/api.js or wherever your fetch or axios calls are made) to automatically include the stored accessToken in the Authorization header as a Bearer token for all requests to your backend.
+
+•
+Example: Authorization: Bearer <your_jwt_token>
+
+•
+Implement logic to handle 401 (Unauthorized) or 403 (Forbidden) responses from the backend, which should typically clear the token and redirect the user to the login page.
+
+
+
+7.
+Protected Routes:
+
+•
+Implement route protection using react-router-dom to ensure that certain parts of your application (e.g., /dashboard, workflow creation pages) are only accessible to authenticated users.
+
+•
+If a user tries to access a protected route without a valid token, redirect them to the login page.
+
+
+
+Assumptions for Replit Agent:
+
+•
+The existing React project structure is standard (e.g., src/components, src/pages, src/utils).
+
+•
+react-router-dom is already installed and configured for basic routing.
+
+•
+The backend API Gateway is accessible at VITE_API_BASE_URL and its OAuth callback endpoints (/auth/google/callback, /auth/github/callback) are correctly implemented to return a JWT upon successful authentication.
+
+Deliverables:
+
+•
+Updated login component with Google and GitHub sign-in buttons.
+
+•
+New AuthCallback.jsx component and corresponding route.
+
+•
+Modifications to the API client to include JWT in headers.
+
+•
+(Optional, if Redux is used) New or updated Redux authentication slice.
+
+•
+Implementation of protected routes.
+
+•
+Clear, commented code for all new and modified sections.
+
+Focus: The agent should prioritize clean, functional, and secure frontend-only implementation. No mock backend or mock data should be created. All interactions with the backend should be via HTTP requests to the specified VITE_API_BASE_URL.
+

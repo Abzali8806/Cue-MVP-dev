@@ -21,19 +21,39 @@ export function useAuth() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const { data: user, isLoading, error, isSuccess } = useQuery({
+  // Check if user has valid JWT token
+  const getStoredToken = () => localStorage.getItem('accessToken');
+  const isTokenValid = (token: string | null): boolean => {
+    if (!token) return false;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.exp * 1000 > Date.now();
+    } catch {
+      return false;
+    }
+  };
+
+  const { data: user, isLoading, error } = useQuery({
     queryKey: ["/api/auth/user"],
     retry: false,
     refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    enabled: false, // Disable until FastAPI backend is available
-    queryFn: async () => null, // Return null immediately
+    enabled: !!getStoredToken() && isTokenValid(getStoredToken()),
+    queryFn: async () => {
+      const token = getStoredToken();
+      if (!token || !isTokenValid(token)) {
+        localStorage.removeItem('accessToken');
+        return null;
+      }
+      // Decode JWT to get user info
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload as User;
+    }
   });
 
   // Show authentication feedback (only once per session and only if user exists)
   useEffect(() => {
     const hasShownWelcome = sessionStorage.getItem('welcomeShown');
-    if (isSuccess && user && !isLoading && !hasShownWelcome && !error) {
+    if (user && !isLoading && !hasShownWelcome && !error) {
       const typedUser = user as User;
       const name = typedUser.firstName || typedUser.email?.split('@')[0] || 'there';
       toast({
@@ -43,7 +63,7 @@ export function useAuth() {
       });
       sessionStorage.setItem('welcomeShown', 'true');
     }
-  }, [isSuccess, user, isLoading, toast, error]);
+  }, [user, isLoading, toast, error]);
 
   // Handle OAuth callback success
   useEffect(() => {
@@ -113,13 +133,26 @@ export function useAuth() {
     },
   });
 
+  const login = (userData: User) => {
+    queryClient.setQueryData(["/api/auth/user"], userData);
+    toast({
+      title: "Welcome back!",
+      description: `Signed in as ${userData.firstName || userData.email}`,
+    });
+  };
+
   const logout = () => {
     // Clear workspace persistence on logout if not remember me
     if (user && !(user as User).rememberMe) {
       localStorage.removeItem('workspaceData');
       sessionStorage.removeItem('workspaceData');
     }
-    logoutMutation.mutate();
+    localStorage.removeItem('accessToken');
+    queryClient.setQueryData(["/api/auth/user"], null);
+    toast({
+      title: "Signed out",
+      description: "You have been successfully signed out",
+    });
   };
 
   const updateProfile = (profileData: { displayName?: string; rememberMe?: boolean }) => {
