@@ -88,13 +88,13 @@ export default function AppHeader({ onMenuToggle, isMobileMenuOpen }: AppHeaderP
             
 
             
-            {isAuthenticated ? (
+            {false ? ( // Temporarily disabled until authentication is implemented
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Avatar className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 cursor-pointer hover:opacity-80 transition-opacity">
-                    <AvatarImage src={user?.profileImageUrl} alt={user?.firstName || 'User'} />
+                    <AvatarImage src="" alt="User" />
                     <AvatarFallback className="bg-primary text-primary-foreground">
-                      {user?.firstName?.[0] || user?.email?.[0]?.toUpperCase() || 'U'}
+                      U
                     </AvatarFallback>
                   </Avatar>
                 </DropdownMenuTrigger>
@@ -102,13 +102,10 @@ export default function AppHeader({ onMenuToggle, isMobileMenuOpen }: AppHeaderP
                   <div className="flex items-center justify-start gap-2 p-2">
                     <div className="flex flex-col space-y-1 leading-none">
                       <p className="font-medium text-sm">
-                        {user?.firstName && user?.lastName 
-                          ? `${user.firstName} ${user.lastName}`
-                          : user?.firstName || 'User'
-                        }
+                        User
                       </p>
                       <p className="w-[200px] truncate text-xs text-muted-foreground">
-                        {user?.email}
+                        user@example.com
                       </p>
                     </div>
                   </div>

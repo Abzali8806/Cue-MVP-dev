@@ -10,7 +10,13 @@ export interface User {
   updatedAt: string;
 }
 
-export function useAuth() {
+export function useAuth(): {
+  user: User | null;
+  isLoading: boolean;
+  isAuthenticated: boolean;
+  login: () => void;
+  logout: () => void;
+} {
   // TODO: Replace with actual FastAPI backend authentication when available
   // This is a placeholder that always returns unauthenticated state
   const user: User | null = null;
