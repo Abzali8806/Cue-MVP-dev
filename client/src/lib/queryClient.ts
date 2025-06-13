@@ -16,13 +16,29 @@ export async function apiRequest(
 ): Promise<Response> {
   const fullUrl = url.startsWith('http') ? url : `${API_BASE_URL}${url}`;
   
+  // Add JWT token to requests if available
+  const token = localStorage.getItem('accessToken');
+  const headers: Record<string, string> = data ? { "Content-Type": "application/json" } : {};
+  
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+  
   try {
     const res = await fetch(fullUrl, {
       method,
-      headers: data ? { "Content-Type": "application/json" } : {},
+      headers,
       body: data ? JSON.stringify(data) : undefined,
       credentials: "include",
     });
+
+    // Handle 401/403 responses by clearing token and redirecting to login
+    if (res.status === 401 || res.status === 403) {
+      localStorage.removeItem('accessToken');
+      sessionStorage.removeItem('oauth_state');
+      window.location.href = '/login';
+      throw new Error(`${res.status}: ${res.statusText || 'Unauthorized'}`);
+    }
 
     await throwIfResNotOk(res);
     return res;

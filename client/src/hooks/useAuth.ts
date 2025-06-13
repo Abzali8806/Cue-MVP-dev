@@ -163,6 +163,7 @@ export function useAuth() {
     user: user as User | null,
     isLoading,
     isAuthenticated: !!user && !error,
+    login,
     logout,
     isLoggingOut: logoutMutation.isPending,
     updateProfile,
