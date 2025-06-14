@@ -30,9 +30,10 @@ export function useAuth(): {
   const [isInitialized, setIsInitialized] = useState(false);
 
   // Query to check current authentication status
+  // Disabled until backend is ready to prevent fetch errors
   const { data: authData, isLoading: isCheckingAuth } = useQuery<AuthResponse>({
     queryKey: ['/api/auth/me'],
-    enabled: isInitialized,
+    enabled: false, // Disabled until FastAPI backend is connected
     retry: false,
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
