@@ -37,7 +37,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
     },
     {
       icon: History,
-      label: "Recent Workflows",
+      label: "History",
       href: "/history",
       active: location === "/history",
     },
@@ -49,42 +49,11 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
     },
   ];
 
-  const quickActions = [
-    {
-      icon: Upload,
-      label: "Import Workflow",
-      action: () => {
-        // Create a file input element to handle file import
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = '.json';
-        input.onchange = (e) => {
-          const file = (e.target as HTMLInputElement).files?.[0];
-          if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-              try {
-                const workflow = JSON.parse(e.target?.result as string);
-                console.log('Imported workflow:', workflow);
-                // Handle workflow import here
-              } catch (error) {
-                console.error('Failed to parse workflow file:', error);
-              }
-            };
-            reader.readAsText(file);
-          }
-        };
-        input.click();
-      },
-    },
-    {
-      icon: HelpCircle,
-      label: "Documentation",
-      action: () => {
-        window.open('https://github.com/workflow-generator/docs', '_blank');
-      },
-    },
-  ];
+  const quickActions: Array<{
+    icon: React.ComponentType<{ className?: string }>;
+    label: string;
+    action: () => void;
+  }> = [];
 
   return (
     <>
