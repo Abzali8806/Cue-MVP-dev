@@ -49,8 +49,8 @@ export default function Login() {
         <Card className="shadow-xl border-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm">
           <CardHeader>
             <CardTitle>{mode === 'signup' ? 'Sign Up' : 'Sign In'}</CardTitle>
-            <CardDescription>
-              Continue with your preferred authentication method
+            <CardDescription className="mt-2">
+              Choose how you'd like to get started
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
