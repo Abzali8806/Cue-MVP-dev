@@ -10,6 +10,7 @@ import WorkflowGenerator from "@/pages/WorkflowBuilder";
 import History from "@/pages/History";
 import Settings from "@/pages/Settings";
 import Login from "@/pages/Login";
+import AuthCallback from "@/components/auth/AuthCallback";
 
 import NotFound from "@/pages/not-found";
 
@@ -20,6 +21,7 @@ function Router() {
       <Route path="/history" component={History} />
       <Route path="/settings" component={Settings} />
       <Route path="/login" component={Login} />
+      <Route path="/auth/callback" component={AuthCallback} />
 
       <Route component={NotFound} />
     </Switch>
