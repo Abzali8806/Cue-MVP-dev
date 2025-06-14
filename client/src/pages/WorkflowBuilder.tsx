@@ -113,42 +113,41 @@ export default function WorkflowGenerator() {
         </header>
         
         <main className="flex-1 bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-900 dark:to-blue-900/20 h-[calc(100vh-3.5rem)] flex flex-col">
-          {/* Hero Section - Takes up significant space */}
-          <div className="flex-1 flex flex-col justify-center max-w-7xl mx-auto px-8 py-16">
-            <div className="text-center space-y-16">
-              {/* Hero Headlines - More spacing */}
-              <div className="space-y-12">
-                <h1 className="text-6xl lg:text-7xl xl:text-8xl font-bold text-gray-900 dark:text-white leading-tight">
+          <div className="flex-1 flex flex-col justify-center max-w-6xl mx-auto px-6 py-8">
+            <div className="text-center space-y-12">
+              {/* Hero Headlines */}
+              <div className="space-y-8">
+                <h1 className="text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 dark:text-white leading-tight">
                   Speak It. Build It. Deploy It.
                 </h1>
-                <p className="text-3xl lg:text-4xl xl:text-5xl text-gray-600 dark:text-gray-300 max-w-5xl mx-auto leading-relaxed">
+                <p className="text-xl lg:text-2xl xl:text-3xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
                   Effortless workflow automation from prompt to deployment with <span className="font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Cue</span>
                 </p>
               </div>
               
-              {/* Feature highlights - More prominent */}
-              <div className="flex flex-wrap justify-center gap-12 text-xl lg:text-2xl text-gray-600 dark:text-gray-400">
-                <span className="flex items-center gap-3">
-                  <span className="w-3 h-3 bg-green-500 rounded-full"></span>
+              {/* Feature highlights */}
+              <div className="flex flex-wrap justify-center gap-8 text-lg text-gray-600 dark:text-gray-400">
+                <span className="flex items-center gap-2">
+                  <span className="w-2 h-2 bg-green-500 rounded-full"></span>
                   Speech-to-text input
                 </span>
-                <span className="flex items-center gap-3">
-                  <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
+                <span className="flex items-center gap-2">
+                  <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
                   Visual workflow generator
                 </span>
-                <span className="flex items-center gap-3">
-                  <span className="w-3 h-3 bg-purple-500 rounded-full"></span>
+                <span className="flex items-center gap-2">
+                  <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
                   One-click deployment
                 </span>
               </div>
-            </div>
-          </div>
-          
-          {/* Workflow Input Section - Takes up bottom third */}
-          <div className="flex-1 flex flex-col justify-center max-w-6xl mx-auto px-8 pb-16">
-            <div className="space-y-8">
-              <WorkflowInput />
-              <div className="flex justify-center">
+              
+              {/* Workflow Input - Prominent but balanced */}
+              <div className="max-w-4xl mx-auto pt-8">
+                <WorkflowInput />
+              </div>
+              
+              {/* Personalized Greeting */}
+              <div className="pt-4">
                 <PersonalizedGreeting />
               </div>
             </div>
