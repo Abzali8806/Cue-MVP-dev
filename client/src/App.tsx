@@ -9,6 +9,7 @@ import WorkflowGenerator from "@/pages/WorkflowBuilder";
 import History from "@/pages/History";
 import Settings from "@/pages/Settings";
 import Login from "@/pages/Login";
+import SignUp from "@/pages/SignUp";
 import Registration from "@/pages/Registration";
 import Profile from "@/pages/Profile";
 
@@ -18,7 +19,8 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={WorkflowGenerator} />
-      <Route path="/signup" component={Registration} />
+      <Route path="/signup" component={SignUp} />
+      <Route path="/onboarding" component={Registration} />
       <Route path="/login" component={Login} />
       <Route path="/history" component={History} />
       <Route path="/settings" component={Settings} />

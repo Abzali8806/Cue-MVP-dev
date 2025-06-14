@@ -32,8 +32,8 @@ export default function Registration() {
 
   const registrationMutation = useMutation({
     mutationFn: async (data: UserRegistration) => {
-      // This will call your FastAPI registration endpoint
-      const response = await apiRequest('/api/auth/register', {
+      // This will call your FastAPI onboarding endpoint
+      const response = await apiRequest('/api/auth/onboarding', {
         method: 'POST',
         body: JSON.stringify(data),
       });
@@ -41,14 +41,14 @@ export default function Registration() {
     },
     onSuccess: () => {
       toast({
-        title: "Profile completed!",
-        description: "Welcome to Cue. You can now start building workflows.",
+        title: "Welcome to Cue!",
+        description: "Your account is set up. You can now start building workflows.",
       });
       setLocation("/");
     },
     onError: (error: any) => {
       toast({
-        title: "Registration failed",
+        title: "Setup failed",
         description: error.message || "Something went wrong. Please try again.",
         variant: "destructive",
       });
