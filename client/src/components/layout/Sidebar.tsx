@@ -1,17 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
 import { 
   Code2, 
   History, 
   Settings, 
-  Upload, 
-  HelpCircle, 
   ChevronLeft,
   ChevronRight,
-  FileText,
-  Workflow,
   Moon,
   Sun
 } from "lucide-react";
@@ -49,12 +43,6 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
     },
   ];
 
-  const quickActions: Array<{
-    icon: React.ComponentType<{ className?: string }>;
-    label: string;
-    action: () => void;
-  }> = [];
-
   return (
     <>
       {/* Mobile backdrop */}
@@ -68,122 +56,85 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
       {/* Sidebar */}
       <aside 
         className={cn(
-          "fixed lg:relative left-0 z-50 bg-background transition-all duration-300 ease-in-out border-r border-border",
-          "flex flex-col h-[calc(100vh-3rem)] sm:h-[calc(100vh-3.5rem)] lg:h-[calc(100vh-4rem)]",
-          isOpen ? "w-80" : "w-0 lg:w-20",
-          "lg:block overflow-hidden"
+          "fixed top-0 left-0 z-50 h-full bg-background border-r border-border transition-all duration-300 ease-in-out",
+          "lg:static lg:z-auto lg:translate-x-0",
+          isOpen ? "translate-x-0 w-80" : "-translate-x-full w-20",
+          "lg:w-20 lg:hover:w-80"
         )}
       >
-        {/* Toggle button - clean integrated design */}
-        <div className="hidden lg:flex justify-end p-2">
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 h-16 border-b border-border">
+          <div className={cn(
+            "flex items-center space-x-3 transition-opacity duration-200",
+            isOpen ? "opacity-100" : "opacity-0 lg:group-hover:opacity-100"
+          )}>
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+              <span className="text-primary-foreground font-bold text-sm">C</span>
+            </div>
+            <div>
+              <h1 className="font-semibold text-sm">Cue</h1>
+              <p className="text-xs text-muted-foreground">Workflow Generator</p>
+            </div>
+          </div>
+          
           <Button
             variant="ghost"
             size="sm"
-            className="h-7 w-7 rounded-md hover:bg-muted/60 transition-colors group"
             onClick={onToggle}
+            className="lg:hidden"
           >
-            {isOpen ? (
-              <ChevronLeft className="h-3.5 w-3.5 text-muted-foreground group-hover:text-foreground transition-colors" />
-            ) : (
-              <ChevronRight className="h-3.5 w-3.5 text-muted-foreground group-hover:text-foreground transition-colors" />
-            )}
+            {isOpen ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
           </Button>
         </div>
 
-        <div className={cn("p-8 pt-4", !isOpen && "lg:p-4 lg:pt-4")}>
-          <div className="flex items-center mb-6">
-            <div className="flex items-center justify-center w-10 h-10 bg-primary/10 rounded-lg">
-              <Workflow className="h-6 w-6 text-primary" />
-            </div>
-            {isOpen && (
-              <div className="ml-4">
-                <h2 className="text-xl font-bold text-foreground">Cue</h2>
-                <p className="text-sm text-muted-foreground">Workflow Generator</p>
-              </div>
-            )}
-          </div>
-          
-          {/* Main Navigation */}
-          <div className="space-y-3">
-            {isOpen && (
-              <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">
-                Navigation
-              </h3>
-            )}
-            {sidebarItems.map((item, index) => (
-              <Link key={index} href={item.href}>
-                <div
-                  className={cn(
-                    "flex items-center rounded-xl p-4 transition-all duration-200 group cursor-pointer",
-                    !isOpen && "lg:w-12 lg:h-12 lg:p-0 lg:justify-center lg:rounded-lg",
-                    item.active 
-                      ? "bg-primary text-primary-foreground shadow-sm" 
-                      : "hover:bg-muted/70 hover:shadow-sm"
-                  )}
-                >
-                  <div className={cn(
-                    "flex items-center justify-center",
-                    !isOpen && "lg:w-full lg:h-full"
+        {/* Navigation */}
+        <div className="flex-1 overflow-hidden">
+          <div className="p-4 space-y-1">
+            {sidebarItems.map((item) => (
+              <Link key={item.href} href={item.href}>
+                <div className={cn(
+                  "flex items-center rounded-lg transition-all duration-200 group",
+                  "hover:bg-muted/50 cursor-pointer",
+                  item.active ? "bg-muted text-primary" : "text-muted-foreground hover:text-foreground",
+                  isOpen ? "p-3" : "p-3 justify-center lg:hover:justify-start"
+                )}>
+                  <item.icon className={cn(
+                    "h-5 w-5 flex-shrink-0",
+                    item.active ? "text-primary" : "text-muted-foreground group-hover:text-foreground"
+                  )} />
+                  <span className={cn(
+                    "ml-3 font-medium transition-opacity duration-200 whitespace-nowrap",
+                    isOpen ? "opacity-100" : "opacity-0 lg:group-hover:opacity-100"
                   )}>
-                    <item.icon className="h-5 w-5" />
-                  </div>
-                  {isOpen && (
-                    <div className="ml-4 flex-1">
-                      <span className="text-sm font-medium">{item.label}</span>
-                    </div>
-                  )}
+                    {item.label}
+                  </span>
                 </div>
               </Link>
             ))}
           </div>
         </div>
         
+        {/* Dark Mode Toggle */}
         {isOpen && (
-          <>
-            <div className="px-8 py-6">
-              <div className="space-y-4">
-                <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                  Quick Actions
-                </h3>
-                <div className="space-y-2">
-                  {quickActions.map((action, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center p-3 rounded-lg hover:bg-muted/50 transition-all duration-200 cursor-pointer group"
-                      onClick={action.action}
-                    >
-                      <div className="flex items-center justify-center w-8 h-8 bg-muted/50 rounded-lg group-hover:bg-muted transition-colors">
-                        <action.icon className="h-4 w-4 text-muted-foreground" />
-                      </div>
-                      <span className="ml-3 text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">
-                        {action.label}
-                      </span>
-                    </div>
-                  ))}
+          <div className="px-8 py-4">
+            <div className="flex items-center justify-between p-4 bg-muted/30 rounded-xl">
+              <div className="flex items-center">
+                <div className="flex items-center justify-center w-8 h-8 bg-background rounded-lg">
+                  {theme === "dark" ? (
+                    <Moon className="h-4 w-4 text-foreground" />
+                  ) : (
+                    <Sun className="h-4 w-4 text-foreground" />
+                  )}
                 </div>
+                <span className="ml-3 text-sm font-medium">Dark Mode</span>
               </div>
+              <Switch
+                checked={theme === "dark"}
+                onCheckedChange={toggleTheme}
+                className="data-[state=checked]:bg-primary"
+              />
             </div>
-            
-            <div className="px-8 py-4">
-              <div className="flex items-center justify-between p-4 bg-muted/30 rounded-xl">
-                <div className="flex items-center">
-                  <div className="flex items-center justify-center w-8 h-8 bg-background rounded-lg">
-                    {theme === "dark" ? (
-                      <Moon className="h-4 w-4 text-foreground" />
-                    ) : (
-                      <Sun className="h-4 w-4 text-foreground" />
-                    )}
-                  </div>
-                  <span className="ml-3 text-sm font-medium">Dark Mode</span>
-                </div>
-                <Switch
-                  checked={theme === "dark"}
-                  onCheckedChange={toggleTheme}
-                  className="data-[state=checked]:bg-primary"
-                />
-              </div>
-            </div>
-          </>
+          </div>
         )}
 
         {/* Spacer */}
