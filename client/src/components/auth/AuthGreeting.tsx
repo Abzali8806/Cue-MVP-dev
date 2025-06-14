@@ -32,32 +32,20 @@ export default function AuthGreeting() {
   }
 
   return (
-    <div className="flex items-center">
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button className="bg-blue-600 hover:bg-blue-700 text-white transition-colors px-4 py-2 rounded text-sm font-medium flex items-center gap-2">
-            <LogIn className="h-4 w-4" />
-            Get Started
-            <ChevronDown className="h-3 w-3" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-48">
-          <DropdownMenuItem 
-            onClick={() => window.location.href = '/login?mode=signin'}
-            className="cursor-pointer"
-          >
-            <LogIn className="h-4 w-4 mr-2" />
-            Sign In
-          </DropdownMenuItem>
-          <DropdownMenuItem 
-            onClick={() => window.location.href = '/login?mode=signup'}
-            className="cursor-pointer"
-          >
-            <User className="h-4 w-4 mr-2" />
-            Sign Up
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+    <div className="flex items-center gap-2">
+      <button
+        onClick={() => window.location.href = '/login?mode=signin'}
+        className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-2 py-1 rounded hover:bg-gray-50 dark:hover:bg-gray-800 text-sm flex items-center gap-1.5"
+      >
+        <LogIn className="h-3 w-3" />
+        Log In
+      </button>
+      <button
+        onClick={() => window.location.href = '/login?mode=signup'}
+        className="bg-blue-600 hover:bg-blue-700 text-white transition-colors px-3 py-1.5 rounded text-sm font-medium"
+      >
+        Get Started
+      </button>
     </div>
   );
 }
