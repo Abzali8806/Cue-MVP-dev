@@ -20,7 +20,7 @@ function Router() {
   const { isAuthenticated, isLoading, user } = useAuth();
 
   // Show registration if authenticated but missing profile data
-  const needsRegistration = isAuthenticated && user && (!user.firstName || !user.companyName);
+  const needsRegistration = isAuthenticated && user && (!(user as any).firstName || !(user as any).companyName);
 
   if (isLoading) {
     return (

@@ -19,7 +19,7 @@ interface AppHeaderProps {
 
 export default function AppHeader({ onMenuToggle, isMobileMenuOpen }: AppHeaderProps) {
   const { generateWorkflowFromDescription } = useWorkflowGeneration();
-  const { user, logout, isAuthenticated } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const { clearWorkspace } = useWorkspacePersistence();
   const dispatch = useDispatch();
   const [location] = useLocation();
@@ -31,7 +31,7 @@ export default function AppHeader({ onMenuToggle, isMobileMenuOpen }: AppHeaderP
   };
 
   const handleLogout = () => {
-    logout();
+    window.location.href = "/api/logout";
   };
 
   return (

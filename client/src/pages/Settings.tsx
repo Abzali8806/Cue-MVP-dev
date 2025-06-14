@@ -26,7 +26,7 @@ import AuthGreeting from "@/components/auth/AuthGreeting";
 
 export default function Settings() {
   const { theme, toggleTheme } = useTheme();
-  const { user, logout, isLoading } = useAuth();
+  const { user, isLoading } = useAuth();
   const { clearWorkspace } = useWorkspacePersistence();
   const [notifications, setNotifications] = useState(true);
   const [autoSave, setAutoSave] = useState(true);
