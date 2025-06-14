@@ -17,6 +17,7 @@ RUN npm ci
 # Copy source code
 COPY client/ ./client/
 COPY server/ ./server/
+COPY shared/ ./shared/
 
 # Expose development port
 EXPOSE 5000

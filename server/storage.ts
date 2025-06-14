@@ -3,7 +3,7 @@ import {
   type User,
   type UpsertUser,
   type UserRegistration,
-} from "../shared/schema";
+} from "../shared/schema.js";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 
