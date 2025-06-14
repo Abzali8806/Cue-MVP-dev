@@ -123,27 +123,27 @@ export default function WorkflowGenerator() {
         
         <main className="flex-1 bg-blue-50 dark:bg-gray-900 h-[calc(100vh-3.5rem)] flex flex-col">
           {/* Tab Navigation */}
-          <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gray-900">
             <div className="max-w-6xl mx-auto px-4 sm:px-6">
               <div className="flex space-x-1">
                 <button
                   onClick={() => setActiveTab('input')}
-                  className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+                  className={`px-4 py-3 text-sm font-medium transition-colors ${
                     activeTab === 'input'
-                      ? 'border-blue-600 text-blue-600 dark:text-blue-400'
-                      : 'border-transparent text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:border-gray-300'
-                  }`}
+                      ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
+                      : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800'
+                  } rounded-t-lg`}
                 >
                   <FileText className="h-4 w-4 mr-2 inline" />
                   Workflow Input
                 </button>
                 <button
                   onClick={() => setActiveTab('workflow')}
-                  className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+                  className={`px-4 py-3 text-sm font-medium transition-colors ${
                     activeTab === 'workflow'
-                      ? 'border-blue-600 text-blue-600 dark:text-blue-400'
-                      : 'border-transparent text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:border-gray-300'
-                  } ${!workflowState.generatedCode ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
+                      : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800'
+                  } ${!workflowState.generatedCode ? 'opacity-50 cursor-not-allowed' : ''} rounded-t-lg`}
                   disabled={!workflowState.generatedCode}
                 >
                   <Workflow className="h-4 w-4 mr-2 inline" />
