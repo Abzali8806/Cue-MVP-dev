@@ -158,7 +158,7 @@ export default function WorkflowGenerator() {
 
           {/* Minimal Footer - Positioned at bottom */}
           <div className="mt-auto bg-blue-50 dark:bg-gray-900">
-            <div className="max-w-6xl mx-auto px-6 py-3">
+            <div className="max-w-6xl mx-auto px-6 pt-3 pb-1">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-500 dark:text-gray-400">
                 <span>© 2025 Cue</span>
                 <div className="flex items-center gap-4">
