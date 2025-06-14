@@ -12,7 +12,10 @@ import HelpModal from "../components/modals/HelpModal";
 import PersonalizedGreeting from "../components/auth/PersonalizedGreeting";
 import { useWorkflowGeneration } from "../hooks/useWorkflowGeneration";
 import { useAuth } from "../hooks/useAuth";
-import { FileText, Workflow, Code, Settings, Rocket } from "lucide-react";
+import { FileText, Workflow, Code, Settings, Rocket, Network, Key, ArrowLeft } from "lucide-react";
+import { Button } from "../components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
+import { motion } from "framer-motion";
 
 export default function WorkflowGenerator() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -110,124 +113,118 @@ export default function WorkflowGenerator() {
         </header>
         
         <main className="flex-1 bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-900 dark:to-blue-900/20 h-[calc(100vh-3.5rem)] flex flex-col">
-          <div className="max-w-6xl mx-auto px-6 flex-1 flex flex-col justify-center">
-            <div className="text-center space-y-8">
-              {/* Hero Headlines */}
-              <div className="space-y-6">
-                <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
+          {/* Hero Section - Takes up significant space */}
+          <div className="flex-1 flex flex-col justify-center max-w-7xl mx-auto px-8 py-16">
+            <div className="text-center space-y-16">
+              {/* Hero Headlines - More spacing */}
+              <div className="space-y-12">
+                <h1 className="text-6xl lg:text-7xl xl:text-8xl font-bold text-gray-900 dark:text-white leading-tight">
                   Speak It. Build It. Deploy It.
                 </h1>
-                <p className="text-2xl lg:text-3xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
+                <p className="text-3xl lg:text-4xl xl:text-5xl text-gray-600 dark:text-gray-300 max-w-5xl mx-auto leading-relaxed">
                   Effortless workflow automation from prompt to deployment with <span className="font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Cue</span>
                 </p>
               </div>
               
-              {/* Feature highlights */}
-              <div className="flex flex-wrap justify-center gap-6 text-lg text-gray-600 dark:text-gray-400">
-                <span className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+              {/* Feature highlights - More prominent */}
+              <div className="flex flex-wrap justify-center gap-12 text-xl lg:text-2xl text-gray-600 dark:text-gray-400">
+                <span className="flex items-center gap-3">
+                  <span className="w-3 h-3 bg-green-500 rounded-full"></span>
                   Speech-to-text input
                 </span>
-                <span className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                <span className="flex items-center gap-3">
+                  <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
                   Visual workflow generator
                 </span>
-                <span className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
+                <span className="flex items-center gap-3">
+                  <span className="w-3 h-3 bg-purple-500 rounded-full"></span>
                   One-click deployment
                 </span>
               </div>
-              
-              {/* Workflow Input */}
-              <div className="max-w-4xl mx-auto">
-                <WorkflowInput />
-              </div>
-              
-              {/* Personalized Greeting */}
-              <div>
+            </div>
+          </div>
+          
+          {/* Workflow Input Section - Takes up bottom third */}
+          <div className="flex-1 flex flex-col justify-center max-w-6xl mx-auto px-8 pb-16">
+            <div className="space-y-8">
+              <WorkflowInput />
+              <div className="flex justify-center">
                 <PersonalizedGreeting />
               </div>
             </div>
           </div>
 
-          <div className="max-w-7xl mx-auto px-6 py-12">
+          {/* Workflow Dashboard - Appears as overlay after generation */}
+          {workflowState.generatedCode && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 bg-white dark:bg-gray-900 z-50"
+            >
+              <div className="h-full flex flex-col">
+                {/* Dashboard Header */}
+                <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+                  <div className="flex items-center justify-between">
+                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Workflow Dashboard</h1>
+                    <Button
+                      onClick={() => window.location.reload()}
+                      variant="outline"
+                      size="sm"
+                      className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="h-4 w-4 mr-2" />
+                      Back to Generator
+                    </Button>
+                  </div>
+                </div>
 
-            {/* Workflow Visualization - Only show when workflow is generated */}
-            {workflowState.generatedCode && (
-              <div className="mb-16">
-                <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl shadow-md border border-gray-200/50 dark:border-gray-700/50 overflow-hidden">
-                  <div className="px-6 py-4 bg-gradient-to-r from-emerald-500/90 to-teal-600/90">
-                    <div className="flex items-center text-white">
-                      <Workflow className="h-5 w-5 mr-2" />
-                      <h2 className="text-xl font-medium">Visual Workflow</h2>
+                {/* Dashboard Content with Tabs */}
+                <div className="flex-1 overflow-hidden">
+                  <Tabs defaultValue="visualization" className="h-full flex flex-col">
+                    <div className="bg-gray-50 dark:bg-gray-800 px-6 py-2 border-b border-gray-200 dark:border-gray-700">
+                      <TabsList className="grid w-full max-w-2xl grid-cols-4">
+                        <TabsTrigger value="visualization" className="flex items-center gap-2">
+                          <Network className="h-4 w-4" />
+                          Workflow
+                        </TabsTrigger>
+                        <TabsTrigger value="code" className="flex items-center gap-2">
+                          <Code className="h-4 w-4" />
+                          Code
+                        </TabsTrigger>
+                        <TabsTrigger value="credentials" className="flex items-center gap-2">
+                          <Key className="h-4 w-4" />
+                          Credentials
+                        </TabsTrigger>
+                        <TabsTrigger value="deployment" className="flex items-center gap-2">
+                          <Rocket className="h-4 w-4" />
+                          Deploy
+                        </TabsTrigger>
+                      </TabsList>
                     </div>
-                    <p className="text-emerald-100 mt-1 text-sm">Interactive diagram of your automated workflow</p>
-                  </div>
-                  <div className="h-[600px]">
-                    <WorkflowVisualization />
-                  </div>
+
+                    <div className="flex-1 overflow-auto">
+                      <TabsContent value="visualization" className="p-6 h-full m-0">
+                        <WorkflowVisualization />
+                      </TabsContent>
+
+                      <TabsContent value="code" className="p-6 h-full m-0">
+                        <CodePreview />
+                      </TabsContent>
+
+                      <TabsContent value="credentials" className="p-6 h-full m-0">
+                        <CredentialManagement onOpenHelp={openHelpModal} />
+                      </TabsContent>
+
+                      <TabsContent value="deployment" className="p-6 h-full m-0">
+                        <DeploymentInstructions />
+                      </TabsContent>
+                    </div>
+                  </Tabs>
                 </div>
               </div>
-            )}
-
-            {/* Code and Credentials - Only show when workflow is generated */}
-            {workflowState.generatedCode && (
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-                
-                {/* Generated Code */}
-                <div className="lg:col-span-2">
-                  <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl shadow-md border border-gray-200/50 dark:border-gray-700/50 overflow-hidden h-full">
-                    <div className="px-6 py-4 bg-gradient-to-r from-purple-500/90 to-pink-600/90">
-                      <div className="flex items-center text-white">
-                        <Code className="h-5 w-5 mr-2" />
-                        <h2 className="text-xl font-medium">Generated Code</h2>
-                      </div>
-                      <p className="text-purple-100 mt-1 text-sm">Ready-to-deploy Python code for your workflow</p>
-                    </div>
-                    <div className="h-96 overflow-auto">
-                      <CodePreview />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Credentials */}
-                <div>
-                  <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl shadow-md border border-gray-200/50 dark:border-gray-700/50 overflow-hidden h-full">
-                    <div className="px-6 py-4 bg-gradient-to-r from-orange-500/90 to-red-600/90">
-                      <div className="flex items-center text-white">
-                        <Settings className="h-5 w-5 mr-2" />
-                        <h2 className="text-lg font-medium">Credentials</h2>
-                      </div>
-                      <p className="text-orange-100 mt-1 text-sm">API keys & tokens</p>
-                    </div>
-                    <div className="h-96 overflow-auto">
-                      <CredentialManagement onOpenHelp={openHelpModal} />
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            )}
-
-            {/* Deployment Section - Only show when workflow is generated */}
-            {workflowState.generatedCode && (
-              <div className="mb-8">
-                <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl shadow-md border border-gray-200/50 dark:border-gray-700/50 overflow-hidden">
-                  <div className="px-6 py-4 bg-gradient-to-r from-green-500/90 to-emerald-600/90">
-                    <div className="flex items-center text-white">
-                      <Rocket className="h-5 w-5 mr-2" />
-                      <h2 className="text-xl font-medium">Deploy to AWS</h2>
-                    </div>
-                    <p className="text-green-100 mt-1 text-sm">Step-by-step guide to get your workflow running in the cloud</p>
-                  </div>
-                  <div className="h-96 overflow-auto">
-                    <DeploymentInstructions />
-                  </div>
-                </div>
-              </div>
-            )}
-
-          </div>
+            </motion.div>
+          )}
         </main>
       </div>
 
