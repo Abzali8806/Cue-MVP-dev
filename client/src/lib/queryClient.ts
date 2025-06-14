@@ -10,30 +10,40 @@ async function throwIfResNotOk(res: Response) {
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
 export async function apiRequest(
-  method: string,
-  url: string,
-  data?: unknown | undefined,
+  endpoint: string,
+  options: RequestInit = {}
 ): Promise<Response> {
-  const fullUrl = url.startsWith('http') ? url : `${API_BASE_URL}${url}`;
+  const fullUrl = endpoint.startsWith('http') ? endpoint : `${API_BASE_URL}${endpoint}`;
   
-  // TODO: Add authentication headers when FastAPI backend is implemented
-  const headers: Record<string, string> = data ? { "Content-Type": "application/json" } : {};
+  // Get auth token from localStorage
+  const token = localStorage.getItem('authToken');
   
-  // Authentication will be handled by your FastAPI backend
-  // headers.Authorization = `Bearer ${your_jwt_token}`;
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    ...options.headers as Record<string, string>,
+  };
+  
+  // Add authentication header if token exists
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
   
   try {
     const res = await fetch(fullUrl, {
-      method,
+      ...options,
       headers,
-      body: data ? JSON.stringify(data) : undefined,
       credentials: "include",
     });
 
-    // TODO: Handle authentication errors when FastAPI backend is implemented
-    if (res.status === 401 || res.status === 403) {
-      // Authentication error handling will be implemented with FastAPI backend
-      throw new Error(`${res.status}: ${res.statusText || 'Unauthorized'}`);
+    // Handle authentication errors
+    if (res.status === 401) {
+      localStorage.removeItem('authToken');
+      // Don't redirect automatically - let components handle auth state
+      throw new Error('Authentication required');
+    }
+
+    if (res.status === 403) {
+      throw new Error('Access forbidden');
     }
 
     await throwIfResNotOk(res);
@@ -41,7 +51,8 @@ export async function apiRequest(
   } catch (error) {
     // Handle network errors when backend is not available
     if (error instanceof TypeError && error.message.includes('fetch')) {
-      throw new Error('Backend service unavailable. Please ensure your FastAPI backend is running.');
+      console.debug('Network error suppressed:', error);
+      throw new Error('Backend service unavailable');
     }
     throw error;
   }
@@ -54,22 +65,12 @@ export const getQueryFn: <T>(options: {
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
     const url = queryKey[0] as string;
-    const fullUrl = url.startsWith('http') ? url : `${API_BASE_URL}${url}`;
     
     try {
-      const res = await fetch(fullUrl, {
-        credentials: "include",
-      });
+      const res = await apiRequest(url, { method: 'GET' });
 
       if (unauthorizedBehavior === "returnNull" && res.status === 401) {
         return null;
-      }
-
-      if (!res.ok) {
-        if (unauthorizedBehavior === "returnNull") {
-          return null;
-        }
-        throw new Error(`${res.status}: ${res.statusText}`);
       }
 
       return await res.json();

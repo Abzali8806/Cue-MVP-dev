@@ -6,6 +6,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { ArrowLeft, Sun, Moon } from "lucide-react";
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import { useTheme } from "../lib/theme";
+import { getOAuthUrl } from "@/lib/auth";
 
 export default function Login() {
   const { theme, toggleTheme } = useTheme();
@@ -17,9 +18,7 @@ export default function Login() {
     setError("");
     
     try {
-      // TODO: Replace with actual FastAPI OAuth endpoint
-      // This will redirect to your FastAPI backend's Google OAuth endpoint
-      window.location.href = `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/auth/google`;
+      window.location.href = getOAuthUrl('google');
     } catch (err) {
       setError("Failed to initiate Google authentication");
       setIsLoading(null);
@@ -31,9 +30,7 @@ export default function Login() {
     setError("");
     
     try {
-      // TODO: Replace with actual FastAPI OAuth endpoint
-      // This will redirect to your FastAPI backend's GitHub OAuth endpoint
-      window.location.href = `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/auth/github`;
+      window.location.href = getOAuthUrl('github');
     } catch (err) {
       setError("Failed to initiate GitHub authentication");
       setIsLoading(null);
