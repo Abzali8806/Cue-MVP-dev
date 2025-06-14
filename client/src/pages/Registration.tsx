@@ -1,7 +1,6 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -17,7 +16,6 @@ import type { UserRegistration } from "../../../shared/schema";
 export default function Registration() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
-  const queryClient = useQueryClient();
 
   const form = useForm<UserRegistration>({
     resolver: zodResolver(userRegistrationSchema),
@@ -33,13 +31,14 @@ export default function Registration() {
 
   const registrationMutation = useMutation({
     mutationFn: async (data: UserRegistration) => {
-      return await apiRequest("/api/profile/complete", {
-        method: "POST",
+      // This will call your FastAPI registration endpoint
+      const response = await apiRequest('/api/auth/register', {
+        method: 'POST',
         body: JSON.stringify(data),
       });
+      return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
       toast({
         title: "Profile completed!",
         description: "Welcome to Cue. You can now start building workflows.",

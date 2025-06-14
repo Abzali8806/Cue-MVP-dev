@@ -8,6 +8,8 @@ import { ThemeProvider } from "./lib/theme";
 import WorkflowGenerator from "@/pages/WorkflowBuilder";
 import History from "@/pages/History";
 import Settings from "@/pages/Settings";
+import Login from "@/pages/Login";
+import Registration from "@/pages/Registration";
 import Profile from "@/pages/Profile";
 
 import NotFound from "@/pages/not-found";
@@ -16,6 +18,8 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={WorkflowGenerator} />
+      <Route path="/login" component={Login} />
+      <Route path="/register" component={Registration} />
       <Route path="/history" component={History} />
       <Route path="/settings" component={Settings} />
       <Route path="/profile" component={Profile} />
