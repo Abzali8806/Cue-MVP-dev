@@ -122,33 +122,37 @@ export default function WorkflowGenerator() {
         </header>
         
         <main className="flex-1 bg-blue-50 dark:bg-gray-900 h-[calc(100vh-3.5rem)] flex flex-col">
-          {/* Tab Navigation */}
-          <div className="bg-white dark:bg-gray-900">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6">
-              <div className="flex space-x-1">
-                <button
-                  onClick={() => setActiveTab('input')}
-                  className={`px-4 py-3 text-sm font-medium transition-colors ${
-                    activeTab === 'input'
-                      ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
-                      : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800'
-                  } rounded-t-lg`}
-                >
-                  <FileText className="h-4 w-4 mr-2 inline" />
-                  Workflow Input
-                </button>
-                <button
-                  onClick={() => setActiveTab('workflow')}
-                  className={`px-4 py-3 text-sm font-medium transition-colors ${
-                    activeTab === 'workflow'
-                      ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
-                      : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800'
-                  } ${!workflowState.generatedCode ? 'opacity-50 cursor-not-allowed' : ''} rounded-t-lg`}
-                  disabled={!workflowState.generatedCode}
-                >
-                  <Workflow className="h-4 w-4 mr-2 inline" />
-                  Generated Workflow
-                </button>
+          {/* Floating Navigation Pills */}
+          <div className="bg-blue-50 dark:bg-gray-900 relative">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
+              <div className="flex justify-center">
+                <div className="bg-white dark:bg-gray-800 p-1 rounded-full shadow-sm border border-gray-200 dark:border-gray-700">
+                  <div className="flex space-x-1">
+                    <button
+                      onClick={() => setActiveTab('input')}
+                      className={`px-4 py-2 text-sm font-medium transition-all duration-200 rounded-full ${
+                        activeTab === 'input'
+                          ? 'bg-blue-600 text-white shadow-md'
+                          : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700'
+                      }`}
+                    >
+                      <FileText className="h-4 w-4 mr-2 inline" />
+                      Input
+                    </button>
+                    <button
+                      onClick={() => setActiveTab('workflow')}
+                      className={`px-4 py-2 text-sm font-medium transition-all duration-200 rounded-full ${
+                        activeTab === 'workflow'
+                          ? 'bg-blue-600 text-white shadow-md'
+                          : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700'
+                      } ${!workflowState.generatedCode ? 'opacity-40 cursor-not-allowed' : ''}`}
+                      disabled={!workflowState.generatedCode}
+                    >
+                      <Workflow className="h-4 w-4 mr-2 inline" />
+                      Workflow
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
