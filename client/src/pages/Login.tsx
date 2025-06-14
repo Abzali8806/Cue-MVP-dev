@@ -13,26 +13,14 @@ export default function Login() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState<string | null>(null);
 
-  const handleGoogleLogin = async () => {
-    setIsLoading("google");
+  const handleOAuthLogin = () => {
+    setIsLoading("oauth");
     setError("");
     
     try {
-      window.location.href = getOAuthUrl('google');
+      window.location.href = "/api/login";
     } catch (err) {
-      setError("Failed to initiate Google authentication");
-      setIsLoading(null);
-    }
-  };
-
-  const handleGithubLogin = async () => {
-    setIsLoading("github");
-    setError("");
-    
-    try {
-      window.location.href = getOAuthUrl('github');
-    } catch (err) {
-      setError("Failed to initiate GitHub authentication");
+      setError("Failed to initiate authentication");
       setIsLoading(null);
     }
   };
@@ -122,14 +110,14 @@ export default function Login() {
                     </Alert>
                   )}
 
-                  {/* Google OAuth Button */}
+                  {/* OAuth Button */}
                   <Button 
-                    onClick={handleGoogleLogin}
+                    onClick={handleOAuthLogin}
                     className="w-full h-12 bg-white hover:bg-gray-50 text-gray-900 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white rounded-xl"
                     disabled={isLoading !== null}
                     variant="outline"
                   >
-                    {isLoading === "google" ? (
+                    {isLoading === "oauth" ? (
                       <div className="flex items-center">
                         <div className="w-4 h-4 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin mr-3"></div>
                         Connecting...
@@ -144,11 +132,11 @@ export default function Login() {
 
                   {/* GitHub OAuth Button */}
                   <Button 
-                    onClick={handleGithubLogin}
+                    onClick={handleOAuthLogin}
                     className="w-full h-12 bg-gray-900 hover:bg-gray-800 text-white dark:bg-gray-700 dark:hover:bg-gray-600 rounded-xl"
                     disabled={isLoading !== null}
                   >
-                    {isLoading === "github" ? (
+                    {isLoading === "oauth" ? (
                       <div className="flex items-center">
                         <div className="w-4 h-4 border-2 border-gray-300 border-t-white rounded-full animate-spin mr-3"></div>
                         Connecting...
