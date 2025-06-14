@@ -60,111 +60,112 @@ export default function WorkflowGenerator() {
           isMobileMenuOpen={isSidebarOpen}
         />
         
-        <main className="flex-1 overflow-auto">
-          <div className="max-w-7xl mx-auto p-6">
-            
-            {/* Page Header */}
-            <div className="mb-8">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h1 className="text-3xl font-bold">Workflow Generator</h1>
-                  <p className="text-muted-foreground mt-2">
-                    Create automated workflows with natural language
+        <main className="flex-1 overflow-auto bg-gray-50 dark:bg-gray-950">
+          {/* Hero Section */}
+          <div className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 border-b">
+            <div className="max-w-7xl mx-auto px-6 py-12">
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+                <div className="flex-1 max-w-2xl">
+                  <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                    Build Workflows with
+                    <span className="text-blue-600 dark:text-blue-400"> Natural Language</span>
+                  </h1>
+                  <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
+                    Transform your ideas into automated workflows. Simply describe what you want, and watch it come to life.
                   </p>
                 </div>
-                <PersonalizedGreeting />
+                <div className="flex-shrink-0 lg:ml-12">
+                  <PersonalizedGreeting />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="max-w-7xl mx-auto px-6 py-12">
+            
+            {/* Main Workflow Input */}
+            <div className="mb-16">
+              <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+                <div className="bg-gradient-to-r from-blue-500 to-indigo-600 px-8 py-6">
+                  <div className="flex items-center text-white">
+                    <FileText className="h-6 w-6 mr-3" />
+                    <h2 className="text-2xl font-semibold">Describe Your Workflow</h2>
+                  </div>
+                  <p className="text-blue-100 mt-2">Tell us what you want to automate in plain English</p>
+                </div>
+                <WorkflowInput />
               </div>
             </div>
 
-            {/* Workflow Sections */}
-            <div className="space-y-8">
-              
-              {/* Workflow Input Section */}
-              <section className="bg-white dark:bg-gray-900 rounded-lg border border-border shadow-sm">
-                <div className="border-b border-border bg-muted/20 px-6 py-4">
-                  <div className="flex items-center">
-                    <FileText className="h-5 w-5 mr-3 text-primary" />
-                    <h2 className="text-lg font-semibold">Workflow Input</h2>
-                    <span className="ml-3 text-sm text-muted-foreground">
-                      Describe your workflow in natural language
-                    </span>
+            {/* Workflow Visualization */}
+            <div className="mb-16">
+              <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+                <div className="bg-gradient-to-r from-emerald-500 to-teal-600 px-8 py-6">
+                  <div className="flex items-center text-white">
+                    <Workflow className="h-6 w-6 mr-3" />
+                    <h2 className="text-2xl font-semibold">Visual Workflow</h2>
                   </div>
+                  <p className="text-emerald-100 mt-2">Interactive diagram of your automated workflow</p>
                 </div>
-                <div className="p-0">
-                  <WorkflowInput />
-                </div>
-              </section>
-
-              {/* Workflow Visualization Section */}
-              <section className="bg-white dark:bg-gray-900 rounded-lg border border-border shadow-sm">
-                <div className="border-b border-border bg-muted/20 px-6 py-4">
-                  <div className="flex items-center">
-                    <Workflow className="h-5 w-5 mr-3 text-primary" />
-                    <h2 className="text-lg font-semibold">Workflow Visualization</h2>
-                    <span className="ml-3 text-sm text-muted-foreground">
-                      Interactive node-based workflow display
-                    </span>
-                  </div>
-                </div>
-                <div className="h-96 lg:h-[500px]">
+                <div className="h-[600px]">
                   <WorkflowVisualization />
                 </div>
-              </section>
+              </div>
+            </div>
 
-              {/* Two Column Layout for Code and Credentials */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                
-                {/* Code Preview */}
-                <section className="bg-white dark:bg-gray-900 rounded-lg border border-border shadow-sm">
-                  <div className="border-b border-border bg-muted/20 px-6 py-4">
-                    <div className="flex items-center">
-                      <Code className="h-5 w-5 mr-3 text-primary" />
-                      <h2 className="text-lg font-semibold">Generated Code</h2>
-                      <span className="ml-3 text-sm text-muted-foreground">
-                        Preview and download
-                      </span>
+            {/* Three Column Layout */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+              
+              {/* Generated Code */}
+              <div className="lg:col-span-2">
+                <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 overflow-hidden h-full">
+                  <div className="bg-gradient-to-r from-purple-500 to-pink-600 px-8 py-6">
+                    <div className="flex items-center text-white">
+                      <Code className="h-6 w-6 mr-3" />
+                      <h2 className="text-2xl font-semibold">Generated Code</h2>
                     </div>
+                    <p className="text-purple-100 mt-2">Ready-to-deploy Python code for your workflow</p>
                   </div>
-                  <div className="h-80 overflow-auto">
+                  <div className="h-96 overflow-auto">
                     <CodePreview />
                   </div>
-                </section>
-
-                {/* Credentials Management */}
-                <section className="bg-white dark:bg-gray-900 rounded-lg border border-border shadow-sm">
-                  <div className="border-b border-border bg-muted/20 px-6 py-4">
-                    <div className="flex items-center">
-                      <Settings className="h-5 w-5 mr-3 text-primary" />
-                      <h2 className="text-lg font-semibold">Credentials</h2>
-                      <span className="ml-3 text-sm text-muted-foreground">
-                        Configure API keys and tokens
-                      </span>
-                    </div>
-                  </div>
-                  <div className="h-80 overflow-auto">
-                    <CredentialManagement onOpenHelp={openHelpModal} />
-                  </div>
-                </section>
-
+                </div>
               </div>
 
-              {/* Deployment Instructions */}
-              <section className="bg-white dark:bg-gray-900 rounded-lg border border-border shadow-sm">
-                <div className="border-b border-border bg-muted/20 px-6 py-4">
-                  <div className="flex items-center">
-                    <Rocket className="h-5 w-5 mr-3 text-primary" />
-                    <h2 className="text-lg font-semibold">AWS Deployment</h2>
-                    <span className="ml-3 text-sm text-muted-foreground">
-                      Step-by-step deployment guide
-                    </span>
+              {/* Credentials */}
+              <div>
+                <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 overflow-hidden h-full">
+                  <div className="bg-gradient-to-r from-orange-500 to-red-600 px-6 py-6">
+                    <div className="flex items-center text-white">
+                      <Settings className="h-5 w-5 mr-3" />
+                      <h2 className="text-xl font-semibold">Credentials</h2>
+                    </div>
+                    <p className="text-orange-100 mt-2 text-sm">API keys & tokens</p>
                   </div>
+                  <div className="h-96 overflow-auto">
+                    <CredentialManagement onOpenHelp={openHelpModal} />
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Deployment Section */}
+            <div className="mb-8">
+              <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+                <div className="bg-gradient-to-r from-green-500 to-emerald-600 px-8 py-6">
+                  <div className="flex items-center text-white">
+                    <Rocket className="h-6 w-6 mr-3" />
+                    <h2 className="text-2xl font-semibold">Deploy to AWS</h2>
+                  </div>
+                  <p className="text-green-100 mt-2">Step-by-step guide to get your workflow running in the cloud</p>
                 </div>
                 <div className="h-96 overflow-auto">
                   <DeploymentInstructions />
                 </div>
-              </section>
-
+              </div>
             </div>
+
           </div>
         </main>
       </div>
