@@ -11,6 +11,9 @@ import Settings from "@/pages/Settings";
 import Login from "@/pages/Login";
 import Registration from "@/pages/Registration";
 import Profile from "@/pages/Profile";
+import Privacy from "@/pages/Privacy";
+import Terms from "@/pages/Terms";
+import Support from "@/pages/Support";
 
 import NotFound from "@/pages/not-found";
 
@@ -23,6 +26,9 @@ function Router() {
       <Route path="/history" component={History} />
       <Route path="/settings" component={Settings} />
       <Route path="/profile" component={Profile} />
+      <Route path="/privacy" component={Privacy} />
+      <Route path="/terms" component={Terms} />
+      <Route path="/support" component={Support} />
       <Route component={NotFound} />
     </Switch>
   );
