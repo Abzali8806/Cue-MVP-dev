@@ -161,74 +161,80 @@ export default function WorkflowGenerator() {
 
           <div className="max-w-7xl mx-auto px-6 py-12">
 
-            {/* Workflow Visualization */}
-            <div className="mb-16">
-              <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
-                <div className="bg-gradient-to-r from-emerald-500 to-teal-600 px-8 py-6">
-                  <div className="flex items-center text-white">
-                    <Workflow className="h-6 w-6 mr-3" />
-                    <h2 className="text-2xl font-semibold">Visual Workflow</h2>
+            {/* Workflow Visualization - Only show when workflow is generated */}
+            {workflowState.generatedCode && (
+              <div className="mb-16">
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+                  <div className="bg-gradient-to-r from-emerald-500 to-teal-600 px-8 py-6">
+                    <div className="flex items-center text-white">
+                      <Workflow className="h-6 w-6 mr-3" />
+                      <h2 className="text-2xl font-semibold">Visual Workflow</h2>
+                    </div>
+                    <p className="text-emerald-100 mt-2">Interactive diagram of your automated workflow</p>
                   </div>
-                  <p className="text-emerald-100 mt-2">Interactive diagram of your automated workflow</p>
-                </div>
-                <div className="h-[600px]">
-                  <WorkflowVisualization />
+                  <div className="h-[600px]">
+                    <WorkflowVisualization />
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
-            {/* Three Column Layout */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-              
-              {/* Generated Code */}
-              <div className="lg:col-span-2">
-                <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden h-full">
-                  <div className="bg-gradient-to-r from-purple-500 to-pink-600 px-8 py-6">
-                    <div className="flex items-center text-white">
-                      <Code className="h-6 w-6 mr-3" />
-                      <h2 className="text-2xl font-semibold">Generated Code</h2>
+            {/* Code and Credentials - Only show when workflow is generated */}
+            {workflowState.generatedCode && (
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+                
+                {/* Generated Code */}
+                <div className="lg:col-span-2">
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden h-full">
+                    <div className="bg-gradient-to-r from-purple-500 to-pink-600 px-8 py-6">
+                      <div className="flex items-center text-white">
+                        <Code className="h-6 w-6 mr-3" />
+                        <h2 className="text-2xl font-semibold">Generated Code</h2>
+                      </div>
+                      <p className="text-purple-100 mt-2">Ready-to-deploy Python code for your workflow</p>
                     </div>
-                    <p className="text-purple-100 mt-2">Ready-to-deploy Python code for your workflow</p>
+                    <div className="h-96 overflow-auto">
+                      <CodePreview />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Credentials */}
+                <div>
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden h-full">
+                    <div className="bg-gradient-to-r from-orange-500 to-red-600 px-6 py-6">
+                      <div className="flex items-center text-white">
+                        <Settings className="h-5 w-5 mr-3" />
+                        <h2 className="text-xl font-semibold">Credentials</h2>
+                      </div>
+                      <p className="text-orange-100 mt-2 text-sm">API keys & tokens</p>
+                    </div>
+                    <div className="h-96 overflow-auto">
+                      <CredentialManagement onOpenHelp={openHelpModal} />
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            )}
+
+            {/* Deployment Section - Only show when workflow is generated */}
+            {workflowState.generatedCode && (
+              <div className="mb-8">
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+                  <div className="bg-gradient-to-r from-green-500 to-emerald-600 px-8 py-6">
+                    <div className="flex items-center text-white">
+                      <Rocket className="h-6 w-6 mr-3" />
+                      <h2 className="text-2xl font-semibold">Deploy to AWS</h2>
+                    </div>
+                    <p className="text-green-100 mt-2">Step-by-step guide to get your workflow running in the cloud</p>
                   </div>
                   <div className="h-96 overflow-auto">
-                    <CodePreview />
+                    <DeploymentInstructions />
                   </div>
                 </div>
               </div>
-
-              {/* Credentials */}
-              <div>
-                <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden h-full">
-                  <div className="bg-gradient-to-r from-orange-500 to-red-600 px-6 py-6">
-                    <div className="flex items-center text-white">
-                      <Settings className="h-5 w-5 mr-3" />
-                      <h2 className="text-xl font-semibold">Credentials</h2>
-                    </div>
-                    <p className="text-orange-100 mt-2 text-sm">API keys & tokens</p>
-                  </div>
-                  <div className="h-96 overflow-auto">
-                    <CredentialManagement onOpenHelp={openHelpModal} />
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
-            {/* Deployment Section */}
-            <div className="mb-8">
-              <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
-                <div className="bg-gradient-to-r from-green-500 to-emerald-600 px-8 py-6">
-                  <div className="flex items-center text-white">
-                    <Rocket className="h-6 w-6 mr-3" />
-                    <h2 className="text-2xl font-semibold">Deploy to AWS</h2>
-                  </div>
-                  <p className="text-green-100 mt-2">Step-by-step guide to get your workflow running in the cloud</p>
-                </div>
-                <div className="h-96 overflow-auto">
-                  <DeploymentInstructions />
-                </div>
-              </div>
-            </div>
+            )}
 
           </div>
         </main>
