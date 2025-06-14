@@ -59,64 +59,67 @@ export default function SpeechToText({ onTranscription }: SpeechToTextProps) {
   }
 
   return (
-    <div className="flex items-center space-x-3">
+    <div className="flex items-center space-x-2 sm:space-x-3">
       {/* Microphone Button */}
       <Button
         onClick={handleToggleRecording}
         size="sm"
         variant="ghost"
         className={cn(
-          "h-9 w-9 rounded-full flex-shrink-0",
+          "h-8 w-8 sm:h-9 sm:w-9 rounded-full flex-shrink-0",
           isRecording 
             ? "bg-red-500 hover:bg-red-600 text-white animate-pulse" 
             : "hover:bg-gray-100 dark:hover:bg-gray-800"
         )}
       >
         {isRecording ? (
-          <MicOff className="h-4 w-4" />
+          <MicOff className="h-3 w-3 sm:h-4 sm:w-4" />
         ) : (
-          <Mic className="h-4 w-4" />
+          <Mic className="h-3 w-3 sm:h-4 sm:w-4" />
         )}
       </Button>
 
       {/* Status Display */}
       {isRecording && (
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-1 sm:space-x-2">
           <div className="flex items-center space-x-1">
             <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-            <span className="text-sm text-gray-600 dark:text-gray-400">
-              Listening...
+            <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+              <span className="hidden sm:inline">Listening...</span>
+              <span className="sm:hidden">Rec</span>
             </span>
           </div>
           {confidence > 0 && (
-            <span className="text-xs text-gray-400">
+            <span className="text-xs text-gray-400 hidden sm:inline">
               {Math.round(confidence * 100)}%
             </span>
           )}
         </div>
       )}
 
-      {/* Language Selector - Only show when not recording */}
+      {/* Language Selector - Only show when not recording and on larger screens */}
       {!isRecording && (
-        <Select value={language} onValueChange={changeLanguage}>
-          <SelectTrigger className="w-24 h-8 text-xs border-0 bg-transparent">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {supportedLanguages.map((lang) => (
-              <SelectItem key={lang.code} value={lang.code}>
-                {lang.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <div className="hidden sm:block">
+          <Select value={language} onValueChange={changeLanguage}>
+            <SelectTrigger className="w-20 sm:w-24 h-7 sm:h-8 text-xs border-0 bg-transparent">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {supportedLanguages.map((lang) => (
+                <SelectItem key={lang.code} value={lang.code}>
+                  {lang.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       )}
 
       {/* Error Display */}
       {error && (
         <div className="flex items-center space-x-1 text-red-500">
           <AlertCircle className="h-3 w-3" />
-          <span className="text-xs">Error</span>
+          <span className="text-xs hidden sm:inline">Error</span>
         </div>
       )}
 
