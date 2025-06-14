@@ -12,6 +12,7 @@ import Settings from "@/pages/Settings";
 import Login from "@/pages/Login";
 import Registration from "@/pages/Registration";
 import Profile from "@/pages/Profile";
+import AuthDemo from "@/pages/AuthDemo";
 import AuthCallback from "@/components/auth/AuthCallback";
 
 import NotFound from "@/pages/not-found";
@@ -48,6 +49,7 @@ function Router() {
       )}
       <Route path="/login" component={Login} />
       <Route path="/register" component={Registration} />
+      <Route path="/demo" component={AuthDemo} />
       <Route path="/auth/callback" component={AuthCallback} />
 
       <Route component={NotFound} />

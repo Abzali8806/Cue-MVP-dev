@@ -35,19 +35,25 @@ function findAvailablePort(startPort: number): Promise<number> {
 // Wait for Vite to start, then set up routes and proxy
 setTimeout(async () => {
   // Register API routes first
-  await registerRoutes(app);
+  const server = await registerRoutes(app);
   
-  // Then proxy all other routes to Vite
-  app.use('/', createProxyMiddleware({
-    target: `http://localhost:${VITE_PORT}`,
-    changeOrigin: true,
-    ws: true
-  }));
+  // Then proxy non-API routes to Vite
+  app.use((req, res, next) => {
+    if (req.path.startsWith('/api')) {
+      return next();
+    }
+    return createProxyMiddleware({
+      target: `http://localhost:${VITE_PORT}`,
+      changeOrigin: true,
+      ws: true
+    })(req, res, next);
+  });
 
   try {
     const availablePort = await findAvailablePort(5000);
-    app.listen(availablePort, '0.0.0.0', () => {
-      console.log(`Proxy server running on http://0.0.0.0:${availablePort}`);
+    server.listen(availablePort, '0.0.0.0', () => {
+      console.log(`Server running on http://0.0.0.0:${availablePort}`);
+      console.log(`API routes available at /api/*`);
       console.log(`Proxying to Vite dev server on port ${VITE_PORT}`);
     });
   } catch (error) {
