@@ -265,9 +265,9 @@ export default function WorkflowGenerator() {
             <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
               <span className="text-sm text-gray-500 dark:text-gray-500">© 2025 Cue</span>
               <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-500">
-                <span className="hover:text-gray-700 dark:hover:text-gray-400 cursor-pointer transition-colors">Privacy</span>
-                <span className="hover:text-gray-700 dark:hover:text-gray-400 cursor-pointer transition-colors">Terms</span>
-                <span className="hover:text-gray-700 dark:hover:text-gray-400 cursor-pointer transition-colors">Support</span>
+                <Link href="/privacy" className="hover:text-gray-700 dark:hover:text-gray-400 cursor-pointer transition-colors">Privacy</Link>
+                <Link href="/terms" className="hover:text-gray-700 dark:hover:text-gray-400 cursor-pointer transition-colors">Terms</Link>
+                <Link href="/support" className="hover:text-gray-700 dark:hover:text-gray-400 cursor-pointer transition-colors">Support</Link>
               </div>
             </div>
           </div>
