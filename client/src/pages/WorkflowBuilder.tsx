@@ -113,10 +113,10 @@ export default function WorkflowGenerator() {
         </header>
         
         <main className="flex-1 bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-900 dark:to-blue-900/20 h-[calc(100vh-3.5rem)] flex flex-col">
-          <div className="flex-1 flex flex-col justify-center max-w-6xl mx-auto px-6 py-8">
-            <div className="text-center space-y-12">
+          <div className="flex-1 flex flex-col justify-center max-w-6xl mx-auto px-6 py-16">
+            <div className="text-center space-y-16">
               {/* Hero Headlines */}
-              <div className="space-y-8">
+              <div className="space-y-10">
                 <h1 className="text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 dark:text-white leading-tight">
                   Speak It. Build It. Deploy It.
                 </h1>
