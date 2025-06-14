@@ -156,10 +156,10 @@ export default function WorkflowGenerator() {
             </div>
           </div>
 
-          {/* Minimal Footer - Positioned at bottom */}
-          <div className="mt-auto bg-blue-50 dark:bg-gray-900 m-0">
-            <div className="max-w-6xl mx-auto px-6 pt-3 pb-0 m-0">
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-500 dark:text-gray-400 m-0">
+          {/* Footer */}
+          <footer className="bg-blue-50 dark:bg-gray-900">
+            <div className="max-w-6xl mx-auto px-6">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-500 dark:text-gray-400 py-2">
                 <span>© 2025 Cue</span>
                 <div className="flex items-center gap-4">
                   <span>Privacy</span>
@@ -168,7 +168,7 @@ export default function WorkflowGenerator() {
                 </div>
               </div>
             </div>
-          </div>
+          </footer>
 
           {/* Workflow Dashboard - Appears as overlay after generation */}
           {workflowState.generatedCode && (
