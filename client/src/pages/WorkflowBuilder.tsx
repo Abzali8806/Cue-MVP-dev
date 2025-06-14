@@ -45,20 +45,63 @@ export default function WorkflowGenerator() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex">
-      {/* Sidebar */}
-      <Sidebar 
-        isOpen={isSidebarOpen} 
-        onToggle={() => setIsSidebarOpen(!isSidebarOpen)} 
-      />
-      
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0">
-        {/* Header */}
-        <AppHeader 
-          onMenuToggle={() => setIsSidebarOpen(!isSidebarOpen)}
-          isMobileMenuOpen={isSidebarOpen}
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      {/* Sidebar - Only show on mobile when open */}
+      {isSidebarOpen && (
+        <Sidebar 
+          isOpen={isSidebarOpen} 
+          onToggle={() => setIsSidebarOpen(!isSidebarOpen)} 
         />
+      )}
+      
+      {/* Main Content - Full width */}
+      <div className="flex-1 flex flex-col">
+        {/* Simplified Header */}
+        <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-40">
+          <div className="max-w-7xl mx-auto px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <button
+                  onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                  className="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                >
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                </button>
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">C</span>
+                  </div>
+                  <h1 className="text-xl font-bold text-gray-900 dark:text-white">Cue</h1>
+                </div>
+              </div>
+              
+              <nav className="hidden md:flex items-center space-x-8">
+                <a href="/" className="text-blue-600 font-medium hover:text-blue-700 transition-colors">Workflow Generator</a>
+                <a href="/history" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">My Workflows</a>
+                <a href="/settings" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">Settings</a>
+              </nav>
+
+              <div className="flex items-center space-x-3">
+                <button 
+                  className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  title="Toggle theme"
+                >
+                  <svg className="h-5 w-5 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                  </svg>
+                </button>
+                <a 
+                  href="/login"
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm"
+                >
+                  Sign In
+                </a>
+              </div>
+            </div>
+          </div>
+        </header>
         
         <main className="flex-1 overflow-auto bg-gray-50 dark:bg-gray-950">
           {/* Hero Section */}

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Copy, Download, Check } from "lucide-react";
+import { Copy, Download, Check, Code } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { 
   downloadPythonFile, 
@@ -99,28 +99,47 @@ export default function CodePreview() {
     },
   ];
 
-  return (
-    <Card className="h-full border-0 shadow-none rounded-none">
-      <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-lg font-semibold">Generated Code</CardTitle>
-          <div className="flex space-x-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleDownloadAll}
-              className="bg-success hover:bg-success/90 text-success-foreground"
-            >
-              <Download className="h-4 w-4 mr-2" />
-              Download All
-            </Button>
+  // Show empty state when no code is generated
+  if (!workflowCode) {
+    return (
+      <div className="h-full flex items-center justify-center p-8">
+        <div className="text-center space-y-4">
+          <div className="w-16 h-16 mx-auto bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+            <svg className="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+            </svg>
+          </div>
+          <div>
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white">No Code Generated Yet</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-sm">
+              Describe your workflow above to generate Python code automatically
+            </p>
           </div>
         </div>
-      </CardHeader>
-      
-      <CardContent className="h-[calc(100%-5rem)] p-0">
+      </div>
+    );
+  }
+
+  return (
+    <div className="h-full flex flex-col">
+      {/* Header with Download Button */}
+      <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+        <h3 className="font-medium text-gray-900 dark:text-white">Generated Files</h3>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleDownloadAll}
+          className="bg-green-50 border-green-200 text-green-700 hover:bg-green-100 dark:bg-green-900/20 dark:border-green-800 dark:text-green-400"
+        >
+          <Download className="h-4 w-4 mr-2" />
+          Download All
+        </Button>
+      </div>
+
+      {/* Code Tabs */}
+      <div className="flex-1 min-h-0">
         <Tabs defaultValue="workflow" className="h-full flex flex-col">
-          <TabsList className="grid w-full grid-cols-3 mx-6 mb-4">
+          <TabsList className="grid w-full grid-cols-3 mx-4 mt-4">
             {tabs.map((tab) => (
               <TabsTrigger key={tab.value} value={tab.value} className="text-sm">
                 {tab.label}
@@ -129,11 +148,11 @@ export default function CodePreview() {
           </TabsList>
           
           {tabs.map((tab) => (
-            <TabsContent key={tab.value} value={tab.value} className="flex-1 mx-6 mb-6 min-h-0">
-              <div className="h-full border border-border rounded-lg overflow-hidden flex flex-col">
+            <TabsContent key={tab.value} value={tab.value} className="flex-1 mx-4 mb-4 min-h-0">
+              <div className="h-full border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden flex flex-col bg-white dark:bg-gray-900">
                 {/* Tab Header with Controls */}
-                <div className="flex items-center justify-between p-3 bg-muted border-b border-border">
-                  <span className="text-sm font-medium">{tab.label}</span>
+                <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                  <span className="text-sm font-medium text-gray-900 dark:text-white">{tab.label}</span>
                   <div className="flex space-x-2">
                     <Button
                       variant="outline"
@@ -169,8 +188,7 @@ export default function CodePreview() {
                 <ScrollArea className="flex-1 bg-gray-900">
                   <div className="p-4">
                     <pre className={cn(
-                      "text-sm font-mono text-gray-100 whitespace-pre-wrap",
-                      "code-highlight"
+                      "text-sm font-mono text-gray-100 whitespace-pre-wrap"
                     )}>
                       {tab.language === "python" ? (
                         <div
@@ -188,24 +206,7 @@ export default function CodePreview() {
             </TabsContent>
           ))}
         </Tabs>
-      </CardContent>
-      
-      {/* Empty State */}
-      {!workflowCode && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center space-y-4 p-8">
-            <div className="w-16 h-16 mx-auto bg-muted rounded-full flex items-center justify-center">
-              <div className="w-8 h-8 bg-muted-foreground/20 rounded-full" />
-            </div>
-            <div>
-              <h3 className="text-lg font-medium text-foreground">No Code Generated</h3>
-              <p className="text-sm text-muted-foreground mt-1">
-                Generate a workflow to see the Python code preview.
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
-    </Card>
+      </div>
+    </div>
   );
 }
