@@ -356,4 +356,119 @@ request.session["user"] = user_data
 VITE_API_BASE_URL=http://localhost:8000
 ```
 
+## External Services and Components Connected Through FastAPI
+
+Your FastAPI backend acts as the central hub connecting various external services and components:
+
+### 1. OAuth Providers
+**Google OAuth 2.0**
+- Authentication endpoint: `https://accounts.google.com/o/oauth2/auth`
+- Token exchange: `https://oauth2.googleapis.com/token`
+- User info: `https://www.googleapis.com/oauth2/v2/userinfo`
+- Required: Google Client ID, Client Secret
+
+**GitHub OAuth**
+- Authentication endpoint: `https://github.com/login/oauth/authorize`
+- Token exchange: `https://github.com/login/oauth/access_token`
+- User info: `https://api.github.com/user`
+- Required: GitHub Client ID, Client Secret
+
+### 2. Database
+Your FastAPI connects to your chosen database for:
+- User profiles and authentication data
+- Workflow definitions and metadata
+- Generated code and templates
+- User preferences and settings
+- Workflow execution history
+
+### 3. External API Services (For Workflow Integrations)
+The frontend manages credentials for these services that your FastAPI may integrate with:
+
+**Payment Processing**
+- Stripe API (for payment workflows)
+- Required: Stripe Secret Key, Webhook Signing Secret
+
+**Email/Communication**
+- SendGrid API (for email workflows)
+- Required: SendGrid API Key
+
+**Cloud Services**
+- AWS DynamoDB (for database workflows)
+- Required: AWS Access Key ID, AWS Secret Access Key
+
+**Custom Webhooks**
+- User-defined webhook endpoints
+- Required: Webhook URLs, Authentication tokens
+
+### 4. AI/ML Services (Optional)
+For workflow generation features:
+- OpenAI API (for natural language processing)
+- Custom AI models for code generation
+- Required: API keys and endpoints
+
+### 5. Frontend Application
+- React frontend (this application)
+- Connects via HTTP/HTTPS to your FastAPI
+- Uses session-based authentication
+- Sends workflow descriptions and receives generated code
+
+## Complete Architecture Diagram
+
+```
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   Frontend      │    │   FastAPI        │    │   Database      │
+│   (React)       │◄──►│   Backend        │◄──►│   (Your Choice) │
+│   Port 5000     │    │   Port 8000      │    │                 │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
+                              │
+                              ▼
+                    ┌──────────────────┐
+                    │  External APIs   │
+                    │  - Google OAuth  │
+                    │  - GitHub OAuth  │
+                    │  - Stripe        │
+                    │  - SendGrid      │
+                    │  - AWS Services  │
+                    │  - Custom APIs   │
+                    └──────────────────┘
+```
+
+## Required Environment Variables for FastAPI
+
+Your FastAPI backend will need these environment variables:
+
+```bash
+# OAuth Configuration
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GITHUB_CLIENT_ID=your_github_client_id
+GITHUB_CLIENT_SECRET=your_github_client_secret
+
+# Database
+DATABASE_URL=your_database_connection_string
+
+# Session Security
+SESSION_SECRET_KEY=your_session_secret_key
+
+# External Service APIs (as needed)
+STRIPE_SECRET_KEY=sk_test_or_live_key
+SENDGRID_API_KEY=SG.your_sendgrid_key
+AWS_ACCESS_KEY_ID=your_aws_access_key
+AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+
+# Application URLs
+FRONTEND_URL=http://localhost:5000
+BACKEND_URL=http://localhost:8000
+```
+
+## Data Flow Summary
+
+1. **User Authentication**: Frontend → FastAPI → OAuth Provider → Database
+2. **Workflow Creation**: Frontend → FastAPI → Database
+3. **Code Generation**: Frontend → FastAPI → AI/ML Services → Database
+4. **External Integrations**: Frontend → FastAPI → External APIs (Stripe, SendGrid, etc.)
+5. **Credential Validation**: Frontend → FastAPI → External Service APIs → Response
+
+Your FastAPI backend is the single point of integration that orchestrates all these connections while the frontend remains a pure client application.
+
 That's it! Once you implement these endpoints in your FastAPI backend, the frontend will connect automatically and all features will work.
