@@ -104,12 +104,12 @@ export default function WorkflowGenerator() {
                 </button>
               </div>
               
-              <nav className="hidden md:flex items-center space-x-6">
+              <nav className="hidden lg:flex items-center space-x-4">
                 <Link href="/" className="text-blue-600 font-medium hover:text-blue-700 transition-colors px-2 py-1 rounded">
-                  Workflow Generator
+                  Workflow
                 </Link>
                 <Link href="/history" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-2 py-1 rounded hover:bg-gray-50 dark:hover:bg-gray-800">
-                  My Workflows
+                  History
                 </Link>
                 <Link href="/pricing" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-2 py-1 rounded hover:bg-gray-50 dark:hover:bg-gray-800">
                   Pricing
@@ -119,7 +119,7 @@ export default function WorkflowGenerator() {
                 </Link>
                 
                 {/* Inline Tab Pills */}
-                <div className="ml-6 bg-gray-100 dark:bg-gray-800 px-0.5 py-1 rounded-full">
+                <div className="ml-4 bg-gray-100 dark:bg-gray-800 px-0.5 py-1 rounded-full">
                   <div className="flex space-x-0.5">
                     <button
                       onClick={() => setActiveTab('input')}
