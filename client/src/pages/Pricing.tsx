@@ -42,7 +42,7 @@ export default function Pricing() {
                   at no cost while we develop our premium offerings.
                 </p>
               </div>
-              <Link href="/">
+              <Link href="/login?mode=signup">
                 <Button className="w-full" size="lg">
                   Get Started Free
                 </Button>
