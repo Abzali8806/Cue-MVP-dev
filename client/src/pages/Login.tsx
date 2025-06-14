@@ -54,9 +54,9 @@ export default function Login() {
 
         <Card>
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold text-center">Sign in to Cue</CardTitle>
+            <CardTitle className="text-2xl font-bold text-center">Welcome to Cue</CardTitle>
             <CardDescription className="text-center">
-              Choose your preferred authentication method
+              Sign in or create your account with OAuth
             </CardDescription>
           </CardHeader>
 
@@ -82,7 +82,7 @@ export default function Login() {
               ) : (
                 <>
                   <FaGoogle className="w-5 h-5 mr-3 text-red-500" />
-                  Continue with Google
+                  Sign in with Google
                 </>
               )}
             </Button>
@@ -101,7 +101,7 @@ export default function Login() {
               ) : (
                 <>
                   <FaGithub className="w-5 h-5 mr-3" />
-                  Continue with GitHub
+                  Sign in with GitHub
                 </>
               )}
             </Button>
@@ -116,10 +116,8 @@ export default function Login() {
             </div>
 
             <div className="text-center text-xs text-muted-foreground">
-              <p>Authentication is handled securely through your FastAPI backend.</p>
-              <p className="mt-1">
-                Don't have an account? <Link href="/signup" className="text-primary hover:underline">Sign up</Link>
-              </p>
+              <p>New users will automatically have an account created.</p>
+              <p className="mt-1">Authentication handled securely via FastAPI backend.</p>
             </div>
           </CardContent>
         </Card>

@@ -10,7 +10,6 @@ import WorkflowGenerator from "@/pages/WorkflowBuilder";
 import History from "@/pages/History";
 import Settings from "@/pages/Settings";
 import Login from "@/pages/Login";
-import Signup from "@/pages/Signup";
 
 import NotFound from "@/pages/not-found";
 
@@ -21,7 +20,6 @@ function Router() {
       <Route path="/history" component={History} />
       <Route path="/settings" component={Settings} />
       <Route path="/login" component={Login} />
-      <Route path="/signup" component={Signup} />
 
       <Route component={NotFound} />
     </Switch>
