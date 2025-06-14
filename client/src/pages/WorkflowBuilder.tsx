@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "wouter";
 import { RootState } from "../store";
 import AppHeader from "../components/layout/AppHeader";
 import Sidebar from "../components/layout/Sidebar";
@@ -81,15 +82,15 @@ export default function WorkflowGenerator() {
               </div>
               
               <nav className="hidden md:flex items-center space-x-6">
-                <a href="/" className="text-blue-600 font-medium hover:text-blue-700 transition-colors px-2 py-1 rounded">
+                <Link href="/" className="text-blue-600 font-medium hover:text-blue-700 transition-colors px-2 py-1 rounded">
                   Workflow Generator
-                </a>
-                <a href="/history" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-2 py-1 rounded hover:bg-gray-50 dark:hover:bg-gray-800">
+                </Link>
+                <Link href="/history" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-2 py-1 rounded hover:bg-gray-50 dark:hover:bg-gray-800">
                   My Workflows
-                </a>
-                <a href="/settings" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-2 py-1 rounded hover:bg-gray-50 dark:hover:bg-gray-800">
+                </Link>
+                <Link href="/settings" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-2 py-1 rounded hover:bg-gray-50 dark:hover:bg-gray-800">
                   Settings
-                </a>
+                </Link>
               </nav>
 
               <div className="flex items-center space-x-2">
