@@ -83,7 +83,7 @@ export default function Login() {
         </div>
       </header>
 
-      <main className="flex-1 bg-blue-50 dark:bg-gray-900 h-[calc(100vh-3.5rem)] flex flex-col">
+      <main className="flex-1 bg-blue-50 dark:bg-gray-900 min-h-[calc(100vh-7rem)] flex flex-col">
         <div className="flex-1 flex flex-col justify-center">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 w-full">
             <div className="text-center space-y-6 sm:space-y-8 mb-12">
@@ -168,6 +168,20 @@ export default function Login() {
           </div>
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
+            <span className="text-sm text-gray-500 dark:text-gray-400">© 2025 Cue</span>
+            <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
+              <span className="hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer">Privacy</span>
+              <span className="hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer">Terms</span>
+              <span className="hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer">Support</span>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
