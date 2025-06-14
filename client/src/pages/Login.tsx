@@ -15,15 +15,15 @@ export default function Login() {
   }, []);
 
   const handleGoogleAuth = () => {
-    // This will call your FastAPI OAuth endpoint
-    const endpoint = mode === 'signup' ? '/api/auth/google/signup' : '/api/auth/google/signin';
-    window.location.href = endpoint;
+    // Redirect to FastAPI OAuth endpoint
+    const fastApiBaseUrl = import.meta.env.VITE_FASTAPI_BASE_URL || 'http://localhost:8000';
+    window.location.href = `${fastApiBaseUrl}/auth/google`;
   };
 
   const handleGitHubAuth = () => {
-    // This will call your FastAPI OAuth endpoint
-    const endpoint = mode === 'signup' ? '/api/auth/github/signup' : '/api/auth/github/signin';
-    window.location.href = endpoint;
+    // Redirect to FastAPI OAuth endpoint  
+    const fastApiBaseUrl = import.meta.env.VITE_FASTAPI_BASE_URL || 'http://localhost:8000';
+    window.location.href = `${fastApiBaseUrl}/auth/github`;
   };
 
   return (

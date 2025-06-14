@@ -1,55 +1,61 @@
-// OAuth configuration for FastAPI backend integration
+// FastAPI OAuth integration
 export const authConfig = {
-  google: {
-    clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID,
-    redirectUri: `${window.location.origin}/auth/callback`,
-    scope: 'openid email profile',
-  },
-  github: {
-    clientId: import.meta.env.VITE_GITHUB_CLIENT_ID,
-    redirectUri: `${window.location.origin}/auth/callback`,
-    scope: 'user:email',
-  },
-  apiBaseUrl: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000',
+  fastApiBaseUrl: import.meta.env.VITE_FASTAPI_BASE_URL || 'http://localhost:8000'
 };
 
-// OAuth provider URLs for FastAPI backend
-export const getOAuthUrl = (provider: 'google' | 'github'): string => {
-  return `${authConfig.apiBaseUrl}/auth/${provider}`;
+// Redirect to FastAPI OAuth endpoints
+export const initiateGoogleLogin = (): void => {
+  const { fastApiBaseUrl } = authConfig;
+  window.location.href = `${fastApiBaseUrl}/auth/google`;
+};
+
+export const initiateGithubLogin = (): void => {
+  const { fastApiBaseUrl } = authConfig;
+  window.location.href = `${fastApiBaseUrl}/auth/github`;
 };
 
 // Handle OAuth callback from FastAPI
-export const handleOAuthCallback = (): string | null => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const token = urlParams.get('token');
-  const error = urlParams.get('error');
-  
-  if (error) {
-    console.error('OAuth error:', error);
-    return null;
+export const handleOAuthCallback = async (): Promise<boolean> => {
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    const userData = urlParams.get('user');
+    
+    if (token && userData) {
+      // Parse user data received from FastAPI OAuth callback
+      const user = JSON.parse(decodeURIComponent(userData));
+      
+      // Send to our Express backend to create session
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user }),
+        credentials: 'include'
+      });
+      
+      if (response.ok) {
+        // Clear URL parameters
+        window.history.replaceState({}, document.title, window.location.pathname);
+        return true;
+      }
+    }
+    return false;
+  } catch (error) {
+    console.error('OAuth callback error:', error);
+    return false;
   }
-  
-  if (token) {
-    localStorage.setItem('authToken', token);
-    // Clean URL
-    window.history.replaceState({}, document.title, window.location.pathname);
-    return token;
+};
+
+// Logout function
+export const logout = async (): Promise<void> => {
+  try {
+    await fetch('/api/auth/logout', {
+      method: 'POST',
+      credentials: 'include'
+    });
+  } catch (error) {
+    console.error('Logout error:', error);
   }
-  
-  return null;
-};
-
-// Check if user is authenticated
-export const isAuthenticated = (): boolean => {
-  return !!localStorage.getItem('authToken');
-};
-
-// Get stored auth token
-export const getAuthToken = (): string | null => {
-  return localStorage.getItem('authToken');
-};
-
-// Clear authentication
-export const clearAuth = (): void => {
-  localStorage.removeItem('authToken');
 };
