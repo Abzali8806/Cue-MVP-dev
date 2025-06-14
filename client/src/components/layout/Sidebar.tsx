@@ -31,7 +31,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
     },
     {
       icon: History,
-      label: "History",
+      label: "My Workflows",
       href: "/history",
       active: location === "/history",
     },

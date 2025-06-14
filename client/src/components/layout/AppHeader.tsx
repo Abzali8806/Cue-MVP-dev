@@ -70,7 +70,7 @@ export default function AppHeader({ onMenuToggle, isMobileMenuOpen }: AppHeaderP
                   location === "/history" ? "text-primary" : "text-muted-foreground hover:text-primary"
                 }`}
               >
-                History
+                My Workflows
               </Link>
               <Link 
                 href="/settings" 

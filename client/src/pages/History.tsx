@@ -39,9 +39,9 @@ export default function History() {
       <div className="max-w-7xl mx-auto p-6">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold">Workflow History</h1>
+            <h1 className="text-3xl font-bold">My Workflows</h1>
             <p className="text-muted-foreground mt-2">
-              View and manage your previously created workflows
+              View and manage your saved workflows
             </p>
           </div>
           <Link href="/">
