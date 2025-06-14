@@ -125,10 +125,10 @@ export default function WorkflowInput() {
           )}
         </div>
 
-        {/* Bottom Action Row - Responsive Layout */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
+        {/* Bottom Action Row - All elements aligned horizontally */}
+        <div className="flex items-center justify-between gap-3">
           {/* Left Side - Voice Input and Save Status */}
-          <div className="flex items-center space-x-3 sm:space-x-4 order-2 sm:order-1">
+          <div className="flex items-center space-x-3 sm:space-x-4">
             <SpeechToText onTranscription={handleSpeechTranscription} />
             {lastSaved && (
               <span className="text-xs text-gray-400 hidden sm:inline">
@@ -138,7 +138,7 @@ export default function WorkflowInput() {
           </div>
 
           {/* Right Side - Action Buttons */}
-          <div className="flex items-center space-x-2 sm:space-x-3 order-1 sm:order-2 w-full sm:w-auto justify-end">
+          <div className="flex items-center space-x-2 sm:space-x-3">
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -146,7 +146,7 @@ export default function WorkflowInput() {
                     onClick={handleNewWorkflow}
                     variant="ghost"
                     size="sm"
-                    className="h-9 px-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                    className="h-10 w-10 p-0 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                   >
                     <RotateCcw className="h-4 w-4" />
                   </Button>

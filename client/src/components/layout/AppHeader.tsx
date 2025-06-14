@@ -86,52 +86,96 @@ export default function AppHeader({ onMenuToggle, isMobileMenuOpen }: AppHeaderP
           <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4">
             <ThemeToggle />
             
-
-            
-            {false ? ( // Temporarily disabled until authentication is implemented
+            {/* Mobile Menu - Show login/signup in dropdown on small screens */}
+            <div className="block sm:hidden">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Avatar className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 cursor-pointer hover:opacity-80 transition-opacity">
-                    <AvatarImage src="" alt="User" />
-                    <AvatarFallback className="bg-primary text-primary-foreground">
-                      U
-                    </AvatarFallback>
-                  </Avatar>
+                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                    <Menu className="h-4 w-4" />
+                  </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56">
-                  <div className="flex items-center justify-start gap-2 p-2">
-                    <div className="flex flex-col space-y-1 leading-none">
-                      <p className="font-medium text-sm">
-                        User
-                      </p>
-                      <p className="w-[200px] truncate text-xs text-muted-foreground">
-                        user@example.com
-                      </p>
-                    </div>
-                  </div>
+                <DropdownMenuContent align="end" className="w-48">
+                  <Link href="/login?mode=signin">
+                    <DropdownMenuItem>
+                      <LogIn className="mr-2 h-4 w-4" />
+                      <span>Log In</span>
+                    </DropdownMenuItem>
+                  </Link>
+                  <Link href="/login?mode=signup">
+                    <DropdownMenuItem>
+                      <User className="mr-2 h-4 w-4" />
+                      <span>Get Started</span>
+                    </DropdownMenuItem>
+                  </Link>
                   <DropdownMenuSeparator />
+                  <Link href="/history">
+                    <DropdownMenuItem>
+                      <span>My Workflows</span>
+                    </DropdownMenuItem>
+                  </Link>
                   <Link href="/settings">
                     <DropdownMenuItem>
                       <Settings className="mr-2 h-4 w-4" />
                       <span>Settings</span>
                     </DropdownMenuItem>
                   </Link>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleLogout}>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Sign out</span>
-                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-            ) : (
-              <Link href="/login">
-                <Button variant="outline" size="sm" className="h-8 sm:h-9 lg:h-10">
-                  <LogIn className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-                  <span className="hidden sm:inline">Sign in</span>
-                  <span className="sm:hidden">Sign in</span>
-                </Button>
-              </Link>
-            )}
+            </div>
+
+            {/* Desktop Auth Buttons - Show on larger screens */}
+            <div className="hidden sm:flex sm:items-center sm:space-x-2">
+              {false ? ( // Temporarily disabled until authentication is implemented
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Avatar className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 cursor-pointer hover:opacity-80 transition-opacity">
+                      <AvatarImage src="" alt="User" />
+                      <AvatarFallback className="bg-primary text-primary-foreground">
+                        U
+                      </AvatarFallback>
+                    </Avatar>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <div className="flex items-center justify-start gap-2 p-2">
+                      <div className="flex flex-col space-y-1 leading-none">
+                        <p className="font-medium text-sm">
+                          User
+                        </p>
+                        <p className="w-[200px] truncate text-xs text-muted-foreground">
+                          user@example.com
+                        </p>
+                      </div>
+                    </div>
+                    <DropdownMenuSeparator />
+                    <Link href="/settings">
+                      <DropdownMenuItem>
+                        <Settings className="mr-2 h-4 w-4" />
+                        <span>Settings</span>
+                      </DropdownMenuItem>
+                    </Link>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleLogout}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Sign out</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <>
+                  <Link href="/login?mode=signin">
+                    <Button variant="outline" size="sm" className="h-8 sm:h-9 lg:h-10">
+                      <LogIn className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                      <span>Log In</span>
+                    </Button>
+                  </Link>
+                  <Link href="/login?mode=signup">
+                    <Button size="sm" className="h-8 sm:h-9 lg:h-10">
+                      <span>Get Started</span>
+                    </Button>
+                  </Link>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>

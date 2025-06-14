@@ -66,7 +66,7 @@ export default function SpeechToText({ onTranscription }: SpeechToTextProps) {
         size="sm"
         variant="ghost"
         className={cn(
-          "h-8 w-8 sm:h-9 sm:w-9 rounded-full flex-shrink-0",
+          "h-10 w-10 rounded-full flex-shrink-0",
           isRecording 
             ? "bg-red-500 hover:bg-red-600 text-white animate-pulse" 
             : "hover:bg-gray-100 dark:hover:bg-gray-800"
