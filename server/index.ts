@@ -2,14 +2,12 @@ import express from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { spawn } from 'child_process';
 import { createServer } from 'http';
-import { registerRoutes } from './routes';
 
 const app = express();
-app.use(express.json());
+const VITE_PORT = 5174;
 
-const VITE_PORT = 5174; // Changed to avoid port conflicts
-
-console.log('Starting Cue MVP Frontend...');
+console.log('Starting Cue Frontend - FastAPI Integration Mode');
+console.log('All backend logic will be handled by your FastAPI server');
 
 // Start Vite dev server
 const vite = spawn('npx', ['vite', '--host', '0.0.0.0', '--port', VITE_PORT.toString()], {
@@ -32,42 +30,39 @@ function findAvailablePort(startPort: number): Promise<number> {
   });
 }
 
-// Create proxy middleware once
+// Create proxy middleware for Vite
 const proxy = createProxyMiddleware({
   target: `http://localhost:${VITE_PORT}`,
   changeOrigin: true,
   ws: true
 });
 
-// Wait for Vite to start, then set up routes and proxy
-setTimeout(async () => {
-  // Register API routes first
-  const server = await registerRoutes(app);
-  
-  // Then proxy non-API routes to Vite
-  app.use((req, res, next) => {
-    if (req.path.startsWith('/api')) {
-      return next();
-    }
-    return proxy(req, res, next);
+// Health check endpoint for Docker
+app.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'healthy', 
+    mode: 'fastapi-integration',
+    timestamp: new Date().toISOString() 
   });
+});
 
+// Proxy all requests to Vite (no API routes - FastAPI handles those)
+app.use(proxy);
+
+// Wait for Vite to start, then start the server
+setTimeout(async () => {
   try {
     const availablePort = await findAvailablePort(5000);
-    server.listen(availablePort, '0.0.0.0', () => {
-      console.log(`Server running on http://0.0.0.0:${availablePort}`);
-      console.log(`API routes available at /api/*`);
-      console.log(`Proxying to Vite dev server on port ${VITE_PORT}`);
+    app.listen(availablePort, '0.0.0.0', () => {
+      console.log(`✓ Frontend server running on http://0.0.0.0:${availablePort}`);
+      console.log(`✓ Vite dev server running on port ${VITE_PORT}`);
+      console.log(`⚠ Configure VITE_API_BASE_URL to point to your FastAPI backend`);
+      console.log(`⚠ FastAPI should handle all /api/* routes and authentication`);
     });
   } catch (error) {
     console.error('Failed to start server:', error);
   }
 }, 3000);
-
-// Add health check endpoint for Docker
-app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'healthy', timestamp: new Date().toISOString() });
-});
 
 // Handle graceful shutdown
 process.on('SIGINT', () => {
