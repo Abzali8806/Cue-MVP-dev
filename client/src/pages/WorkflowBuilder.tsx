@@ -120,7 +120,8 @@ export default function WorkflowGenerator() {
                         activeTab === 'workflow'
                           ? 'bg-blue-600 text-white shadow-sm'
                           : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-white dark:hover:bg-gray-700'
-                      }`}
+                      } ${!workflowState.generatedCode ? 'opacity-40 cursor-not-allowed' : ''}`}
+                      disabled={!workflowState.generatedCode}
                     >
                       <Workflow className="h-3 w-3 mr-1.5 inline" />
                       Workflow
@@ -247,19 +248,7 @@ export default function WorkflowGenerator() {
 
         </main>
 
-        {/* Footer */}
-        <footer className="bg-blue-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 py-2">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 text-xs text-gray-500 dark:text-gray-400">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-2 h-8">
-              <span className="text-center sm:text-left">© 2025 Cue</span>
-              <div className="flex items-center gap-3 sm:gap-4 text-xs">
-                <span className="hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer">Privacy</span>
-                <span className="hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer">Terms</span>
-                <span className="hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer">Support</span>
-              </div>
-            </div>
-          </div>
-        </footer>
+
 
 
 
