@@ -31,19 +31,13 @@ export default function AuthGreeting() {
   }
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center">
       <button
         onClick={() => window.location.href = '/login'}
-        className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-2 py-1 rounded hover:bg-gray-50 dark:hover:bg-gray-800 text-sm flex items-center gap-1.5"
+        className="bg-blue-600 hover:bg-blue-700 text-white transition-colors px-4 py-2 rounded text-sm font-medium flex items-center gap-2"
       >
-        <LogIn className="h-3 w-3" />
-        Sign in
-      </button>
-      <button
-        onClick={() => window.location.href = '/signup'}
-        className="bg-blue-600 hover:bg-blue-700 text-white transition-colors px-3 py-1.5 rounded text-sm font-medium"
-      >
-        Sign up
+        <LogIn className="h-4 w-4" />
+        Get Started
       </button>
     </div>
   );

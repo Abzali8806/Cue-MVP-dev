@@ -3,14 +3,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ArrowLeft } from "lucide-react";
 
 export default function Login() {
-  const handleGoogleLogin = () => {
-    // This will call your FastAPI OAuth endpoint for existing users
-    window.location.href = '/api/auth/google/signin';
+  const handleGoogleAuth = () => {
+    // This will call your FastAPI OAuth endpoint
+    window.location.href = '/api/auth/google';
   };
 
-  const handleGitHubLogin = () => {
-    // This will call your FastAPI OAuth endpoint for existing users
-    window.location.href = '/api/auth/github/signin';
+  const handleGitHubAuth = () => {
+    // This will call your FastAPI OAuth endpoint
+    window.location.href = '/api/auth/github';
   };
 
   return (
@@ -18,10 +18,10 @@ export default function Login() {
       <div className="container mx-auto px-4 max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-3">
-            Welcome Back
+            Welcome to Cue
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-            Sign in to access your workflows
+            Sign in to your account or create a new one
           </p>
           <Button 
             variant="ghost"
@@ -35,14 +35,14 @@ export default function Login() {
 
         <Card className="shadow-xl border-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm">
           <CardHeader>
-            <CardTitle>Sign In</CardTitle>
+            <CardTitle>Get Started</CardTitle>
             <CardDescription>
-              Choose your preferred authentication method
+              Continue with your preferred authentication method
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <Button 
-              onClick={handleGoogleLogin}
+              onClick={handleGoogleAuth}
               className="w-full h-12 bg-white hover:bg-gray-50 text-gray-900 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white rounded-xl"
               variant="outline"
             >
@@ -56,7 +56,7 @@ export default function Login() {
             </Button>
 
             <Button 
-              onClick={handleGitHubLogin}
+              onClick={handleGitHubAuth}
               className="w-full h-12 bg-gray-900 hover:bg-gray-800 text-white dark:bg-gray-700 dark:hover:bg-gray-600 rounded-xl"
             >
               <svg className="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24">
