@@ -109,46 +109,43 @@ export default function WorkflowGenerator() {
           </div>
         </header>
         
-        <main className="flex-1 bg-white dark:bg-gray-900 h-[calc(100vh-4rem)]">
-          {/* Prominent Hero Section */}
-          <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-900 dark:to-blue-900/20 h-full flex flex-col">
-            <div className="max-w-6xl mx-auto px-6 py-8 flex-1 flex flex-col justify-center">
-              <div className="text-center space-y-6">
-                {/* Main Headline */}
-                <div className="space-y-4">
-                  <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
-                    Speak It. Build It. Deploy It.
-                  </h1>
-                  <p className="text-2xl lg:text-3xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
-                    Effortless workflow automation from prompt to deployment with <span className="font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Cue</span>
-                  </p>
-                </div>
-                
-                {/* Feature highlights */}
-                <div className="flex flex-wrap justify-center gap-6 text-lg text-gray-600 dark:text-gray-400">
-                  <span className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                    Speech-to-text input
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                    Visual workflow generator
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
-                    One-click deployment
-                  </span>
-                </div>
-                
-                {/* Workflow Input */}
-                <div className="max-w-4xl mx-auto pt-4">
-                  <WorkflowInput />
-                </div>
-                
-                {/* Personalized Greeting */}
-                <div className="pt-4">
-                  <PersonalizedGreeting />
-                </div>
+        <main className="flex-1 bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-900 dark:to-blue-900/20 h-[calc(100vh-3.5rem)] flex flex-col">
+          <div className="max-w-6xl mx-auto px-6 flex-1 flex flex-col justify-center">
+            <div className="text-center space-y-8">
+              {/* Hero Headlines */}
+              <div className="space-y-6">
+                <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
+                  Speak It. Build It. Deploy It.
+                </h1>
+                <p className="text-2xl lg:text-3xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
+                  Effortless workflow automation from prompt to deployment with <span className="font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Cue</span>
+                </p>
+              </div>
+              
+              {/* Feature highlights */}
+              <div className="flex flex-wrap justify-center gap-6 text-lg text-gray-600 dark:text-gray-400">
+                <span className="flex items-center gap-2">
+                  <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                  Speech-to-text input
+                </span>
+                <span className="flex items-center gap-2">
+                  <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                  Visual workflow generator
+                </span>
+                <span className="flex items-center gap-2">
+                  <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
+                  One-click deployment
+                </span>
+              </div>
+              
+              {/* Workflow Input */}
+              <div className="max-w-4xl mx-auto">
+                <WorkflowInput />
+              </div>
+              
+              {/* Personalized Greeting */}
+              <div>
+                <PersonalizedGreeting />
               </div>
             </div>
           </div>
