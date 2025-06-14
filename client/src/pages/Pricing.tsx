@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Check, Clock } from "lucide-react";
 
 export default function Pricing() {
@@ -41,9 +40,6 @@ export default function Pricing() {
                   at no cost while we develop our premium offerings.
                 </p>
               </div>
-              <Button className="w-full" size="lg">
-                Get Started Free
-              </Button>
             </CardContent>
           </Card>
 
@@ -67,9 +63,6 @@ export default function Pricing() {
                   provided in the Free plan while we develop our premium offerings.
                 </p>
               </div>
-              <Button variant="secondary" className="w-full" size="lg" disabled>
-                Coming Soon
-              </Button>
             </CardContent>
           </Card>
 
@@ -93,9 +86,6 @@ export default function Pricing() {
                   provided in the Free plan while we develop our premium offerings.
                 </p>
               </div>
-              <Button variant="secondary" className="w-full" size="lg" disabled>
-                Coming Soon
-              </Button>
             </CardContent>
           </Card>
         </div>
