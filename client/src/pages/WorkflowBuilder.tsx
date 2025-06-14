@@ -112,48 +112,48 @@ export default function WorkflowGenerator() {
         <main className="flex-1 overflow-auto bg-white dark:bg-gray-900">
           {/* Enhanced Hero Section */}
           <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-900 dark:to-blue-900/20">
-            <div className="max-w-7xl mx-auto px-6 py-24">
-              <div className="text-center mb-12">
-                <h1 className="text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-8 leading-tight">
+            <div className="max-w-7xl mx-auto px-6 py-16">
+              <div className="text-center mb-8">
+                <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
                   Speak It. Build It. Deploy It.
                 </h1>
-                <p className="text-2xl lg:text-3xl text-gray-600 dark:text-gray-300 max-w-5xl mx-auto mb-8 leading-relaxed">
+                <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto mb-6 leading-relaxed">
                   Effortless workflow automation from prompt to deployment with <span className="font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Cue</span>
                 </p>
                 
                 {/* Feature highlights */}
-                <div className="flex flex-wrap justify-center gap-6 text-lg text-gray-600 dark:text-gray-400 mb-12">
+                <div className="flex flex-wrap justify-center gap-4 text-base text-gray-600 dark:text-gray-400 mb-8">
                   <span className="flex items-center gap-2">
-                    <span className="w-3 h-3 bg-green-500 rounded-full"></span>
+                    <span className="w-2 h-2 bg-green-500 rounded-full"></span>
                     Speech-to-text input
                   </span>
                   <span className="flex items-center gap-2">
-                    <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
+                    <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
                     Visual workflow generator
                   </span>
                   <span className="flex items-center gap-2">
-                    <span className="w-3 h-3 bg-purple-500 rounded-full"></span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
                     One-click deployment
                   </span>
                 </div>
                 
                 {/* Workflow Input integrated into hero */}
                 <div className="max-w-4xl mx-auto">
-                  <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-                    <div className="px-8 py-6 bg-gradient-to-r from-blue-600 to-indigo-600">
-                      <div className="flex items-center justify-center text-white mb-2">
-                        <FileText className="h-7 w-7 mr-3" />
-                        <h2 className="text-2xl font-semibold">Describe Your Workflow</h2>
+                  <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+                    <div className="px-6 py-4 bg-gradient-to-r from-blue-600 to-indigo-600">
+                      <div className="flex items-center justify-center text-white mb-1">
+                        <FileText className="h-6 w-6 mr-3" />
+                        <h2 className="text-xl font-semibold">Describe Your Workflow</h2>
                       </div>
-                      <p className="text-blue-100 text-center text-lg">Tell us what you want to automate in plain English</p>
+                      <p className="text-blue-100 text-center">Tell us what you want to automate in plain English</p>
                     </div>
-                    <div className="p-8">
+                    <div className="p-6">
                       <WorkflowInput />
                     </div>
                   </div>
                 </div>
                 
-                <div className="flex justify-center mt-12">
+                <div className="flex justify-center mt-8">
                   <PersonalizedGreeting />
                 </div>
               </div>
