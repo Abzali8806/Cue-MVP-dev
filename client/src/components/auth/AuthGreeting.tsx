@@ -39,6 +39,12 @@ export default function AuthGreeting() {
         <LogIn className="h-3 w-3" />
         Sign in
       </button>
+      <button
+        onClick={() => window.location.href = '/signup'}
+        className="bg-blue-600 hover:bg-blue-700 text-white transition-colors px-3 py-1.5 rounded text-sm font-medium"
+      >
+        Sign up
+      </button>
     </div>
   );
 }

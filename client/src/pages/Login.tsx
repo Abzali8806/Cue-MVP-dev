@@ -14,19 +14,19 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-indigo-900/20">
-      <div className="container mx-auto px-4 py-8 max-w-md">
-        <div className="text-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-indigo-900/20 flex items-center justify-center">
+      <div className="container mx-auto px-4 max-w-md">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-3">
             Welcome Back
           </h1>
-          <p className="text-gray-600 dark:text-gray-300 mb-4">
+          <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
             Sign in to access your workflows
           </p>
           <Button 
             variant="ghost"
             onClick={() => window.location.href = '/'}
-            className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+            className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white text-sm"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Cue
