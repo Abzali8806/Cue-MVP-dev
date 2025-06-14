@@ -139,17 +139,7 @@ export default function WorkflowGenerator() {
                 
                 {/* Workflow Input integrated into hero */}
                 <div className="max-w-4xl mx-auto">
-                  <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl shadow-md border border-gray-200/50 dark:border-gray-700/50 overflow-hidden">
-                    <div className="px-6 py-3 bg-gradient-to-r from-blue-600/90 to-indigo-600/90">
-                      <div className="flex items-center justify-center text-white">
-                        <FileText className="h-5 w-5 mr-2" />
-                        <h2 className="text-lg font-medium">Describe Your Workflow</h2>
-                      </div>
-                    </div>
-                    <div className="p-5">
-                      <WorkflowInput />
-                    </div>
-                  </div>
+                  <WorkflowInput />
                 </div>
                 
                 <div className="flex justify-center mt-8">
