@@ -123,24 +123,24 @@ export default function WorkflowGenerator() {
                   <div className="flex space-x-0.5">
                     <button
                       onClick={() => setActiveTab('input')}
-                      className={`px-2 py-1 text-xs font-medium transition-all duration-200 rounded-full ${
+                      className={`px-2.5 py-1 text-xs font-medium transition-all duration-200 rounded-full ${
                         activeTab === 'input'
                           ? 'bg-blue-600 text-white shadow-sm'
                           : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-white dark:hover:bg-gray-700'
                       }`}
                     >
-                      <FileText className="h-2.5 w-2.5 mr-1 inline" />
+                      <FileText className="h-3 w-3 mr-1 inline" />
                       Input
                     </button>
                     <button
                       onClick={() => setActiveTab('workflow')}
-                      className={`px-2 py-1 text-xs font-medium transition-all duration-200 rounded-full ${
+                      className={`px-2.5 py-1 text-xs font-medium transition-all duration-200 rounded-full ${
                         activeTab === 'workflow'
                           ? 'bg-blue-600 text-white shadow-sm'
                           : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-white dark:hover:bg-gray-700'
                       }`}
                     >
-                      <Workflow className="h-2.5 w-2.5 mr-1 inline" />
+                      <Workflow className="h-3 w-3 mr-1 inline" />
                       Workflow
                     </button>
                   </div>
