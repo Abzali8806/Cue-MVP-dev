@@ -40,7 +40,16 @@ export const queryClient = new QueryClient({
       retry: false,
       queryFn: async ({ queryKey }) => {
         const endpoint = queryKey[0] as string;
-        return apiRequest(endpoint);
+        try {
+          return await apiRequest(endpoint);
+        } catch (error) {
+          // Handle development mode when FastAPI backend is not available
+          if (error instanceof TypeError && error.message.includes('fetch')) {
+            console.warn(`FastAPI backend not available for ${endpoint} - running in development mode`);
+            return null;
+          }
+          throw error;
+        }
       },
     },
     mutations: {
