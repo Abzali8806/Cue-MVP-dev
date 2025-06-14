@@ -110,7 +110,6 @@ export default function History() {
             </nav>
 
             <div className="flex items-center space-x-2 sm:space-x-4">
-              <AuthGreeting />
               <button
                 onClick={toggleTheme}
                 className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -121,6 +120,7 @@ export default function History() {
                   <Moon className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600 dark:text-gray-400" />
                 )}
               </button>
+              <AuthGreeting />
             </div>
           </div>
         </div>
