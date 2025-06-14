@@ -125,20 +125,20 @@ export default function WorkflowInput() {
           )}
         </div>
 
-        {/* Bottom Action Row */}
-        <div className="flex items-center justify-between">
-          {/* Left Side - Voice Input */}
-          <div className="flex items-center space-x-4">
+        {/* Bottom Action Row - Responsive Layout */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
+          {/* Left Side - Voice Input and Save Status */}
+          <div className="flex items-center space-x-3 sm:space-x-4 order-2 sm:order-1">
             <SpeechToText onTranscription={handleSpeechTranscription} />
             {lastSaved && (
-              <span className="text-xs text-gray-400">
+              <span className="text-xs text-gray-400 hidden sm:inline">
                 Saved {formatLastSaved(lastSaved)}
               </span>
             )}
           </div>
 
           {/* Right Side - Action Buttons */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2 sm:space-x-3 order-1 sm:order-2 w-full sm:w-auto justify-end">
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -160,12 +160,13 @@ export default function WorkflowInput() {
             <Button
               onClick={handleGenerate}
               disabled={!isValid || isGenerating}
-              className="h-10 px-6 rounded-xl bg-blue-600 hover:bg-blue-700 text-white border-0 font-medium"
+              className="h-10 px-4 sm:px-6 rounded-xl bg-blue-600 hover:bg-blue-700 text-white border-0 font-medium text-sm sm:text-base"
             >
               {isGenerating ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Generating...
+                  <span className="hidden sm:inline">Generating...</span>
+                  <span className="sm:hidden">Gen...</span>
                 </>
               ) : (
                 <>
@@ -176,6 +177,15 @@ export default function WorkflowInput() {
             </Button>
           </div>
         </div>
+
+        {/* Mobile Save Status */}
+        {lastSaved && (
+          <div className="sm:hidden text-center">
+            <span className="text-xs text-gray-400">
+              Saved {formatLastSaved(lastSaved)}
+            </span>
+          </div>
+        )}
 
         {/* Error State */}
         {error && (
