@@ -110,39 +110,42 @@ export default function WorkflowGenerator() {
         </header>
         
         <main className="flex-1 overflow-auto bg-white dark:bg-gray-900">
-          {/* Hero Section */}
-          <div className="bg-white dark:bg-gray-900">
-            <div className="max-w-7xl mx-auto px-6 py-16">
-              <div className="text-center mb-16">
-                <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6">
+          {/* Enhanced Hero Section */}
+          <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-900 dark:to-blue-900/20">
+            <div className="max-w-7xl mx-auto px-6 py-24">
+              <div className="text-center mb-12">
+                <h1 className="text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-8 leading-tight">
                   Build Workflows with
                   <span className="text-blue-600 dark:text-blue-400"> Natural Language</span>
                 </h1>
-                <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto mb-8">
+                <p className="text-2xl lg:text-3xl text-gray-600 dark:text-gray-300 max-w-5xl mx-auto mb-12 leading-relaxed">
                   Transform your ideas into automated workflows. Simply describe what you want, and watch it come to life.
                 </p>
-                <div className="flex justify-center">
+                
+                {/* Workflow Input integrated into hero */}
+                <div className="max-w-4xl mx-auto">
+                  <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+                    <div className="px-8 py-6 bg-gradient-to-r from-blue-600 to-indigo-600">
+                      <div className="flex items-center justify-center text-white mb-2">
+                        <FileText className="h-7 w-7 mr-3" />
+                        <h2 className="text-2xl font-semibold">Describe Your Workflow</h2>
+                      </div>
+                      <p className="text-blue-100 text-center text-lg">Tell us what you want to automate in plain English</p>
+                    </div>
+                    <div className="p-8">
+                      <WorkflowInput />
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex justify-center mt-12">
                   <PersonalizedGreeting />
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="max-w-7xl mx-auto px-6 pb-12">
-            
-            {/* Main Workflow Input */}
-            <div className="mb-16">
-              <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
-                <div className="bg-gradient-to-r from-blue-500 to-indigo-600 px-8 py-6">
-                  <div className="flex items-center text-white">
-                    <FileText className="h-6 w-6 mr-3" />
-                    <h2 className="text-2xl font-semibold">Describe Your Workflow</h2>
-                  </div>
-                  <p className="text-blue-100 mt-2">Tell us what you want to automate in plain English</p>
-                </div>
-                <WorkflowInput />
-              </div>
-            </div>
+          <div className="max-w-7xl mx-auto px-6 py-12">
 
             {/* Workflow Visualization */}
             <div className="mb-16">
