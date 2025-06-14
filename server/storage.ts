@@ -4,7 +4,7 @@ import {
   type UpsertUser,
   type UserRegistration,
 } from "../shared/schema.js";
-import { db } from "./db";
+import { getDb } from "./db.js";
 import { eq } from "drizzle-orm";
 
 // Interface for storage operations
@@ -22,12 +22,14 @@ export class DatabaseStorage implements IStorage {
   // (IMPORTANT) these user operations are mandatory for Replit Auth.
 
   async getUser(id: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.id, id));
+    const database = getDb();
+    const [user] = await database.select().from(users).where(eq(users.id, id));
     return user;
   }
 
   async upsertUser(userData: UpsertUser): Promise<User> {
-    const [user] = await db
+    const database = getDb();
+    const [user] = await database
       .insert(users)
       .values(userData)
       .onConflictDoUpdate({
@@ -42,7 +44,8 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateUserProfile(id: string, profile: UserRegistration): Promise<User> {
-    const [user] = await db
+    const database = getDb();
+    const [user] = await database
       .update(users)
       .set({
         ...profile,
