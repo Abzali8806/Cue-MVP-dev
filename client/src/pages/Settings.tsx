@@ -25,14 +25,20 @@ import ProfileManagement from "@/components/auth/ProfileManagement";
 
 export default function Settings() {
   const { theme, toggleTheme } = useTheme();
-  const { user, logout, isLoggingOut } = useAuth();
+  const { user, logout, isLoading } = useAuth();
   const { clearWorkspace } = useWorkspacePersistence();
   const [notifications, setNotifications] = useState(true);
   const [autoSave, setAutoSave] = useState(true);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const handleLogout = async () => {
     if (confirm("Are you sure you want to sign out?")) {
-      logout();
+      setIsLoggingOut(true);
+      try {
+        logout();
+      } finally {
+        setIsLoggingOut(false);
+      }
     }
   };
 
