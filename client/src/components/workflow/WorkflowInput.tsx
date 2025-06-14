@@ -96,121 +96,106 @@ export default function WorkflowInput() {
 
 
   return (
-    <div className="h-full flex flex-col">
-      
-      {/* Content */}
-      <div className="flex-1 overflow-auto p-6 space-y-4">
-        {/* Information Section */}
-        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
-          <p className="text-xs text-blue-800 dark:text-blue-300 text-center">
-            💡 Describe your workflow below - visualization, code, and deployment sections will appear once generated
-          </p>
+    <div className="w-full space-y-6">
+      {/* Minimal Guide Text */}
+      <div className="text-center">
+        <p className="text-sm text-gray-600 dark:text-gray-400">
+          Describe your workflow below - additional sections will appear once generated
+        </p>
+      </div>
+
+      {/* Main Input Container */}
+      <div className="space-y-4">
+        {/* Large Text Input */}
+        <div className="relative">
+          <Textarea
+            id="workflow-description"
+            placeholder="Describe your automation workflow in natural language..."
+            value={description}
+            onChange={(e) => handleDescriptionChange(e.target.value)}
+            className="w-full min-h-[140px] text-base border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-blue-500 dark:focus:border-blue-400 focus:ring-0 resize-none p-4 bg-white dark:bg-gray-800 placeholder:text-gray-400"
+            maxLength={maxLength}
+          />
+          
+          {/* Character Count in Corner */}
+          {characterCount > 0 && (
+            <div className="absolute bottom-3 right-4 text-xs text-gray-400">
+              {characterCount}/{maxLength}
+            </div>
+          )}
         </div>
 
-        {/* Speech-to-Text Section */}
-        <SpeechToText onTranscription={handleSpeechTranscription} />
+        {/* Bottom Action Row */}
+        <div className="flex items-center justify-between">
+          {/* Left Side - Voice Input */}
+          <div className="flex items-center space-x-4">
+            <SpeechToText onTranscription={handleSpeechTranscription} />
+            {lastSaved && (
+              <span className="text-xs text-gray-400">
+                Saved {formatLastSaved(lastSaved)}
+              </span>
+            )}
+          </div>
 
-        {/* Text Input Section */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <Label htmlFor="workflow-description" className="text-xs sm:text-sm font-medium">
-              Workflow Description
-            </Label>
+          {/* Right Side - Action Buttons */}
+          <div className="flex items-center space-x-3">
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
                     onClick={handleNewWorkflow}
-                    variant="outline"
+                    variant="ghost"
                     size="sm"
-                    className="h-7 px-2 text-xs"
+                    className="h-9 px-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                   >
-                    <RotateCcw className="h-3 w-3 mr-1" />
-                    Clear
+                    <RotateCcw className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Clear the input and start a new workflow</p>
+                  <p>Clear and start new</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-          </div>
-          <Textarea
-            id="workflow-description"
-            placeholder="Example: Create a payment processing workflow that receives Stripe webhooks, validates payments, sends confirmation emails via SendGrid, and stores transaction data in DynamoDB..."
-            value={description}
-            onChange={(e) => handleDescriptionChange(e.target.value)}
-            className="min-h-[100px] sm:min-h-[120px] lg:min-h-[150px] text-xs sm:text-sm resize-none focus:ring-2 focus:ring-primary/20"
-            maxLength={maxLength}
-          />
-          
-          <div className="flex justify-between items-center text-xs">
-            <div className="flex items-center gap-2">
-              <span className={`${isValid ? 'text-muted-foreground' : 'text-destructive'}`}>
-                {characterCount === 0 ? 'Enter a description to generate' : 
-                 characterCount > maxLength ? 'Description too long' : 'Ready to generate'}
-              </span>
-              {lastSaved && (
-                <span className="text-muted-foreground/60">
-                  • Saved {formatLastSaved(lastSaved)}
-                </span>
+
+            <Button
+              onClick={handleGenerate}
+              disabled={!isValid || isGenerating}
+              className="h-10 px-6 rounded-xl bg-blue-600 hover:bg-blue-700 text-white border-0 font-medium"
+            >
+              {isGenerating ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="h-4 w-4 mr-2" />
+                  Generate
+                </>
               )}
-            </div>
-            {characterCount > 0 && (
-              <span className={`${characterCount > maxLength ? 'text-destructive' : 'text-muted-foreground'}`}>
-                {characterCount}/{maxLength}
-              </span>
-            )}
+            </Button>
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex gap-2">
-          <Button 
-            onClick={handleGenerate}
-            disabled={!isValid || isGenerating}
-            className="w-full h-9 sm:h-10 lg:h-11 text-xs sm:text-sm font-medium"
-            size="lg"
-          >
-            {isGenerating ? (
-              <>
-                <Loader2 className="h-3 w-3 sm:h-4 sm:w-4 mr-2 animate-spin" />
-                <span className="hidden sm:inline">Generating Workflow...</span>
-                <span className="sm:hidden">Generating...</span>
-              </>
-            ) : (
-              <>
-                <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
-                <span className="hidden sm:inline">Generate Workflow</span>
-                <span className="sm:hidden">Generate</span>
-              </>
-            )}
-          </Button>
-        </div>
-
-        {/* Error Display */}
+        {/* Error State */}
         {error && (
-          <div className="p-2 sm:p-3 bg-destructive/10 border border-destructive/20 rounded-md">
-            <p className="text-xs sm:text-sm text-destructive font-medium">Generation Failed</p>
-            <p className="text-xs text-destructive/80 mt-1">{error}</p>
+          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4">
+            <p className="text-sm text-red-700 dark:text-red-300">{error}</p>
           </div>
         )}
 
         {/* Success State */}
         {workflowState.generatedCode && !isGenerating && !error && (
-          <div className="p-3 sm:p-4 border border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-950/30 rounded-lg">
-            <div className="flex items-start gap-2">
-              <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+          <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-4">
+            <div className="flex items-center space-x-3">
+              <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
                 <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
               </div>
-              <div className="flex-1">
-                <p className="text-sm font-medium text-green-800 dark:text-green-200">Workflow Generated Successfully!</p>
-                <p className="text-xs text-green-700 dark:text-green-300 mt-1">
-                  Your workflow is ready. Switch to the Workflow Dashboard tab to view the interactive visualization and manage credentials.
-                </p>
-              </div>
+              <p className="text-sm font-medium text-green-800 dark:text-green-200">
+                Workflow generated successfully! Scroll down to see the visualization and code.
+              </p>
             </div>
           </div>
         )}
