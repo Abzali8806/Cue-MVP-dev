@@ -119,7 +119,7 @@ export default function WorkflowGenerator() {
                 </Link>
                 
                 {/* Inline Tab Pills */}
-                <div className="ml-6 bg-gray-100 dark:bg-gray-800 p-0.5 rounded-full">
+                <div className="ml-6 bg-gray-100 dark:bg-gray-800 px-0.5 py-1 rounded-full">
                   <div className="flex space-x-0.5">
                     <button
                       onClick={() => setActiveTab('input')}
