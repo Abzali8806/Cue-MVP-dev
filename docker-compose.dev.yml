@@ -12,5 +12,6 @@ services:
     volumes:
       - ./client:/app/client
       - ./server:/app/server
+      - ./shared:/app/shared
       - /app/node_modules
     restart: unless-stopped
