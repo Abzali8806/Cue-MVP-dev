@@ -3,39 +3,37 @@ import { Button } from "@/components/ui/button";
 import { LogIn, User } from "lucide-react";
 
 export default function AuthGreeting() {
-  const { isAuthenticated, user, logout, isLoggingOut } = useAuth();
+  const { isAuthenticated, user, logout, isLoading } = useAuth();
 
   if (isAuthenticated && user) {
     return (
       <div className="flex items-center gap-3">
-        <div className="flex items-center gap-2">
-          <User className="h-4 w-4" />
+        <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+          <User className="h-3 w-3" />
           <span className="text-sm">
             {user.displayName || user.firstName || user.email?.split('@')[0] || 'User'}
           </span>
         </div>
-        <Button
-          variant="ghost"
-          size="sm"
+        <button
           onClick={logout}
-          disabled={isLoggingOut}
+          disabled={isLoading}
+          className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-2 py-1 rounded hover:bg-gray-50 dark:hover:bg-gray-800 text-sm disabled:opacity-50"
         >
-          {isLoggingOut ? 'Signing out...' : 'Sign out'}
-        </Button>
+          {isLoading ? 'Signing out...' : 'Sign out'}
+        </button>
       </div>
     );
   }
 
   return (
     <div className="flex items-center gap-2">
-      <Button
-        variant="outline"
-        size="sm"
+      <button
         onClick={() => window.location.href = '/login'}
+        className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-2 py-1 rounded hover:bg-gray-50 dark:hover:bg-gray-800 text-sm flex items-center gap-1.5"
       >
-        <LogIn className="h-4 w-4 mr-2" />
+        <LogIn className="h-3 w-3" />
         Sign in
-      </Button>
+      </button>
     </div>
   );
 }
