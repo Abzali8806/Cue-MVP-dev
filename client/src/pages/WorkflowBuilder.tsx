@@ -149,7 +149,7 @@ export default function WorkflowGenerator() {
           </div>
         </header>
         
-        <main className="flex-1 bg-blue-50 dark:bg-gray-900 h-[calc(100vh-3.5rem)] flex flex-col">
+        <main className="flex-1 bg-blue-50 dark:bg-gray-900 flex flex-col">
           {/* Tab Content */}
           {activeTab === 'input' ? (
             /* Main Content - Centered */
@@ -247,8 +247,8 @@ export default function WorkflowGenerator() {
 
         </main>
 
-        {/* Footer - Fixed to bottom */}
-        <div className="bg-blue-50 dark:bg-gray-900 absolute bottom-0 left-0 right-0 pb-2">
+        {/* Footer */}
+        <footer className="bg-blue-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 py-2">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 text-xs text-gray-500 dark:text-gray-400">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-2 h-8">
               <span className="text-center sm:text-left">© 2025 Cue</span>
@@ -259,7 +259,7 @@ export default function WorkflowGenerator() {
               </div>
             </div>
           </div>
-        </div>
+        </footer>
 
 
 
