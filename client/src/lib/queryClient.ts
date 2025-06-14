@@ -1,12 +1,18 @@
 import { QueryClient } from "@tanstack/react-query";
 
-// Simple API request function for frontend use
+// Get FastAPI base URL from environment
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+
+// API request function for FastAPI backend
 export async function apiRequest(
   endpoint: string,
   options: RequestInit = {}
-): Promise<Response> {
-  const response = await fetch(endpoint, {
+): Promise<any> {
+  const url = `${API_BASE_URL}${endpoint}`;
+  
+  const response = await fetch(url, {
     ...options,
+    credentials: 'include', // Include cookies for session-based auth
     headers: {
       'Content-Type': 'application/json',
       ...options.headers,
@@ -14,10 +20,17 @@ export async function apiRequest(
   });
   
   if (!response.ok) {
-    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    const errorText = await response.text();
+    throw new Error(`${response.status}: ${errorText || response.statusText}`);
   }
   
-  return response;
+  // Handle empty responses
+  const contentType = response.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+    return response.json();
+  }
+  
+  return response.text();
 }
 
 export const queryClient = new QueryClient({
@@ -25,6 +38,10 @@ export const queryClient = new QueryClient({
     queries: {
       refetchOnWindowFocus: false,
       retry: false,
+      queryFn: async ({ queryKey }) => {
+        const endpoint = queryKey[0] as string;
+        return apiRequest(endpoint);
+      },
     },
     mutations: {
       retry: false,

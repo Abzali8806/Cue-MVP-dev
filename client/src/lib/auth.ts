@@ -1,6 +1,8 @@
 // FastAPI OAuth integration
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+
 export const authConfig = {
-  fastApiBaseUrl: import.meta.env.VITE_FASTAPI_BASE_URL || 'http://localhost:8000'
+  fastApiBaseUrl: API_BASE_URL
 };
 
 // Redirect to FastAPI OAuth endpoints
@@ -18,29 +20,20 @@ export const initiateGithubLogin = (): void => {
 export const handleOAuthCallback = async (): Promise<boolean> => {
   try {
     const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
-    const userData = urlParams.get('user');
+    const success = urlParams.get('success');
+    const error = urlParams.get('error');
     
-    if (token && userData) {
-      // Parse user data received from FastAPI OAuth callback
-      const user = JSON.parse(decodeURIComponent(userData));
-      
-      // Send to our Express backend to create session
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ user }),
-        credentials: 'include'
-      });
-      
-      if (response.ok) {
-        // Clear URL parameters
-        window.history.replaceState({}, document.title, window.location.pathname);
-        return true;
-      }
+    if (error) {
+      console.error('OAuth error:', error);
+      return false;
     }
+    
+    if (success === 'true') {
+      // FastAPI handles session creation, just clear URL parameters
+      window.history.replaceState({}, document.title, window.location.pathname);
+      return true;
+    }
+    
     return false;
   } catch (error) {
     console.error('OAuth callback error:', error);
@@ -51,11 +44,14 @@ export const handleOAuthCallback = async (): Promise<boolean> => {
 // Logout function
 export const logout = async (): Promise<void> => {
   try {
-    await fetch('/api/auth/logout', {
+    await fetch(`${API_BASE_URL}/api/auth/logout`, {
       method: 'POST',
       credentials: 'include'
     });
   } catch (error) {
     console.error('Logout error:', error);
   }
+  
+  // Always redirect to home after logout
+  window.location.href = '/';
 };
