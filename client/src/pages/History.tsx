@@ -126,7 +126,7 @@ export default function History() {
         </div>
       </header>
 
-      <main className="flex-1 bg-blue-50 dark:bg-gray-900 h-[calc(100vh-3.5rem)] flex flex-col">
+      <main className="flex-1 bg-blue-50 dark:bg-gray-900 min-h-[calc(100vh-7rem)] flex flex-col">
         <div className="flex-1 flex flex-col justify-center">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 w-full">
             <div className="text-center space-y-6 sm:space-y-8 mb-12">
