@@ -120,8 +120,7 @@ export default function WorkflowGenerator() {
                         activeTab === 'workflow'
                           ? 'bg-blue-600 text-white shadow-sm'
                           : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-white dark:hover:bg-gray-700'
-                      } ${!workflowState.generatedCode ? 'opacity-40 cursor-not-allowed' : ''}`}
-                      disabled={!workflowState.generatedCode}
+                      }`}
                     >
                       <Workflow className="h-3 w-3 mr-1.5 inline" />
                       Workflow
