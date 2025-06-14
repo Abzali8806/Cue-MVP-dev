@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -19,9 +18,9 @@ interface WorkflowHistory {
 
 export default function History() {
   const { theme, toggleTheme } = useTheme();
-  const { data: workflows, isLoading } = useQuery<WorkflowHistory[]>({
-    queryKey: ["/api/workflows"],
-  });
+  // For now, we'll use empty state until backend is connected
+  const workflows: WorkflowHistory[] = [];
+  const isLoading = false;
 
   if (isLoading) {
     return (
