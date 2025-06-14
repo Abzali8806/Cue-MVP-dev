@@ -12,6 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { userRegistrationSchema, INDUSTRIES, ROLES } from "../../../shared/schema";
 import type { UserRegistration } from "../../../shared/schema";
+import { ArrowLeft } from "lucide-react";
 
 export default function Registration() {
   const [, setLocation] = useLocation();
@@ -61,6 +62,16 @@ export default function Registration() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-indigo-900/20">
       <div className="container mx-auto px-4 py-8 max-w-2xl">
+        <div className="mb-6">
+          <Button 
+            variant="ghost"
+            onClick={() => window.location.href = '/'}
+            className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Cue
+          </Button>
+        </div>
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             Complete Your Profile

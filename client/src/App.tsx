@@ -18,8 +18,8 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={WorkflowGenerator} />
+      <Route path="/signup" component={Registration} />
       <Route path="/login" component={Login} />
-      <Route path="/register" component={Registration} />
       <Route path="/history" component={History} />
       <Route path="/settings" component={Settings} />
       <Route path="/profile" component={Profile} />
