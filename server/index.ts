@@ -2,8 +2,11 @@ import express from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { spawn } from 'child_process';
 import { createServer } from 'http';
+import { registerRoutes } from './routes';
 
 const app = express();
+app.use(express.json());
+
 const VITE_PORT = 5174; // Changed to avoid port conflicts
 
 console.log('Starting Cue MVP Frontend...');
@@ -29,8 +32,12 @@ function findAvailablePort(startPort: number): Promise<number> {
   });
 }
 
-// Wait for Vite to start, then set up proxy
+// Wait for Vite to start, then set up routes and proxy
 setTimeout(async () => {
+  // Register API routes first
+  await registerRoutes(app);
+  
+  // Then proxy all other routes to Vite
   app.use('/', createProxyMiddleware({
     target: `http://localhost:${VITE_PORT}`,
     changeOrigin: true,
