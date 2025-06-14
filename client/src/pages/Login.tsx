@@ -106,19 +106,7 @@ export default function Login() {
               )}
             </Button>
 
-            <div className="relative my-6">
-              <Separator />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="bg-background px-2 text-xs text-muted-foreground">
-                  OAuth via FastAPI Backend
-                </span>
-              </div>
-            </div>
 
-            <div className="text-center text-xs text-muted-foreground">
-              <p>New users will automatically have an account created.</p>
-              <p className="mt-1">Authentication handled securely via FastAPI backend.</p>
-            </div>
           </CardContent>
         </Card>
       </div>
