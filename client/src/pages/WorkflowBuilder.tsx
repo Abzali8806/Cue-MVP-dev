@@ -14,12 +14,14 @@ import PersonalizedGreeting from "../components/auth/PersonalizedGreeting";
 import AuthGreeting from "../components/auth/AuthGreeting";
 import { useWorkflowGeneration } from "../hooks/useWorkflowGeneration";
 import { useAuth } from "../hooks/useAuth";
-import { FileText, Workflow, Code, Settings, Rocket, Network, Key, ArrowLeft } from "lucide-react";
+import { useTheme } from "@/lib/theme";
+import { FileText, Workflow, Code, Settings, Rocket, Network, Key, ArrowLeft, Sun, Moon } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
 import { motion } from "framer-motion";
 
 export default function WorkflowGenerator() {
+  const { theme, toggleTheme } = useTheme();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [helpModalOpen, setHelpModalOpen] = useState(false);
   const [helpContent, setHelpContent] = useState<{ title: string; content: string } | null>(null);
@@ -142,15 +144,17 @@ export default function WorkflowGenerator() {
                 </div>
               </nav>
 
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 sm:space-x-4">
                 <AuthGreeting />
-                <button 
+                <button
+                  onClick={toggleTheme}
                   className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                  title="Toggle theme"
                 >
-                  <svg className="h-4 w-4 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 718.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                  </svg>
+                  {theme === 'dark' ? (
+                    <Sun className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600 dark:text-gray-400" />
+                  ) : (
+                    <Moon className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600 dark:text-gray-400" />
+                  )}
                 </button>
               </div>
             </div>
