@@ -74,18 +74,18 @@ export default function Registration() {
         </div>
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            Complete Your Profile
+            Welcome to Cue!
           </h1>
           <p className="text-gray-600 dark:text-gray-300">
-            Tell us a bit about yourself to get started with Cue
+            Let's get you set up in just a few quick steps
           </p>
         </div>
 
         <Card className="shadow-xl border-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm">
           <CardHeader>
-            <CardTitle>Profile Information</CardTitle>
+            <CardTitle>Tell us about yourself</CardTitle>
             <CardDescription>
-              This helps us customize your experience and provide better recommendations.
+              This helps us customize your Cue experience for your specific needs.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -193,7 +193,7 @@ export default function Registration() {
                       <FormLabel>What are you planning to use Cue for?</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Describe your use case, goals, or specific workflows you'd like to automate..."
+                          placeholder="Tell us about the workflows you want to automate, your goals, or how you plan to use Cue..."
                           className="min-h-[100px]"
                           {...field}
                         />
@@ -209,7 +209,7 @@ export default function Registration() {
                     disabled={registrationMutation.isPending}
                     className="bg-blue-600 hover:bg-blue-700 text-white px-8"
                   >
-                    {registrationMutation.isPending ? "Completing..." : "Complete Profile"}
+                    {registrationMutation.isPending ? "Setting up..." : "Get Started with Cue"}
                   </Button>
                 </div>
               </form>
