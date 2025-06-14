@@ -139,16 +139,6 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
 
         {/* Spacer */}
         <div className="flex-1" />
-        
-        {/* Bottom section */}
-        {isOpen && (
-          <div className="p-4 border-t border-border">
-            <div className="text-xs text-muted-foreground">
-              <p>Cue MVP v1.0</p>
-              <p>Natural Language to Fully Automated Workflows</p>
-            </div>
-          </div>
-        )}
       </aside>
     </>
   );
