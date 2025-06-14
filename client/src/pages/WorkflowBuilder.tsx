@@ -115,12 +115,27 @@ export default function WorkflowGenerator() {
             <div className="max-w-7xl mx-auto px-6 py-24">
               <div className="text-center mb-12">
                 <h1 className="text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-8 leading-tight">
-                  Build Workflows with
-                  <span className="text-blue-600 dark:text-blue-400"> Natural Language</span>
+                  Speak It. Build It. Deploy It.
                 </h1>
-                <p className="text-2xl lg:text-3xl text-gray-600 dark:text-gray-300 max-w-5xl mx-auto mb-12 leading-relaxed">
-                  Transform your ideas into automated workflows. Simply describe what you want, and watch it come to life.
+                <p className="text-2xl lg:text-3xl text-gray-600 dark:text-gray-300 max-w-5xl mx-auto mb-8 leading-relaxed">
+                  Effortless workflow automation from prompt to deployment with <span className="font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Cue</span>
                 </p>
+                
+                {/* Feature highlights */}
+                <div className="flex flex-wrap justify-center gap-6 text-lg text-gray-600 dark:text-gray-400 mb-12">
+                  <span className="flex items-center gap-2">
+                    <span className="w-3 h-3 bg-green-500 rounded-full"></span>
+                    Speech-to-text input
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
+                    Visual workflow generator
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <span className="w-3 h-3 bg-purple-500 rounded-full"></span>
+                    One-click deployment
+                  </span>
+                </div>
                 
                 {/* Workflow Input integrated into hero */}
                 <div className="max-w-4xl mx-auto">

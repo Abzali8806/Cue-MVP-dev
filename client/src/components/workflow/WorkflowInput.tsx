@@ -97,47 +97,9 @@ export default function WorkflowInput() {
 
   return (
     <div className="h-full flex flex-col">
-      {/* Hero Section */}
-      <div className="p-4 sm:p-6 lg:p-8 border-b border-border bg-gradient-to-br from-background via-background to-muted/20">
-        <div className="max-w-4xl mx-auto text-center space-y-4">
-          <div className="space-y-3">
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground">
-              Speak It. Build It. Deploy It.
-            </h1>
-            <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold text-muted-foreground">
-              Effortless workflow automation from prompt to deployment with <span className="text-xl sm:text-2xl lg:text-3xl font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Cue</span>
-            </h2>
-          </div>
-          <div className="flex flex-wrap justify-center gap-4 text-xs sm:text-sm text-muted-foreground pt-2">
-            <span className="flex items-center gap-1">
-              <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-              Speech-to-text input
-            </span>
-            <span className="flex items-center gap-1">
-              <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-              Visual workflow generator
-            </span>
-            <span className="flex items-center gap-1">
-              <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
-              One-click deployment
-            </span>
-          </div>
-        </div>
-      </div>
-      
-      {/* Input Header */}
-      <div className="p-3 sm:p-4 lg:p-6 border-b border-border bg-surface/50">
-        <div className="flex items-center gap-2 mb-2">
-          <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-primary flex-shrink-0" />
-          <h3 className="text-base sm:text-lg lg:text-xl font-semibold">Describe Your Workflow</h3>
-        </div>
-        <p className="text-xs sm:text-sm text-muted-foreground">
-          Tell Cue what you want to build in natural language, and we'll handle the rest.
-        </p>
-      </div>
       
       {/* Content */}
-      <div className="flex-1 overflow-auto p-3 sm:p-4 lg:p-6 space-y-3 sm:space-y-4">
+      <div className="flex-1 overflow-auto p-6 space-y-4">
         {/* Speech-to-Text Section */}
         <SpeechToText onTranscription={handleSpeechTranscription} />
 
