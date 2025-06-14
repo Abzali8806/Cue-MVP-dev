@@ -156,9 +156,20 @@ export default function WorkflowGenerator() {
             </div>
           </div>
 
-          {/* Minimal Footer - Blends with design */}
-          <div className="text-center py-4 text-xs text-gray-400 dark:text-gray-500">
-            © 2025 Cue
+          {/* Footer - Subtle but not too minimal */}
+          <div className="border-t border-gray-200/50 dark:border-gray-700/50 bg-white/30 dark:bg-gray-800/30">
+            <div className="max-w-6xl mx-auto px-6 py-6">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  © 2025 Cue - Workflow Automation Platform
+                </div>
+                <div className="flex items-center gap-6 text-sm text-gray-500 dark:text-gray-400">
+                  <span>Privacy</span>
+                  <span>Terms</span>
+                  <span>Support</span>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Workflow Dashboard - Appears as overlay after generation */}

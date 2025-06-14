@@ -59,11 +59,47 @@ export default function SpeechToText({ onTranscription }: SpeechToTextProps) {
   }
 
   return (
-    <div className="space-y-3 sm:space-y-4 p-3 sm:p-4 border border-border rounded-lg bg-muted/20">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-0">
-        <Label className="text-xs sm:text-sm font-medium">Voice Input</Label>
+    <div className="flex items-center space-x-3">
+      {/* Microphone Button */}
+      <Button
+        onClick={handleToggleRecording}
+        size="sm"
+        variant="ghost"
+        className={cn(
+          "h-9 w-9 rounded-full flex-shrink-0",
+          isRecording 
+            ? "bg-red-500 hover:bg-red-600 text-white animate-pulse" 
+            : "hover:bg-gray-100 dark:hover:bg-gray-800"
+        )}
+      >
+        {isRecording ? (
+          <MicOff className="h-4 w-4" />
+        ) : (
+          <Mic className="h-4 w-4" />
+        )}
+      </Button>
+
+      {/* Status Display */}
+      {isRecording && (
+        <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1">
+            <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+            <span className="text-sm text-gray-600 dark:text-gray-400">
+              Listening...
+            </span>
+          </div>
+          {confidence > 0 && (
+            <span className="text-xs text-gray-400">
+              {Math.round(confidence * 100)}%
+            </span>
+          )}
+        </div>
+      )}
+
+      {/* Language Selector - Only show when not recording */}
+      {!isRecording && (
         <Select value={language} onValueChange={changeLanguage}>
-          <SelectTrigger className="w-full sm:w-32 lg:w-40 h-8 text-xs">
+          <SelectTrigger className="w-24 h-8 text-xs border-0 bg-transparent">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -74,99 +110,43 @@ export default function SpeechToText({ onTranscription }: SpeechToTextProps) {
             ))}
           </SelectContent>
         </Select>
-      </div>
-
-      <div className="flex items-center space-x-3 sm:space-x-4">
-        {/* Microphone Button */}
-        <Button
-          onClick={handleToggleRecording}
-          size="lg"
-          className={cn(
-            "h-10 w-10 sm:h-12 sm:w-12 rounded-full flex-shrink-0",
-            isRecording 
-              ? "bg-red-500 hover:bg-red-600 text-white animate-pulse" 
-              : "bg-primary hover:bg-primary/90"
-          )}
-        >
-          {isRecording ? (
-            <MicOff className="h-4 w-4 sm:h-5 sm:w-5" />
-          ) : (
-            <Mic className="h-4 w-4 sm:h-5 sm:w-5" />
-          )}
-        </Button>
-
-        {/* Status and Progress */}
-        <div className="flex-1 min-w-0 space-y-1 sm:space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-xs sm:text-sm truncate">
-              <span className="hidden sm:inline">Status: </span>
-              <span className={cn(
-                "font-medium",
-                status === "listening" && "text-blue-600",
-                status === "processing" && "text-orange-600",
-                status === "completed" && "text-green-600",
-                status === "error" && "text-red-600"
-              )}>
-                {status === "idle" && "Ready"}
-                {status === "listening" && "Listening..."}
-                {status === "processing" && "Processing..."}
-                {status === "completed" && "Complete"}
-                {status === "error" && "Error"}
-              </span>
-            </span>
-            
-            {confidence > 0 && (
-              <span className="text-xs text-muted-foreground flex-shrink-0">
-                {Math.round(confidence * 100)}%
-              </span>
-            )}
-          </div>
-          
-          <Progress 
-            value={isRecording ? (confidence * 100) : 0} 
-            className="h-2"
-          />
-        </div>
-      </div>
+      )}
 
       {/* Error Display */}
       {error && (
-        <Alert className="border-destructive bg-destructive/10">
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription className="text-destructive">
-            {error}
-          </AlertDescription>
-        </Alert>
+        <div className="flex items-center space-x-1 text-red-500">
+          <AlertCircle className="h-3 w-3" />
+          <span className="text-xs">Error</span>
+        </div>
       )}
 
-      {/* Transcription Display */}
+      {/* Transcription Popup */}
       {(transcription || interimTranscript) && (
-        <div className="space-y-2">
-          <Label className="text-sm font-medium">Transcription</Label>
-          <div className="p-3 bg-background border border-border rounded-md min-h-[60px]">
+        <div className="absolute top-full left-0 right-0 mt-2 p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-10">
+          <div className="space-y-2">
+            <div className="text-xs font-medium text-gray-600 dark:text-gray-400">Transcription</div>
             <p className="text-sm">
               {transcription && (
-                <span className="text-foreground">{transcription}</span>
+                <span className="text-gray-900 dark:text-gray-100">{transcription}</span>
               )}
               {interimTranscript && (
-                <span className="text-muted-foreground italic">
+                <span className="text-gray-500 dark:text-gray-400 italic">
                   {transcription && " "}
                   {interimTranscript}
                 </span>
               )}
             </p>
+            
+            {transcription && !hasTranscribed && (
+              <Button 
+                onClick={handleUseTranscription}
+                size="sm"
+                className="w-full h-7 text-xs"
+              >
+                Use This Transcription
+              </Button>
+            )}
           </div>
-          
-          {transcription && !hasTranscribed && (
-            <Button 
-              onClick={handleUseTranscription}
-              variant="outline"
-              size="sm"
-              className="w-full"
-            >
-              Use This Transcription
-            </Button>
-          )}
         </div>
       )}
     </div>
