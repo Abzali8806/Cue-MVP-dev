@@ -1,16 +1,29 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function Login() {
+  const [mode, setMode] = useState<'signin' | 'signup'>('signin');
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const modeParam = urlParams.get('mode');
+    if (modeParam === 'signup') {
+      setMode('signup');
+    }
+  }, []);
+
   const handleGoogleAuth = () => {
     // This will call your FastAPI OAuth endpoint
-    window.location.href = '/api/auth/google';
+    const endpoint = mode === 'signup' ? '/api/auth/google/signup' : '/api/auth/google/signin';
+    window.location.href = endpoint;
   };
 
   const handleGitHubAuth = () => {
     // This will call your FastAPI OAuth endpoint
-    window.location.href = '/api/auth/github';
+    const endpoint = mode === 'signup' ? '/api/auth/github/signup' : '/api/auth/github/signin';
+    window.location.href = endpoint;
   };
 
   return (
@@ -18,10 +31,10 @@ export default function Login() {
       <div className="container mx-auto px-4 max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-3">
-            Welcome to Cue
+            {mode === 'signup' ? 'Join Cue' : 'Welcome Back'}
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-            Sign in to your account or create a new one
+            {mode === 'signup' ? 'Create your account to start building workflows' : 'Sign in to access your workflows'}
           </p>
           <Button 
             variant="ghost"
@@ -35,7 +48,7 @@ export default function Login() {
 
         <Card className="shadow-xl border-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm">
           <CardHeader>
-            <CardTitle>Get Started</CardTitle>
+            <CardTitle>{mode === 'signup' ? 'Sign Up' : 'Sign In'}</CardTitle>
             <CardDescription>
               Continue with your preferred authentication method
             </CardDescription>
@@ -64,6 +77,19 @@ export default function Login() {
               </svg>
               Continue with GitHub
             </Button>
+
+            <div className="text-center mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                {mode === 'signup' ? 'Already have an account?' : "Don't have an account?"}{" "}
+                <Button
+                  variant="link"
+                  className="p-0 h-auto text-blue-600 hover:text-blue-700"
+                  onClick={() => setMode(mode === 'signup' ? 'signin' : 'signup')}
+                >
+                  {mode === 'signup' ? 'Sign in here' : 'Sign up here'}
+                </Button>
+              </p>
+            </div>
           </CardContent>
         </Card>
       </div>

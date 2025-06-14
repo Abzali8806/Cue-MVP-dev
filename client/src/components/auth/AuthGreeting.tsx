@@ -1,6 +1,7 @@
 import { useAuth, type User as UserType } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { LogIn, User } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { LogIn, User, ChevronDown } from "lucide-react";
 
 export default function AuthGreeting() {
   const { isAuthenticated, user, isLoading } = useAuth();
@@ -32,13 +33,31 @@ export default function AuthGreeting() {
 
   return (
     <div className="flex items-center">
-      <button
-        onClick={() => window.location.href = '/login'}
-        className="bg-blue-600 hover:bg-blue-700 text-white transition-colors px-4 py-2 rounded text-sm font-medium flex items-center gap-2"
-      >
-        <LogIn className="h-4 w-4" />
-        Get Started
-      </button>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button className="bg-blue-600 hover:bg-blue-700 text-white transition-colors px-4 py-2 rounded text-sm font-medium flex items-center gap-2">
+            <LogIn className="h-4 w-4" />
+            Get Started
+            <ChevronDown className="h-3 w-3" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-48">
+          <DropdownMenuItem 
+            onClick={() => window.location.href = '/login?mode=signin'}
+            className="cursor-pointer"
+          >
+            <LogIn className="h-4 w-4 mr-2" />
+            Sign In
+          </DropdownMenuItem>
+          <DropdownMenuItem 
+            onClick={() => window.location.href = '/login?mode=signup'}
+            className="cursor-pointer"
+          >
+            <User className="h-4 w-4 mr-2" />
+            Sign Up
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   );
 }
