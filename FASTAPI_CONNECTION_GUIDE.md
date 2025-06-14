@@ -82,24 +82,59 @@ async def github_oauth_login():
 @app.get("/auth/callback")
 async def oauth_callback(request: Request, code: str, state: str = None):
     """Handle OAuth callback from Google/GitHub"""
-    # 1. Exchange code for access token
-    # 2. Get user info from OAuth provider
-    # 3. Create/update user in your database
-    # 4. Store user in session
-    # 5. Redirect back to frontend
-    
-    # Example implementation:
-    user_data = await exchange_code_for_user_data(code)
-    user = await create_or_update_user(user_data)
-    request.session["user"] = {
-        "id": user.id,
-        "email": user.email,
-        "firstName": user.first_name,
-        # ... other user fields
-    }
-    
-    # Redirect back to frontend with success
-    return RedirectResponse("http://localhost:5000/?success=true")
+    try:
+        # Determine OAuth provider from state or session
+        provider = request.session.get("oauth_provider", "google")
+        
+        # Exchange authorization code for access token
+        if provider == "google":
+            token_data = await exchange_google_code_for_token(code)
+            user_info = await get_google_user_info(token_data["access_token"])
+        elif provider == "github":
+            token_data = await exchange_github_code_for_token(code)
+            user_info = await get_github_user_info(token_data["access_token"])
+        else:
+            raise HTTPException(status_code=400, detail="Invalid OAuth provider")
+        
+        # Create or update user in database
+        user_data = {
+            "email": user_info.get("email"),
+            "first_name": user_info.get("given_name") or user_info.get("name", "").split()[0],
+            "last_name": user_info.get("family_name") or " ".join(user_info.get("name", "").split()[1:]),
+            "profile_image_url": user_info.get("picture") or user_info.get("avatar_url"),
+            "oauth_provider": provider,
+            "oauth_id": str(user_info.get("sub") or user_info.get("id"))
+        }
+        
+        user = await create_or_update_user_from_oauth(user_data)
+        
+        # Store user in session
+        request.session["user"] = {
+            "id": user.id,
+            "email": user.email,
+            "firstName": user.first_name,
+            "lastName": user.last_name,
+            "profileImageUrl": user.profile_image_url,
+            "companyName": user.company_name,
+            "industry": user.industry,
+            "role": user.role,
+            "usagePurpose": user.usage_purpose,
+            "createdAt": user.created_at.isoformat(),
+            "updatedAt": user.updated_at.isoformat()
+        }
+        
+        # Clear OAuth provider from session
+        request.session.pop("oauth_provider", None)
+        
+        # Redirect back to frontend with success
+        frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5000")
+        return RedirectResponse(f"{frontend_url}/?success=true")
+        
+    except Exception as e:
+        # Log error and redirect with error
+        print(f"OAuth callback error: {str(e)}")
+        frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5000")
+        return RedirectResponse(f"{frontend_url}/?error=oauth_failed")
 ```
 
 #### Get Current User
@@ -111,20 +146,28 @@ async def get_current_user(request: Request):
     if not user:
         raise HTTPException(status_code=401, detail="Not authenticated")
     
-    # Return user data that frontend expects
-    return {
-        "id": user["id"],
-        "email": user["email"],
-        "firstName": user["firstName"],
-        "lastName": user["lastName"],
-        "profileImageUrl": user.get("profileImageUrl"),
-        "companyName": user.get("companyName"),
-        "industry": user.get("industry"),
-        "role": user.get("role"),
-        "usagePurpose": user.get("usagePurpose"),
-        "createdAt": user["createdAt"],
-        "updatedAt": user["updatedAt"]
-    }
+    # Fetch latest user data from database
+    try:
+        db_user = await get_user_from_database(user["id"])
+        if not db_user:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        # Return user data that frontend expects
+        return {
+            "id": db_user.id,
+            "email": db_user.email,
+            "firstName": db_user.first_name,
+            "lastName": db_user.last_name,
+            "profileImageUrl": db_user.profile_image_url,
+            "companyName": db_user.company_name,
+            "industry": db_user.industry,
+            "role": db_user.role,
+            "usagePurpose": db_user.usage_purpose,
+            "createdAt": db_user.created_at.isoformat(),
+            "updatedAt": db_user.updated_at.isoformat()
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Failed to fetch user data")
 ```
 
 #### Logout
@@ -147,13 +190,44 @@ async def update_profile(request: Request, profile_data: dict):
     if not user:
         raise HTTPException(status_code=401, detail="Not authenticated")
     
-    # Update user in database
-    updated_user = await update_user_profile(user["id"], profile_data)
-    
-    # Update session
-    request.session["user"] = updated_user
-    
-    return updated_user
+    try:
+        # Validate profile data
+        allowed_fields = {
+            "firstName", "lastName", "companyName", "industry", 
+            "role", "usagePurpose", "profileImageUrl"
+        }
+        update_data = {k: v for k, v in profile_data.items() if k in allowed_fields}
+        
+        if not update_data:
+            raise HTTPException(status_code=400, detail="No valid fields to update")
+        
+        # Update user in database
+        updated_user = await update_user_in_database(user["id"], update_data)
+        
+        if not updated_user:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        # Update session with new data
+        request.session["user"] = {
+            "id": updated_user.id,
+            "email": updated_user.email,
+            "firstName": updated_user.first_name,
+            "lastName": updated_user.last_name,
+            "profileImageUrl": updated_user.profile_image_url,
+            "companyName": updated_user.company_name,
+            "industry": updated_user.industry,
+            "role": updated_user.role,
+            "usagePurpose": updated_user.usage_purpose,
+            "createdAt": updated_user.created_at.isoformat(),
+            "updatedAt": updated_user.updated_at.isoformat()
+        }
+        
+        return request.session["user"]
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Failed to update profile")
 ```
 
 ### 3. Payment Endpoints (Stripe)
@@ -331,14 +405,40 @@ These are called when users interact with workflows:
 
 ```python
 @app.get("/api/workflows")
-async def list_workflows(request: Request):
-    """Get user's workflows"""
+async def list_workflows(request: Request, skip: int = 0, limit: int = 50):
+    """Get user's workflows with pagination"""
     user = request.session.get("user")
     if not user:
         raise HTTPException(status_code=401, detail="Not authenticated")
     
-    workflows = await get_user_workflows(user["id"])
-    return workflows
+    try:
+        workflows = await get_user_workflows_from_database(
+            user_id=user["id"],
+            skip=skip,
+            limit=min(limit, 100)  # Cap at 100
+        )
+        
+        total_count = await get_user_workflow_count(user["id"])
+        
+        return {
+            "workflows": [
+                {
+                    "id": w.id,
+                    "name": w.name,
+                    "description": w.description,
+                    "status": w.status,
+                    "createdAt": w.created_at.isoformat(),
+                    "updatedAt": w.updated_at.isoformat(),
+                    "nodeCount": len(w.node_data.get("nodes", [])) if w.node_data else 0
+                }
+                for w in workflows
+            ],
+            "total": total_count,
+            "skip": skip,
+            "limit": limit
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Failed to fetch workflows")
 
 @app.post("/api/workflows")
 async def create_workflow(request: Request, workflow_data: dict):
@@ -347,20 +447,151 @@ async def create_workflow(request: Request, workflow_data: dict):
     if not user:
         raise HTTPException(status_code=401, detail="Not authenticated")
     
-    workflow = await create_user_workflow(user["id"], workflow_data)
-    return workflow
+    try:
+        # Validate required fields
+        required_fields = ["name", "description"]
+        for field in required_fields:
+            if field not in workflow_data:
+                raise HTTPException(status_code=400, detail=f"Missing required field: {field}")
+        
+        # Create workflow in database
+        new_workflow = await create_workflow_in_database(
+            user_id=user["id"],
+            name=workflow_data["name"],
+            description=workflow_data["description"],
+            node_data=workflow_data.get("nodeData"),
+            generated_code=workflow_data.get("generatedCode")
+        )
+        
+        return {
+            "id": new_workflow.id,
+            "name": new_workflow.name,
+            "description": new_workflow.description,
+            "status": new_workflow.status,
+            "createdAt": new_workflow.created_at.isoformat(),
+            "updatedAt": new_workflow.updated_at.isoformat()
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Failed to create workflow")
+
+@app.get("/api/workflows/{workflow_id}")
+async def get_workflow(request: Request, workflow_id: str):
+    """Get specific workflow with full details"""
+    user = request.session.get("user")
+    if not user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    try:
+        workflow = await get_workflow_by_id_and_user(workflow_id, user["id"])
+        if not workflow:
+            raise HTTPException(status_code=404, detail="Workflow not found")
+        
+        return {
+            "id": workflow.id,
+            "name": workflow.name,
+            "description": workflow.description,
+            "status": workflow.status,
+            "nodeData": workflow.node_data,
+            "generatedCode": workflow.generated_code,
+            "createdAt": workflow.created_at.isoformat(),
+            "updatedAt": workflow.updated_at.isoformat()
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Failed to fetch workflow")
+
+@app.put("/api/workflows/{workflow_id}")
+async def update_workflow(request: Request, workflow_id: str, workflow_data: dict):
+    """Update existing workflow"""
+    user = request.session.get("user")
+    if not user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    try:
+        # Verify workflow ownership
+        existing_workflow = await get_workflow_by_id_and_user(workflow_id, user["id"])
+        if not existing_workflow:
+            raise HTTPException(status_code=404, detail="Workflow not found")
+        
+        # Update workflow in database
+        updated_workflow = await update_workflow_in_database(
+            workflow_id=workflow_id,
+            update_data=workflow_data
+        )
+        
+        return {
+            "id": updated_workflow.id,
+            "name": updated_workflow.name,
+            "description": updated_workflow.description,
+            "status": updated_workflow.status,
+            "nodeData": updated_workflow.node_data,
+            "generatedCode": updated_workflow.generated_code,
+            "updatedAt": updated_workflow.updated_at.isoformat()
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Failed to update workflow")
+
+@app.delete("/api/workflows/{workflow_id}")
+async def delete_workflow(request: Request, workflow_id: str):
+    """Delete workflow"""
+    user = request.session.get("user")
+    if not user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    try:
+        # Verify workflow ownership
+        workflow = await get_workflow_by_id_and_user(workflow_id, user["id"])
+        if not workflow:
+            raise HTTPException(status_code=404, detail="Workflow not found")
+        
+        # Delete workflow from database
+        await delete_workflow_from_database(workflow_id)
+        
+        return {"message": "Workflow deleted successfully"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Failed to delete workflow")
 
 @app.post("/api/workflows/generate")
-async def generate_workflow(description: dict):
+async def generate_workflow(request: Request, generation_data: dict):
     """Generate workflow from natural language description"""
-    # This endpoint can be public or require auth
-    # Implement your AI workflow generation logic here
-    return {
-        "nodes": [],
-        "edges": [],
-        "code": "# Generated code here",
-        "requirements": []
-    }
+    # Optional: Require authentication
+    # user = request.session.get("user")
+    # if not user:
+    #     raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    try:
+        description = generation_data.get("description")
+        if not description:
+            raise HTTPException(status_code=400, detail="Description is required")
+        
+        # Call your AI service to generate workflow
+        generated_workflow = await generate_workflow_from_description(
+            description=description,
+            language=generation_data.get("language", "python"),
+            preferences=generation_data.get("preferences", {})
+        )
+        
+        return {
+            "workflowId": generated_workflow.get("id"),
+            "nodes": generated_workflow.get("nodes", []),
+            "edges": generated_workflow.get("edges", []),
+            "code": generated_workflow.get("code", ""),
+            "requirements": generated_workflow.get("requirements", []),
+            "template": generated_workflow.get("template", ""),
+            "estimatedExecutionTime": generated_workflow.get("execution_time"),
+            "complexity": generated_workflow.get("complexity", "medium")
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Failed to generate workflow")
 ```
 
 ## Step-by-Step Connection Process
