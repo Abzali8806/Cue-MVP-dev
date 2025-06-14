@@ -56,51 +56,51 @@ export default function WorkflowGenerator() {
       
       {/* Main Content - Full width */}
       <div className="flex-1 flex flex-col">
-        {/* Modern Header */}
+        {/* Compact Header */}
         <header className="bg-white dark:bg-gray-900 sticky top-0 z-40 shadow-sm">
-          <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="max-w-7xl mx-auto px-6 py-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 <button
                   onClick={() => setIsSidebarOpen(!isSidebarOpen)}
                   className="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                 >
-                  <svg className="h-6 w-6 text-gray-700 dark:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="h-5 w-5 text-gray-700 dark:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                   </svg>
                 </button>
                 <div className="flex items-center space-x-3">
-                  <div className="w-9 h-9 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-md">
-                    <span className="text-white font-bold text-lg">C</span>
+                  <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center shadow-md">
+                    <span className="text-white font-bold">C</span>
                   </div>
-                  <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">Cue</h1>
+                  <h1 className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">Cue</h1>
                 </div>
               </div>
               
-              <nav className="hidden md:flex items-center space-x-8">
-                <a href="/" className="text-blue-600 font-semibold hover:text-blue-700 transition-colors px-3 py-2 rounded-lg">
+              <nav className="hidden md:flex items-center space-x-6">
+                <a href="/" className="text-blue-600 font-medium hover:text-blue-700 transition-colors px-2 py-1 rounded">
                   Workflow Generator
                 </a>
-                <a href="/history" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                <a href="/history" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-2 py-1 rounded hover:bg-gray-50 dark:hover:bg-gray-800">
                   My Workflows
                 </a>
-                <a href="/settings" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                <a href="/settings" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-2 py-1 rounded hover:bg-gray-50 dark:hover:bg-gray-800">
                   Settings
                 </a>
               </nav>
 
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-2">
                 <button 
-                  className="p-2.5 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 hover:scale-105"
+                  className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                   title="Toggle theme"
                 >
-                  <svg className="h-5 w-5 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                  <svg className="h-4 w-4 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 718.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                   </svg>
                 </button>
                 <a 
                   href="/login"
-                  className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-5 py-2.5 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 font-semibold text-sm shadow-md hover:shadow-lg hover:scale-105"
+                  className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-colors font-medium text-sm"
                 >
                   Sign In
                 </a>
@@ -109,20 +109,23 @@ export default function WorkflowGenerator() {
           </div>
         </header>
         
-        <main className="flex-1 overflow-auto bg-white dark:bg-gray-900">
-          {/* Enhanced Hero Section */}
-          <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-900 dark:to-blue-900/20">
-            <div className="max-w-7xl mx-auto px-6 py-16">
-              <div className="text-center mb-8">
-                <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
-                  Speak It. Build It. Deploy It.
-                </h1>
-                <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto mb-6 leading-relaxed">
-                  Effortless workflow automation from prompt to deployment with <span className="font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Cue</span>
-                </p>
+        <main className="flex-1 bg-white dark:bg-gray-900 h-[calc(100vh-4rem)]">
+          {/* Prominent Hero Section */}
+          <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-900 dark:to-blue-900/20 h-full flex flex-col">
+            <div className="max-w-6xl mx-auto px-6 py-8 flex-1 flex flex-col justify-center">
+              <div className="text-center space-y-6">
+                {/* Main Headline */}
+                <div className="space-y-4">
+                  <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
+                    Speak It. Build It. Deploy It.
+                  </h1>
+                  <p className="text-2xl lg:text-3xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
+                    Effortless workflow automation from prompt to deployment with <span className="font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Cue</span>
+                  </p>
+                </div>
                 
                 {/* Feature highlights */}
-                <div className="flex flex-wrap justify-center gap-4 text-base text-gray-600 dark:text-gray-400 mb-8">
+                <div className="flex flex-wrap justify-center gap-6 text-lg text-gray-600 dark:text-gray-400">
                   <span className="flex items-center gap-2">
                     <span className="w-2 h-2 bg-green-500 rounded-full"></span>
                     Speech-to-text input
@@ -137,12 +140,13 @@ export default function WorkflowGenerator() {
                   </span>
                 </div>
                 
-                {/* Workflow Input integrated into hero */}
-                <div className="max-w-4xl mx-auto">
+                {/* Workflow Input */}
+                <div className="max-w-4xl mx-auto pt-4">
                   <WorkflowInput />
                 </div>
                 
-                <div className="flex justify-center mt-8">
+                {/* Personalized Greeting */}
+                <div className="pt-4">
                   <PersonalizedGreeting />
                 </div>
               </div>
