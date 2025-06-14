@@ -81,12 +81,15 @@ export default function WorkflowGenerator() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                   </svg>
                 </button>
-                <Link href="/" className="flex items-center space-x-2 sm:space-x-3 hover:opacity-80 transition-opacity">
+                <button 
+                  onClick={() => setActiveTab('input')}
+                  className="flex items-center space-x-2 sm:space-x-3 hover:opacity-80 transition-opacity"
+                >
                   <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center shadow-md">
                     <span className="text-white font-bold text-sm sm:text-base">C</span>
                   </div>
                   <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">Cue</h1>
-                </Link>
+                </button>
               </div>
               
               <nav className="hidden md:flex items-center space-x-6">
