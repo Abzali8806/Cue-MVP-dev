@@ -56,12 +56,12 @@ export default function Settings() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2 sm:space-x-4">
-              <div className="flex items-center space-x-2 sm:space-x-3">
+              <Link href="/" className="flex items-center space-x-2 sm:space-x-3 hover:opacity-80 transition-opacity">
                 <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center shadow-md">
                   <span className="text-white font-bold text-sm sm:text-base">C</span>
                 </div>
                 <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">Cue</h1>
-              </div>
+              </Link>
             </div>
             
             <nav className="hidden md:flex items-center space-x-6">
