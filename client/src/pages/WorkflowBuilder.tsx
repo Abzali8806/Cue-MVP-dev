@@ -45,7 +45,7 @@ export default function WorkflowGenerator() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+    <div className="min-h-screen bg-white dark:bg-gray-900">
       {/* Sidebar - Only show on mobile when open */}
       {isSidebarOpen && (
         <Sidebar 
@@ -103,32 +103,30 @@ export default function WorkflowGenerator() {
           </div>
         </header>
         
-        <main className="flex-1 overflow-auto bg-gray-50 dark:bg-gray-950">
+        <main className="flex-1 overflow-auto bg-white dark:bg-gray-900">
           {/* Hero Section */}
-          <div className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 border-b">
-            <div className="max-w-7xl mx-auto px-6 py-12">
-              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-                <div className="flex-1 max-w-2xl">
-                  <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-                    Build Workflows with
-                    <span className="text-blue-600 dark:text-blue-400"> Natural Language</span>
-                  </h1>
-                  <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-                    Transform your ideas into automated workflows. Simply describe what you want, and watch it come to life.
-                  </p>
-                </div>
-                <div className="flex-shrink-0 lg:ml-12">
+          <div className="bg-white dark:bg-gray-900">
+            <div className="max-w-7xl mx-auto px-6 py-16">
+              <div className="text-center mb-16">
+                <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6">
+                  Build Workflows with
+                  <span className="text-blue-600 dark:text-blue-400"> Natural Language</span>
+                </h1>
+                <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto mb-8">
+                  Transform your ideas into automated workflows. Simply describe what you want, and watch it come to life.
+                </p>
+                <div className="flex justify-center">
                   <PersonalizedGreeting />
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="max-w-7xl mx-auto px-6 py-12">
+          <div className="max-w-7xl mx-auto px-6 pb-12">
             
             {/* Main Workflow Input */}
             <div className="mb-16">
-              <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
                 <div className="bg-gradient-to-r from-blue-500 to-indigo-600 px-8 py-6">
                   <div className="flex items-center text-white">
                     <FileText className="h-6 w-6 mr-3" />
@@ -142,7 +140,7 @@ export default function WorkflowGenerator() {
 
             {/* Workflow Visualization */}
             <div className="mb-16">
-              <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
                 <div className="bg-gradient-to-r from-emerald-500 to-teal-600 px-8 py-6">
                   <div className="flex items-center text-white">
                     <Workflow className="h-6 w-6 mr-3" />
@@ -161,7 +159,7 @@ export default function WorkflowGenerator() {
               
               {/* Generated Code */}
               <div className="lg:col-span-2">
-                <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 overflow-hidden h-full">
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden h-full">
                   <div className="bg-gradient-to-r from-purple-500 to-pink-600 px-8 py-6">
                     <div className="flex items-center text-white">
                       <Code className="h-6 w-6 mr-3" />
@@ -177,7 +175,7 @@ export default function WorkflowGenerator() {
 
               {/* Credentials */}
               <div>
-                <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 overflow-hidden h-full">
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden h-full">
                   <div className="bg-gradient-to-r from-orange-500 to-red-600 px-6 py-6">
                     <div className="flex items-center text-white">
                       <Settings className="h-5 w-5 mr-3" />
@@ -195,7 +193,7 @@ export default function WorkflowGenerator() {
 
             {/* Deployment Section */}
             <div className="mb-8">
-              <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
                 <div className="bg-gradient-to-r from-green-500 to-emerald-600 px-8 py-6">
                   <div className="flex items-center text-white">
                     <Rocket className="h-6 w-6 mr-3" />
