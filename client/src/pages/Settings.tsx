@@ -36,7 +36,7 @@ export default function Settings() {
     if (confirm("Are you sure you want to sign out?")) {
       setIsLoggingOut(true);
       try {
-        logout();
+        window.location.href = "/api/logout";
       } finally {
         setIsLoggingOut(false);
       }
