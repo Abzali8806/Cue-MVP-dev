@@ -73,6 +73,14 @@ export default function AppHeader({ onMenuToggle, isMobileMenuOpen }: AppHeaderP
                 My Workflows
               </Link>
               <Link 
+                href="/pricing" 
+                className={`px-3 py-2 text-sm font-medium transition-colors ${
+                  location === "/pricing" ? "text-primary" : "text-muted-foreground hover:text-primary"
+                }`}
+              >
+                Pricing
+              </Link>
+              <Link 
                 href="/settings" 
                 className={`px-3 py-2 text-sm font-medium transition-colors ${
                   location === "/settings" ? "text-primary" : "text-muted-foreground hover:text-primary"
@@ -111,6 +119,11 @@ export default function AppHeader({ onMenuToggle, isMobileMenuOpen }: AppHeaderP
                   <Link href="/history">
                     <DropdownMenuItem>
                       <span>My Workflows</span>
+                    </DropdownMenuItem>
+                  </Link>
+                  <Link href="/pricing">
+                    <DropdownMenuItem>
+                      <span>Pricing</span>
                     </DropdownMenuItem>
                   </Link>
                   <Link href="/settings">
