@@ -34,7 +34,7 @@ export default function Login() {
             {mode === 'signup' ? 'Join Cue' : 'Welcome Back'}
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-            {mode === 'signup' ? 'Create your account to start building workflows' : 'Sign in to access your workflows'}
+            {mode === 'signup' ? 'Create your account and build intelligent workflows' : 'Sign in to access your workflows'}
           </p>
           <Button 
             variant="ghost"
