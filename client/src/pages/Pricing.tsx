@@ -1,5 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Check, Clock } from "lucide-react";
+import { Link } from "wouter";
 
 export default function Pricing() {
   return (
@@ -40,6 +42,11 @@ export default function Pricing() {
                   at no cost while we develop our premium offerings.
                 </p>
               </div>
+              <Link href="/">
+                <Button className="w-full" size="lg">
+                  Get Started Free
+                </Button>
+              </Link>
             </CardContent>
           </Card>
 
