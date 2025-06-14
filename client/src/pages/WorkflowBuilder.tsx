@@ -99,6 +99,35 @@ export default function WorkflowGenerator() {
                 <Link href="/settings" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-2 py-1 rounded hover:bg-gray-50 dark:hover:bg-gray-800">
                   Settings
                 </Link>
+                
+                {/* Inline Tab Pills */}
+                <div className="ml-8 bg-gray-100 dark:bg-gray-800 p-1 rounded-full">
+                  <div className="flex space-x-1">
+                    <button
+                      onClick={() => setActiveTab('input')}
+                      className={`px-3 py-1.5 text-xs font-medium transition-all duration-200 rounded-full ${
+                        activeTab === 'input'
+                          ? 'bg-blue-600 text-white shadow-sm'
+                          : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-white dark:hover:bg-gray-700'
+                      }`}
+                    >
+                      <FileText className="h-3 w-3 mr-1.5 inline" />
+                      Input
+                    </button>
+                    <button
+                      onClick={() => setActiveTab('workflow')}
+                      className={`px-3 py-1.5 text-xs font-medium transition-all duration-200 rounded-full ${
+                        activeTab === 'workflow'
+                          ? 'bg-blue-600 text-white shadow-sm'
+                          : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-white dark:hover:bg-gray-700'
+                      } ${!workflowState.generatedCode ? 'opacity-40 cursor-not-allowed' : ''}`}
+                      disabled={!workflowState.generatedCode}
+                    >
+                      <Workflow className="h-3 w-3 mr-1.5 inline" />
+                      Workflow
+                    </button>
+                  </div>
+                </div>
               </nav>
 
               <div className="flex items-center space-x-2">
@@ -122,41 +151,6 @@ export default function WorkflowGenerator() {
         </header>
         
         <main className="flex-1 bg-blue-50 dark:bg-gray-900 h-[calc(100vh-3.5rem)] flex flex-col">
-          {/* Floating Navigation Pills */}
-          <div className="bg-blue-50 dark:bg-gray-900 relative">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
-              <div className="flex justify-center">
-                <div className="bg-white dark:bg-gray-800 p-1 rounded-full shadow-sm border border-gray-200 dark:border-gray-700">
-                  <div className="flex space-x-1">
-                    <button
-                      onClick={() => setActiveTab('input')}
-                      className={`px-4 py-2 text-sm font-medium transition-all duration-200 rounded-full ${
-                        activeTab === 'input'
-                          ? 'bg-blue-600 text-white shadow-md'
-                          : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700'
-                      }`}
-                    >
-                      <FileText className="h-4 w-4 mr-2 inline" />
-                      Input
-                    </button>
-                    <button
-                      onClick={() => setActiveTab('workflow')}
-                      className={`px-4 py-2 text-sm font-medium transition-all duration-200 rounded-full ${
-                        activeTab === 'workflow'
-                          ? 'bg-blue-600 text-white shadow-md'
-                          : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700'
-                      } ${!workflowState.generatedCode ? 'opacity-40 cursor-not-allowed' : ''}`}
-                      disabled={!workflowState.generatedCode}
-                    >
-                      <Workflow className="h-4 w-4 mr-2 inline" />
-                      Workflow
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
           {/* Tab Content */}
           {activeTab === 'input' ? (
             /* Main Content - Centered */
