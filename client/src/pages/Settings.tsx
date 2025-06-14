@@ -22,6 +22,7 @@ import { useTheme } from "../lib/theme";
 import { useAuth } from "@/hooks/useAuth";
 import { useWorkspacePersistence } from "@/hooks/useWorkspacePersistence";
 import ProfileManagement from "@/components/auth/ProfileManagement";
+import AuthGreeting from "@/components/auth/AuthGreeting";
 
 export default function Settings() {
   const { theme, toggleTheme } = useTheme();
@@ -77,7 +78,7 @@ export default function Settings() {
             </nav>
 
             <div className="flex items-center space-x-2 sm:space-x-4">
-              <ProfileManagement />
+              <AuthGreeting />
               <button
                 onClick={toggleTheme}
                 className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"

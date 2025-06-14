@@ -11,6 +11,7 @@ import DeploymentInstructions from "../components/workflow/DeploymentInstruction
 import CredentialManagement from "../components/credentials/CredentialManagement";
 import HelpModal from "../components/modals/HelpModal";
 import PersonalizedGreeting from "../components/auth/PersonalizedGreeting";
+import AuthGreeting from "../components/auth/AuthGreeting";
 import { useWorkflowGeneration } from "../hooks/useWorkflowGeneration";
 import { useAuth } from "../hooks/useAuth";
 import { FileText, Workflow, Code, Settings, Rocket, Network, Key, ArrowLeft } from "lucide-react";
@@ -142,6 +143,7 @@ export default function WorkflowGenerator() {
               </nav>
 
               <div className="flex items-center space-x-2">
+                <AuthGreeting />
                 <button 
                   className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                   title="Toggle theme"
@@ -150,12 +152,6 @@ export default function WorkflowGenerator() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 718.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                   </svg>
                 </button>
-                <a 
-                  href="/login"
-                  className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-colors font-medium text-sm"
-                >
-                  Sign In
-                </a>
               </div>
             </div>
           </div>
