@@ -30,7 +30,7 @@ export default function History() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2 sm:space-x-4">
-                <Link href="/" className="flex items-center space-x-2 sm:space-x-3 hover:opacity-80 transition-opacity">
+                <Link href="/?tab=input" className="flex items-center space-x-2 sm:space-x-3 hover:opacity-80 transition-opacity">
                   <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center shadow-md">
                     <span className="text-white font-bold text-sm sm:text-base">C</span>
                   </div>

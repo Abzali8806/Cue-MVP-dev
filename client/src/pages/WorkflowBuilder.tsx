@@ -25,6 +25,15 @@ export default function WorkflowGenerator() {
   const [isDesktopLayout, setIsDesktopLayout] = useState(false);
   const [activeTab, setActiveTab] = useState<'input' | 'workflow'>('input');
 
+  // Check URL parameter for tab navigation
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tabParam = urlParams.get('tab');
+    if (tabParam === 'input' || tabParam === 'workflow') {
+      setActiveTab(tabParam);
+    }
+  }, []);
+
   // Detect screen size for layout switching
   useEffect(() => {
     const checkScreenSize = () => {
