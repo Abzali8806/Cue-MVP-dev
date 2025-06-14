@@ -156,101 +156,102 @@ export default function WorkflowGenerator() {
             </div>
           </div>
 
-          {/* Footer */}
-          <footer className="bg-blue-50 dark:bg-gray-900">
-            <div className="max-w-6xl mx-auto px-6">
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-500 dark:text-gray-400 py-2">
-                <span>© 2025 Cue</span>
-                <div className="flex items-center gap-4">
-                  <span>Privacy</span>
-                  <span>Terms</span>
-                  <span>Support</span>
-                </div>
+        </main>
+
+        {/* Footer - Fixed to bottom */}
+        <div className="bg-blue-50 dark:bg-gray-900 absolute bottom-0 left-0 right-0">
+          <div className="max-w-6xl mx-auto px-6 text-xs text-gray-500 dark:text-gray-400">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-2 h-8">
+              <span>© 2025 Cue</span>
+              <div className="flex items-center gap-4">
+                <span>Privacy</span>
+                <span>Terms</span>
+                <span>Support</span>
               </div>
             </div>
-          </footer>
+          </div>
+        </div>
 
-          {/* Workflow Dashboard - Appears as overlay after generation */}
-          {workflowState.generatedCode && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
-              className="fixed inset-0 bg-white dark:bg-gray-900 z-50"
-            >
-              <div className="h-full flex flex-col">
-                {/* Dashboard Header */}
-                <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
-                  <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Workflow Dashboard</h1>
-                    <Button
-                      onClick={() => window.location.reload()}
-                      variant="outline"
-                      size="sm"
-                      className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-                    >
-                      <ArrowLeft className="h-4 w-4 mr-2" />
-                      Back to Generator
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Dashboard Content with Tabs */}
-                <div className="flex-1 overflow-hidden">
-                  <Tabs defaultValue="visualization" className="h-full flex flex-col">
-                    <div className="bg-gray-50 dark:bg-gray-800 px-6 py-2 border-b border-gray-200 dark:border-gray-700">
-                      <TabsList className="grid w-full max-w-2xl grid-cols-4">
-                        <TabsTrigger value="visualization" className="flex items-center gap-2">
-                          <Network className="h-4 w-4" />
-                          Workflow
-                        </TabsTrigger>
-                        <TabsTrigger value="code" className="flex items-center gap-2">
-                          <Code className="h-4 w-4" />
-                          Code
-                        </TabsTrigger>
-                        <TabsTrigger value="credentials" className="flex items-center gap-2">
-                          <Key className="h-4 w-4" />
-                          Credentials
-                        </TabsTrigger>
-                        <TabsTrigger value="deployment" className="flex items-center gap-2">
-                          <Rocket className="h-4 w-4" />
-                          Deploy
-                        </TabsTrigger>
-                      </TabsList>
-                    </div>
-
-                    <div className="flex-1 overflow-auto">
-                      <TabsContent value="visualization" className="p-6 h-full m-0">
-                        <WorkflowVisualization />
-                      </TabsContent>
-
-                      <TabsContent value="code" className="p-6 h-full m-0">
-                        <CodePreview />
-                      </TabsContent>
-
-                      <TabsContent value="credentials" className="p-6 h-full m-0">
-                        <CredentialManagement onOpenHelp={openHelpModal} />
-                      </TabsContent>
-
-                      <TabsContent value="deployment" className="p-6 h-full m-0">
-                        <DeploymentInstructions />
-                      </TabsContent>
-                    </div>
-                  </Tabs>
+        {/* Workflow Dashboard - Appears as overlay after generation */}
+        {workflowState.generatedCode && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 bg-white dark:bg-gray-900 z-50"
+          >
+            <div className="h-full flex flex-col">
+              {/* Dashboard Header */}
+              <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+                <div className="flex items-center justify-between">
+                  <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Workflow Dashboard</h1>
+                  <Button
+                    onClick={() => window.location.reload()}
+                    variant="outline"
+                    size="sm"
+                    className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                  >
+                    <ArrowLeft className="h-4 w-4 mr-2" />
+                    Back to Generator
+                  </Button>
                 </div>
               </div>
-            </motion.div>
-          )}
-        </main>
-      </div>
 
-      {/* Help Modal */}
-      <HelpModal
-        isOpen={helpModalOpen}
-        onClose={closeHelpModal}
-        title={helpContent?.title || ""}
-        content={helpContent?.content || ""}
-      />
+              {/* Dashboard Content with Tabs */}
+              <div className="flex-1 overflow-hidden">
+                <Tabs defaultValue="visualization" className="h-full flex flex-col">
+                  <div className="bg-gray-50 dark:bg-gray-800 px-6 py-2 border-b border-gray-200 dark:border-gray-700">
+                    <TabsList className="grid w-full max-w-2xl grid-cols-4">
+                      <TabsTrigger value="visualization" className="flex items-center gap-2">
+                        <Network className="h-4 w-4" />
+                        Workflow
+                      </TabsTrigger>
+                      <TabsTrigger value="code" className="flex items-center gap-2">
+                        <Code className="h-4 w-4" />
+                        Code
+                      </TabsTrigger>
+                      <TabsTrigger value="credentials" className="flex items-center gap-2">
+                        <Key className="h-4 w-4" />
+                        Credentials
+                      </TabsTrigger>
+                      <TabsTrigger value="deployment" className="flex items-center gap-2">
+                        <Rocket className="h-4 w-4" />
+                        Deploy
+                      </TabsTrigger>
+                    </TabsList>
+                  </div>
+
+                  <div className="flex-1 overflow-auto">
+                    <TabsContent value="visualization" className="p-6 h-full m-0">
+                      <WorkflowVisualization />
+                    </TabsContent>
+
+                    <TabsContent value="code" className="p-6 h-full m-0">
+                      <CodePreview />
+                    </TabsContent>
+
+                    <TabsContent value="credentials" className="p-6 h-full m-0">
+                      <CredentialManagement onOpenHelp={openHelpModal} />
+                    </TabsContent>
+
+                    <TabsContent value="deployment" className="p-6 h-full m-0">
+                      <DeploymentInstructions />
+                    </TabsContent>
+                  </div>
+                </Tabs>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Help Modal */}
+        <HelpModal
+          isOpen={helpModalOpen}
+          onClose={closeHelpModal}
+          title={helpContent?.title || ""}
+          content={helpContent?.content || ""}
+        />
+      </div>
     </div>
   );
 }
