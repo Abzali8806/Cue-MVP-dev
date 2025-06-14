@@ -32,6 +32,13 @@ function findAvailablePort(startPort: number): Promise<number> {
   });
 }
 
+// Create proxy middleware once
+const proxy = createProxyMiddleware({
+  target: `http://localhost:${VITE_PORT}`,
+  changeOrigin: true,
+  ws: true
+});
+
 // Wait for Vite to start, then set up routes and proxy
 setTimeout(async () => {
   // Register API routes first
@@ -42,11 +49,7 @@ setTimeout(async () => {
     if (req.path.startsWith('/api')) {
       return next();
     }
-    return createProxyMiddleware({
-      target: `http://localhost:${VITE_PORT}`,
-      changeOrigin: true,
-      ws: true
-    })(req, res, next);
+    return proxy(req, res, next);
   });
 
   try {
