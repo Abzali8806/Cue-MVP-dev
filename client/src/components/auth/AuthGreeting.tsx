@@ -1,7 +1,5 @@
 import { useAuth, type User as UserType } from "@/hooks/useAuth";
-import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { LogIn, User, ChevronDown } from "lucide-react";
+import { LogIn, User } from "lucide-react";
 
 export default function AuthGreeting() {
   const { isAuthenticated, user, isLoading } = useAuth();

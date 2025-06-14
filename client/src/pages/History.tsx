@@ -25,7 +25,7 @@ export default function History() {
     retry: false,
   });
 
-  const { data: workflows, isLoading, error } = useQuery({
+  const { data: workflows = [], isLoading, error } = useQuery<WorkflowHistory[]>({
     queryKey: ['/api/workflows'],
     enabled: !!user, // Only fetch workflows if user is authenticated
     retry: false,
@@ -123,7 +123,7 @@ export default function History() {
           </p>
         </div>
 
-        {error || !workflows || workflows.length === 0 ? (
+        {error || !workflows || (Array.isArray(workflows) && workflows.length === 0) ? (
           <Card className="max-w-md mx-auto">
             <CardContent className="p-6 text-center">
               <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
@@ -145,7 +145,7 @@ export default function History() {
           </Card>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {workflows.map((workflow: WorkflowHistory) => (
+            {Array.isArray(workflows) && workflows.map((workflow: WorkflowHistory) => (
               <Card key={workflow.id} className="shadow-lg hover:shadow-xl transition-shadow duration-200 border-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm">
                 <CardHeader>
                   <div className="flex items-start justify-between">

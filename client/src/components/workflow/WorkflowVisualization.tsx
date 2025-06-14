@@ -62,11 +62,7 @@ export default function WorkflowVisualization() {
 
 
   return (
-    <div className="relative w-full h-full bg-workflow-background" style={{ minHeight: '400px' }}>
-
-
-
-
+    <div className="relative w-full h-full bg-workflow-background" style={{ minHeight: '400px', height: '100%' }}>
       {/* React Flow Canvas */}
       <ReactFlow
         nodes={nodes}
