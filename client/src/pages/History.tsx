@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Play, Download, Eye, Calendar, User, ArrowRight, ArrowLeft } from "lucide-react";
+import { initiateGoogleLogin } from "@/lib/auth";
 
 interface WorkflowHistory {
   id: number;
@@ -70,7 +71,7 @@ export default function History() {
                 </p>
                 <div className="space-y-3">
                   <Button 
-                    onClick={() => window.location.href = '/onboarding'}
+                    onClick={() => initiateGoogleLogin()}
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white"
                   >
                     Sign Up to Save Workflows
@@ -78,7 +79,7 @@ export default function History() {
                   </Button>
                   <Button 
                     variant="outline"
-                    onClick={() => window.location.href = '/login'}
+                    onClick={() => initiateGoogleLogin()}
                     className="w-full"
                   >
                     Already have an account? Sign In
