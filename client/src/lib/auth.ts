@@ -20,7 +20,7 @@ export const initiateGithubLogin = (): void => {
 export const handleOAuthCallback = async (): Promise<boolean> => {
   try {
     const urlParams = new URLSearchParams(window.location.search);
-    const success = urlParams.get('success');
+    const token = urlParams.get('token');
     const error = urlParams.get('error');
     
     if (error) {
@@ -28,8 +28,9 @@ export const handleOAuthCallback = async (): Promise<boolean> => {
       return false;
     }
     
-    if (success === 'true') {
-      // FastAPI handles session creation, just clear URL parameters
+    if (token) {
+      // Store JWT token from FastAPI
+      localStorage.setItem('jwt_token', token);
       window.history.replaceState({}, document.title, window.location.pathname);
       return true;
     }
@@ -41,17 +42,27 @@ export const handleOAuthCallback = async (): Promise<boolean> => {
   }
 };
 
+// Get JWT token
+export const getAuthToken = (): string | null => {
+  return localStorage.getItem('jwt_token');
+};
+
 // Logout function
 export const logout = async (): Promise<void> => {
   try {
+    const token = getAuthToken();
     await fetch(`${API_BASE_URL}/auth/logout`, {
       method: 'POST',
-      credentials: 'include'
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
     });
   } catch (error) {
     console.error('Logout error:', error);
   }
   
-  // Always redirect to home after logout
+  // Clear token and redirect
+  localStorage.removeItem('jwt_token');
   window.location.href = '/';
 };

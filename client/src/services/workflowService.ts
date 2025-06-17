@@ -35,10 +35,22 @@ class WorkflowService {
   }
 
   async saveWorkflow(workflowData: SaveWorkflowRequest): Promise<SaveWorkflowResponse> {
+    // Note: This may need to be updated based on your FastAPI save workflow endpoint
     return await apiRequest("/workflows", {
       method: "POST",
       body: JSON.stringify(workflowData),
     });
+  }
+
+  async updateWorkflowCredentials(workflowId: string, credentials: Record<string, string>): Promise<any> {
+    return await apiRequest(`/workflows/${workflowId}/credentials`, {
+      method: "POST",
+      body: JSON.stringify(credentials),
+    });
+  }
+
+  async getUserWorkflows(userId: string): Promise<any[]> {
+    return await apiRequest(`/workflows/user/${userId}`);
   }
 
   async getWorkflow(id: string): Promise<any> {

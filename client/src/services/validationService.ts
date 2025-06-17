@@ -66,6 +66,40 @@ class ValidationService {
     });
     return response.json();
   }
+
+  async validateCode(code: string): Promise<ValidationResponse> {
+    try {
+      const response = await apiRequest("/code/validate", {
+        method: "POST",
+        body: JSON.stringify({ code }),
+      });
+      return response;
+    } catch (error) {
+      console.error('Code validation error:', error);
+      return {
+        isValid: false,
+        validations: {},
+        errors: [error instanceof Error ? error.message : 'Code validation error'],
+      };
+    }
+  }
+
+  async syntaxCheck(code: string): Promise<ValidationResponse> {
+    try {
+      const response = await apiRequest("/code/syntax-check", {
+        method: "POST",
+        body: JSON.stringify({ code }),
+      });
+      return response;
+    } catch (error) {
+      console.error('Syntax check error:', error);
+      return {
+        isValid: false,
+        validations: {},
+        errors: [error instanceof Error ? error.message : 'Syntax check error'],
+      };
+    }
+  }
 }
 
 export const validationService = new ValidationService();
