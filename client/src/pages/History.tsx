@@ -70,7 +70,7 @@ export default function History() {
                 </p>
                 <div className="space-y-3">
                   <Button 
-                    onClick={() => window.location.href = '/signup'}
+                    onClick={() => window.location.href = '/onboarding'}
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white"
                   >
                     Sign Up to Save Workflows
