@@ -8,12 +8,12 @@ export const authConfig = {
 // Redirect to FastAPI OAuth endpoints
 export const initiateGoogleLogin = (): void => {
   const { fastApiBaseUrl } = authConfig;
-  window.location.href = `${fastApiBaseUrl}/auth/google`;
+  window.location.href = `${fastApiBaseUrl}/auth/google/login`;
 };
 
 export const initiateGithubLogin = (): void => {
   const { fastApiBaseUrl } = authConfig;
-  window.location.href = `${fastApiBaseUrl}/auth/github`;
+  window.location.href = `${fastApiBaseUrl}/auth/github/login`;
 };
 
 // Handle OAuth callback from FastAPI
