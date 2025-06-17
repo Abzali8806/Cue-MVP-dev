@@ -44,7 +44,7 @@ export const handleOAuthCallback = async (): Promise<boolean> => {
 // Logout function
 export const logout = async (): Promise<void> => {
   try {
-    await fetch(`${API_BASE_URL}/api/auth/logout`, {
+    await fetch(`${API_BASE_URL}/auth/logout`, {
       method: 'POST',
       credentials: 'include'
     });

@@ -28,34 +28,38 @@ export interface SaveWorkflowResponse {
 
 class WorkflowService {
   async generateWorkflow(description: string): Promise<GenerateWorkflowResponse> {
-    const response = await apiRequest("POST", "/api/workflows/generate", {
-      description,
+    return await apiRequest("/workflows/generate", {
+      method: "POST",
+      body: JSON.stringify({ description }),
     });
-    return response.json();
   }
 
   async saveWorkflow(workflowData: SaveWorkflowRequest): Promise<SaveWorkflowResponse> {
-    const response = await apiRequest("POST", "/api/workflows", workflowData);
-    return response.json();
+    return await apiRequest("/workflows", {
+      method: "POST",
+      body: JSON.stringify(workflowData),
+    });
   }
 
   async getWorkflow(id: string): Promise<any> {
-    const response = await apiRequest("GET", `/api/workflows/${id}`);
-    return response.json();
+    return await apiRequest(`/workflows/${id}`);
   }
 
   async updateWorkflow(id: string, workflowData: Partial<SaveWorkflowRequest>): Promise<SaveWorkflowResponse> {
-    const response = await apiRequest("PATCH", `/api/workflows/${id}`, workflowData);
-    return response.json();
+    return await apiRequest(`/workflows/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(workflowData),
+    });
   }
 
   async deleteWorkflow(id: string): Promise<void> {
-    await apiRequest("DELETE", `/api/workflows/${id}`);
+    await apiRequest(`/workflows/${id}`, {
+      method: "DELETE",
+    });
   }
 
-  async listWorkflows(): Promise<any[]> {
-    const response = await apiRequest("GET", "/api/workflows");
-    return response.json();
+  async listWorkflows(userId: string): Promise<any[]> {
+    return await apiRequest(`/workflows/user/${userId}`);
   }
 }
 

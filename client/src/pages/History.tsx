@@ -16,9 +16,12 @@ interface WorkflowHistory {
 export default function History() {
   // Check if user is authenticated by trying to fetch profile
   const { data: user } = useQuery({
-    queryKey: ['/api/auth/profile'],
+    queryKey: ['/auth/users/me'],
     queryFn: async () => {
-      const response = await fetch('/api/auth/profile');
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+      const response = await fetch(`${API_BASE_URL}/auth/users/me`, {
+        credentials: 'include',
+      });
       if (!response.ok) return null;
       return response.json();
     },
@@ -26,8 +29,16 @@ export default function History() {
   });
 
   const { data: workflows = [], isLoading, error } = useQuery<WorkflowHistory[]>({
-    queryKey: ['/api/workflows'],
+    queryKey: ['/workflows/user', user?.id],
     enabled: !!user, // Only fetch workflows if user is authenticated
+    queryFn: async () => {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+      const response = await fetch(`${API_BASE_URL}/workflows/user/${user.id}`, {
+        credentials: 'include',
+      });
+      if (!response.ok) throw new Error('Failed to fetch workflows');
+      return response.json();
+    },
     retry: false,
   });
 

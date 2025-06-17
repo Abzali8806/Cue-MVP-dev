@@ -16,13 +16,13 @@ export default function Login() {
 
   const handleGoogleAuth = () => {
     // Redirect to FastAPI OAuth endpoint
-    const fastApiBaseUrl = import.meta.env.VITE_FASTAPI_BASE_URL || 'http://localhost:8000';
+    const fastApiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
     window.location.href = `${fastApiBaseUrl}/auth/google`;
   };
 
   const handleGitHubAuth = () => {
     // Redirect to FastAPI OAuth endpoint  
-    const fastApiBaseUrl = import.meta.env.VITE_FASTAPI_BASE_URL || 'http://localhost:8000';
+    const fastApiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
     window.location.href = `${fastApiBaseUrl}/auth/github`;
   };
 

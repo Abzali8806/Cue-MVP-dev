@@ -16,7 +16,7 @@ export interface User {
 
 export function useAuth() {
   const { data: user, isLoading, error } = useQuery({
-    queryKey: ["/api/auth/user"],
+    queryKey: ["/auth/users/me"],
     retry: false,
     refetchOnMount: true,
     refetchOnWindowFocus: false,
@@ -24,7 +24,7 @@ export function useAuth() {
     queryFn: async () => {
       try {
         const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
-        const response = await fetch(`${API_BASE_URL}/api/auth/user`, {
+        const response = await fetch(`${API_BASE_URL}/auth/users/me`, {
           credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
