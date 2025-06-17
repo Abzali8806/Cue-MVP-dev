@@ -1,4 +1,4 @@
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest } from "@/lib/api";
 
 export interface ValidationRequest {
   serviceType: string;
@@ -32,27 +32,34 @@ export interface WorkflowValidationResponse {
 
 class ValidationService {
   async validateCredentials(credentials: Record<string, string>): Promise<ValidationResponse> {
-    const response = await apiRequest("POST", "/api/validation/credentials", {
-      credentials,
+    const response = await apiRequest("/api/validation/credentials", {
+      method: "POST",
+      body: JSON.stringify({ credentials }),
     });
-    return response.json();
+    return response;
   }
 
   async validateSingleCredential(serviceType: string, credentialType: string, value: string): Promise<{
     isValid: boolean;
     message: string;
   }> {
-    const response = await apiRequest("POST", "/api/validation/credential", {
-      serviceType,
-      credentialType,
-      value,
+    const response = await apiRequest("/api/validation/credential", {
+      method: "POST",
+      body: JSON.stringify({
+        serviceType,
+        credentialType,
+        value,
+      }),
     });
-    return response.json();
+    return response;
   }
 
   async validateWorkflow(workflowData: WorkflowValidationRequest): Promise<WorkflowValidationResponse> {
-    const response = await apiRequest("POST", "/api/validation/workflow", workflowData);
-    return response.json();
+    const response = await apiRequest("/api/validation/workflow", {
+      method: "POST",
+      body: JSON.stringify(workflowData),
+    });
+    return response;
   }
 
   async testConnection(serviceType: string, credentials: Record<string, string>): Promise<{
@@ -60,11 +67,14 @@ class ValidationService {
     message: string;
     details?: any;
   }> {
-    const response = await apiRequest("POST", "/api/validation/test-connection", {
-      serviceType,
-      credentials,
+    const response = await apiRequest("/api/validation/test-connection", {
+      method: "POST",
+      body: JSON.stringify({
+        serviceType,
+        credentials,
+      }),
     });
-    return response.json();
+    return response;
   }
 
   async validateCode(code: string): Promise<ValidationResponse> {

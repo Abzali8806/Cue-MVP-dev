@@ -97,19 +97,52 @@ class SpeechService {
     }
   }
 
-  // Fallback to Azure Speech Services
+  // Transcribe using FastAPI backend
   async transcribeWithAzure(audioBlob: Blob, config: AzureSpeechConfig): Promise<{
     transcript: string;
     confidence: number;
   }> {
     try {
-      const response = await apiRequest("POST", "/api/speech/azure-transcribe", {
-        audio: await this.blobToBase64(audioBlob),
-        config,
+      const formData = new FormData();
+      formData.append('audio', audioBlob);
+      formData.append('language', config.language);
+      
+      const token = localStorage.getItem('jwt_token');
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/speech/transcribe`, {
+        method: 'POST',
+        headers: {
+          ...(token && { 'Authorization': `Bearer ${token}` }),
+        },
+        body: formData,
       });
-      return response.json();
+
+      if (!response.ok) {
+        throw new Error(`Transcription failed: ${response.statusText}`);
+      }
+
+      return await response.json();
     } catch (error) {
-      throw new Error(`Azure Speech Service error: ${error}`);
+      throw new Error(`Speech transcription error: ${error}`);
+    }
+  }
+
+  async getSpeechServiceStatus(): Promise<{ status: string; available: boolean }> {
+    try {
+      const token = localStorage.getItem('jwt_token');
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/speech/service-status`, {
+        headers: {
+          ...(token && { 'Authorization': `Bearer ${token}` }),
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to get service status: ${response.statusText}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error getting service status:', error);
+      return { status: 'error', available: false };
     }
   }
 

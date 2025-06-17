@@ -95,7 +95,9 @@ The frontend is architected as a standalone application that communicates with a
 
 ## Recent Changes
 - June 17, 2025: Successfully migrated from Replit Agent to standard Replit environment
-- June 17, 2025: Verified compatibility with FastAPI backend endpoints
+- June 17, 2025: Updated frontend services to integrate with FastAPI backend endpoints
+- June 17, 2025: Added JWT token authentication handling throughout the application
+- June 17, 2025: Enhanced services with proper endpoint mapping for workflows, auth, speech, and validation
 - June 17, 2025: Application running cleanly on ports 5000 (frontend) and 5174 (Vite dev server)
 
 ## Changelog
